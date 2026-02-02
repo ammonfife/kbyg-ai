@@ -1,0 +1,220 @@
+import { useState, useEffect } from "react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2 } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNavigate } from "react-router-dom";
+import { listCompanies, type Company } from "@/lib/mcp";
+
+export default function HomePage() {
+  const navigate = useNavigate();
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
+  const fetchCompanies = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await listCompanies();
+      if (result.success && result.data) {
+        setCompanies(Array.isArray(result.data) ? result.data : []);
+      } else {
+        setError(result.error || "Failed to load companies");
+      }
+    } catch (err) {
+      setError("Unable to connect to server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const totalCompanies = companies.length;
+  const enrichedCompanies = companies.filter(c => c.enriched_data).length;
+  const pendingEnrichments = totalCompanies - enrichedCompanies;
+
+  const stats = [
+    {
+      title: "Total Companies",
+      value: totalCompanies,
+      icon: Building2,
+      description: "In your database",
+      color: "text-primary",
+    },
+    {
+      title: "Enriched",
+      value: enrichedCompanies,
+      icon: Sparkles,
+      description: "With full data",
+      color: "text-success",
+    },
+    {
+      title: "Pending",
+      value: pendingEnrichments,
+      icon: TrendingUp,
+      description: "Awaiting enrichment",
+      color: "text-warning",
+    },
+    {
+      title: "Total Contacts",
+      value: companies.reduce((acc, c) => acc + (c.employees?.length || 0), 0),
+      icon: Users,
+      description: "Across all companies",
+      color: "text-accent",
+    },
+  ];
+
+  const recentCompanies = companies.slice(0, 5);
+
+  return (
+    <div className="p-6 space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome to GTM Intelligence Hub - your conference intelligence platform
+        </p>
+      </div>
+
+      {error && (
+        <Card className="border-destructive bg-destructive/10">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <p className="text-destructive">{error}</p>
+              <Button variant="outline" size="sm" onClick={fetchCompanies}>
+                Retry
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Stats Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {loading ? (
+          <>
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2">
+                  <Skeleton className="h-4 w-24" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-3 w-20 mt-2" />
+                </CardContent>
+              </Card>
+            ))}
+          </>
+        ) : (
+          stats.map((stat) => (
+            <Card key={stat.title}>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground">{stat.description}</p>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
+
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Get started with common tasks</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-3">
+          <Button onClick={() => navigate("/companies")}>
+            <Building2 className="h-4 w-4 mr-2" />
+            View Companies
+          </Button>
+          <Button variant="outline" onClick={() => navigate("/strategy")}>
+            <Target className="h-4 w-4 mr-2" />
+            Generate Strategy
+          </Button>
+          <Button variant="outline" onClick={() => navigate("/email")}>
+            <Sparkles className="h-4 w-4 mr-2" />
+            Draft Email
+          </Button>
+          <Button variant="outline" onClick={() => navigate("/import")}>
+            <TrendingUp className="h-4 w-4 mr-2" />
+            Import Data
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Recent Companies */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Recent Companies</CardTitle>
+            <CardDescription>Latest companies in your database</CardDescription>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => navigate("/companies")}>
+            View All
+            <ArrowRight className="h-4 w-4 ml-1" />
+          </Button>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : recentCompanies.length > 0 ? (
+            <div className="space-y-3">
+              {recentCompanies.map((company, idx) => (
+                <div 
+                  key={idx} 
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
+                  onClick={() => navigate("/companies")}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Building2 className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{company.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {company.employees?.length || 0} employees
+                        {company.enriched_data?.industry && ` • ${company.enriched_data.industry}`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {company.enriched_data ? (
+                      <span className="text-success flex items-center gap-1">
+                        <Sparkles className="h-3 w-3" />
+                        Enriched
+                      </span>
+                    ) : (
+                      <span>Pending</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-8">
+              No companies yet. Import data to get started!
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
