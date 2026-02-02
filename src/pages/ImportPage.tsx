@@ -72,23 +72,29 @@ export default function ImportPage() {
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     1
                   </span>
-                  <span>Download the Chrome extension from our website</span>
+                  <span>Click the download button below to get the extension ZIP</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     2
                   </span>
-                  <span>Open Chrome → Extensions → Enable Developer Mode</span>
+                  <span>Extract the ZIP file to a folder on your computer</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     3
                   </span>
-                  <span>Click "Load unpacked" and select the extension folder</span>
+                  <span>Open Chrome → Extensions → Enable Developer Mode</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     4
+                  </span>
+                  <span>Click "Load unpacked" and select the extracted folder</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
+                    5
                   </span>
                   <span>Pin the extension and start capturing leads!</span>
                 </li>
@@ -97,10 +103,15 @@ export default function ImportPage() {
 
             <Button 
               className="w-full" 
-              onClick={() => window.open('https://github.com/ammonfife/kbyg', '_blank')}
+              asChild
             >
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Get Extension from GitHub
+              <a 
+                href="https://github.com/ammonfife/kbyg/archive/refs/heads/main.zip"
+                download="gtm-chrome-extension.zip"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download Extension ZIP
+              </a>
             </Button>
           </CardContent>
         </Card>
