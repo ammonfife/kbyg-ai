@@ -72,7 +72,7 @@ export default function ImportPage() {
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     1
                   </span>
-                  <span>Download the Chrome extension from our website</span>
+                  <span>Clone the repo and locate the chrome-extension folder</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
@@ -84,7 +84,7 @@ export default function ImportPage() {
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
                     3
                   </span>
-                  <span>Click "Load unpacked" and select the extension folder</span>
+                  <span>Click "Load unpacked" and select the chrome-extension folder</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-medium">
@@ -95,9 +95,12 @@ export default function ImportPage() {
               </ol>
             </div>
 
-            <Button className="w-full" disabled>
-              <Download className="h-4 w-4 mr-2" />
-              Coming Soon
+            <Button 
+              className="w-full" 
+              onClick={() => window.open('https://github.com/ammonfife/kbyg', '_blank')}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              View Extension Repo
             </Button>
           </CardContent>
         </Card>
