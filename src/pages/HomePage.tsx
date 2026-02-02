@@ -1,20 +1,39 @@
 import { useState, useEffect } from "react";
-import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2 } from "lucide-react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { listCompanies, type Company } from "@/lib/mcp";
+import { listCompanies, testMCPConnection, type Company } from "@/lib/mcp";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [mcpConnected, setMcpConnected] = useState<boolean | null>(null);
+  const [mcpError, setMcpError] = useState<string | null>(null);
+  const [testingConnection, setTestingConnection] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    checkConnection();
     fetchCompanies();
   }, []);
+
+  const checkConnection = async () => {
+    setTestingConnection(true);
+    try {
+      const result = await testMCPConnection();
+      setMcpConnected(result.success);
+      setMcpError(result.error || null);
+    } catch (err) {
+      setMcpConnected(false);
+      setMcpError(err instanceof Error ? err.message : 'Connection failed');
+    } finally {
+      setTestingConnection(false);
+    }
+  };
 
   const fetchCompanies = async () => {
     setLoading(true);
@@ -78,6 +97,38 @@ export default function HomePage() {
           Welcome to GTM Intelligence Hub - your conference intelligence platform
         </p>
       </div>
+
+      {/* MCP Connection Status */}
+      <Card className={mcpConnected === false ? "border-destructive" : mcpConnected ? "border-success" : ""}>
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {testingConnection ? (
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              ) : mcpConnected ? (
+                <Wifi className="h-5 w-5 text-success" />
+              ) : (
+                <WifiOff className="h-5 w-5 text-destructive" />
+              )}
+              <div>
+                <p className="font-medium">
+                  MCP Server: {testingConnection ? "Testing..." : mcpConnected ? "Connected" : "Disconnected"}
+                </p>
+                {mcpError && (
+                  <p className="text-sm text-muted-foreground">{mcpError}</p>
+                )}
+                {mcpConnected && (
+                  <p className="text-sm text-muted-foreground">8 GTM tools available</p>
+                )}
+              </div>
+            </div>
+            <Button variant="outline" size="sm" onClick={checkConnection} disabled={testingConnection}>
+              <RefreshCw className={`h-4 w-4 mr-1 ${testingConnection ? 'animate-spin' : ''}`} />
+              Test Connection
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {error && (
         <Card className="border-destructive bg-destructive/10">
