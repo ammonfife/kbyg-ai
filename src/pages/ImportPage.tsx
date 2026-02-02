@@ -95,9 +95,12 @@ export default function ImportPage() {
               </ol>
             </div>
 
-            <Button className="w-full" disabled>
-              <Download className="h-4 w-4 mr-2" />
-              Coming Soon
+            <Button 
+              className="w-full" 
+              onClick={() => window.open('https://github.com/ammonfife/kbyg', '_blank')}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Get Extension from GitHub
             </Button>
           </CardContent>
         </Card>
