@@ -30,120 +30,90 @@ serve(async (req) => {
 
     console.log(`Calling MCP tool: ${tool}`, JSON.stringify(params));
 
-    // Try multiple endpoint patterns for MCP HTTP transport
-    const endpoints = [
-      `${MCP_SERVER_URL}/mcp`,
-      `${MCP_SERVER_URL}/call`,
-      `${MCP_SERVER_URL}/tools/${tool}`,
-      MCP_SERVER_URL,
-    ];
-
-    let lastError: string | null = null;
-    let result: unknown = null;
-
-    // Try JSON-RPC format first (standard MCP protocol)
-    for (const endpoint of endpoints) {
-      try {
-        console.log(`Trying endpoint: ${endpoint}`);
-        
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: JSON.stringify({
-            jsonrpc: "2.0",
-            id: Date.now().toString(),
-            method: "tools/call",
-            params: {
-              name: tool,
-              arguments: params || {}
-            }
-          }),
-        });
-
-        const responseText = await response.text();
-        console.log(`Response from ${endpoint}: status=${response.status}, body=${responseText.slice(0, 500)}`);
-
-        if (response.ok && responseText) {
-          try {
-            const data = JSON.parse(responseText);
-            
-            // Handle JSON-RPC response
-            if (data.result !== undefined) {
-              result = extractMCPContent(data.result);
-              break;
-            } else if (data.error) {
-              lastError = data.error.message || JSON.stringify(data.error);
-            } else {
-              // Direct response (not JSON-RPC wrapped)
-              result = data;
-              break;
-            }
-          } catch (parseError) {
-            console.log(`Parse error for ${endpoint}:`, parseError);
-            lastError = `Invalid JSON response: ${responseText.slice(0, 100)}`;
-          }
-        } else if (response.status === 404) {
-          lastError = `Endpoint not found: ${endpoint}`;
-          continue;
-        } else {
-          lastError = `HTTP ${response.status}: ${responseText.slice(0, 200)}`;
-        }
-      } catch (fetchError) {
-        console.error(`Fetch error for ${endpoint}:`, fetchError);
-        lastError = fetchError instanceof Error ? fetchError.message : 'Fetch failed';
-      }
+    // First check if server is healthy
+    try {
+      const healthCheck = await fetch(`${MCP_SERVER_URL}/health`);
+      const healthText = await healthCheck.text();
+      console.log(`Health check: status=${healthCheck.status}, body=${healthText}`);
+    } catch (healthError) {
+      console.log(`Health check failed: ${healthError}`);
     }
 
-    // If JSON-RPC didn't work, try direct tool call format
-    if (result === null) {
-      try {
-        console.log(`Trying direct tool call format`);
-        
-        const response = await fetch(`${MCP_SERVER_URL}/api/${tool}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: JSON.stringify(params || {}),
-        });
-
-        const responseText = await response.text();
-        console.log(`Direct call response: status=${response.status}, body=${responseText.slice(0, 500)}`);
-
-        if (response.ok && responseText) {
-          try {
-            result = JSON.parse(responseText);
-          } catch {
-            result = responseText;
-          }
+    // Use the correct /tools/call endpoint with JSON-RPC format
+    const endpoint = `${MCP_SERVER_URL}/tools/call`;
+    
+    console.log(`Calling endpoint: ${endpoint}`);
+    
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: Date.now().toString(),
+        params: {
+          name: tool,
+          arguments: params || {}
         }
-      } catch (directError) {
-        console.error('Direct call error:', directError);
-      }
-    }
+      }),
+    });
 
-    if (result !== null) {
+    const responseText = await response.text();
+    console.log(`Response: status=${response.status}, body=${responseText.slice(0, 1000)}`);
+
+    if (!response.ok) {
       return new Response(
-        JSON.stringify({ success: true, data: result }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ 
+          success: false, 
+          error: `MCP Server Error: HTTP ${response.status}`,
+          debug: {
+            serverUrl: MCP_SERVER_URL,
+            endpoint,
+            tool,
+            params,
+            response: responseText.slice(0, 500)
+          }
+        }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    let result: unknown = null;
+    try {
+      const data = JSON.parse(responseText);
+      
+      // Handle JSON-RPC response
+      if (data.error) {
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: data.error.message || JSON.stringify(data.error)
+          }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      if (data.result !== undefined) {
+        result = extractMCPContent(data.result);
+      } else {
+        result = data;
+      }
+    } catch (parseError) {
+      console.log(`Parse error:`, parseError);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: `Invalid JSON response from MCP server`
+        }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: lastError || 'Failed to call MCP server',
-        debug: {
-          serverUrl: MCP_SERVER_URL,
-          tool,
-          params
-        }
-      }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ success: true, data: result }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
   } catch (error) {
