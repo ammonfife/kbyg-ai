@@ -11,7 +11,8 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/http-server.js",
-    "start:stdio": "node dist/index.js"
+    "start:stdio": "node dist/index.js",
+    "init-db": "tsc && node dist/scripts/init-db.js"
   },
   "keywords": ["mcp", "lovable", "gtm", "enrichment", "ai"],
   "author": "Big Mac",

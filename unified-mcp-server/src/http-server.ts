@@ -5,6 +5,8 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import { ALL_TOOLS } from './tools.js';
 import { handleToolCall } from './tool-handler.js';
+import { EventDatabase } from './event-db.js';
+import { createEventRouter } from './event-api.js';
 
 // Load environment variables
 config();
@@ -12,6 +14,19 @@ config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BEARER_TOKEN = process.env.MCP_BEARER_TOKEN;
+
+// Initialize Event Database
+const TURSO_URL = process.env.TURSO_DATABASE_URL;
+const TURSO_TOKEN = process.env.TURSO_AUTH_TOKEN;
+
+if (!TURSO_URL || !TURSO_TOKEN) {
+  console.error('Error: TURSO_DATABASE_URL and TURSO_AUTH_TOKEN must be set');
+  process.exit(1);
+}
+
+const eventDb = new EventDatabase(TURSO_URL, TURSO_TOKEN);
+await eventDb.initialize();
+console.log('✅ Event database initialized');
 
 // Middleware
 app.use(cors());
@@ -36,6 +51,9 @@ const authMiddleware = (req: express.Request, res: express.Response, next: expre
   next();
 };
 
+// Mount Event API routes
+app.use('/api', createEventRouter(eventDb));
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
@@ -43,6 +61,7 @@ app.get('/health', (req, res) => {
     server: 'unified-mcp',
     version: '1.0.0',
     tools: ALL_TOOLS.length,
+    eventApi: 'enabled',
   });
 });
 
@@ -129,11 +148,21 @@ app.listen(PORT, () => {
   console.log(`📊 Tools available: ${ALL_TOOLS.length}`);
   console.log(`   - GTM Enrichment: 8 tools`);
   console.log(`   - Lovable.dev Control: 11 tools`);
-  console.log(`\n🔗 Endpoints:`);
+  console.log(`\n🔗 MCP Endpoints:`);
   console.log(`   GET  /health           - Health check`);
   console.log(`   GET  /sse              - SSE transport (for Lovable.dev)`);
   console.log(`   POST /tools/list       - List all tools`);
   console.log(`   POST /tools/call       - Call a tool`);
+  console.log(`\n📅 Event API Endpoints:`);
+  console.log(`   POST   /api/events                - Save event analysis`);
+  console.log(`   GET    /api/events                - List all events`);
+  console.log(`   GET    /api/events/:url           - Get specific event`);
+  console.log(`   DELETE /api/events/:url           - Delete event`);
+  console.log(`   POST   /api/events/bulk           - Bulk import events`);
+  console.log(`   POST   /api/profile               - Save user profile`);
+  console.log(`   GET    /api/profile               - Get user profile`);
+  console.log(`   GET    /api/people/search?q=...   - Search people`);
+  console.log(`   GET    /api/analytics/summary     - Get analytics summary`);
   if (BEARER_TOKEN) {
     console.log(`\n🔒 Authentication: Bearer token required`);
   } else {
