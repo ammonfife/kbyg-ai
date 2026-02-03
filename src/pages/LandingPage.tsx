@@ -57,9 +57,21 @@ export default function LandingPage() {
   ];
 
   const stats = [
-    { value: "10x", label: "More Qualified Meetings" },
-    { value: "85%", label: "Less Time on Logistics" },
-    { value: "$100k+", label: "Avg Deal Size Targeted" }
+    { 
+      value: "< 15s", 
+      label: "From URL to Intelligence",
+      description: "Complete extraction of speakers, sponsors, and personas using Gemini 1.5 Pro."
+    },
+    { 
+      value: "100%", 
+      label: "Data Persistence",
+      description: "Automated sync to your private Turso database. No lead left behind in a browser tab."
+    },
+    { 
+      value: "0", 
+      label: "Manual Research Required",
+      description: "AI-generated ice breakers and GTM strategies ready before you arrive at the booth."
+    }
   ];
 
   const steps = [
@@ -191,16 +203,29 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 px-6 border-y border-border bg-muted/30">
+      {/* Operational Impact Section */}
+      <section className="py-20 px-6 border-y border-border bg-muted/30">
         <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              Operational Impact
+            </Badge>
+            <h2 className="text-3xl font-bold">Real-Time Performance Metrics</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border">
+                <div 
+                  className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3"
+                  style={{
+                    textShadow: '0 0 40px hsl(var(--primary) / 0.4), 0 0 80px hsl(var(--accent) / 0.2)',
+                    filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))'
+                  }}
+                >
                   {stat.value}
                 </div>
-                <div className="text-muted-foreground">{stat.label}</div>
+                <div className="text-lg font-semibold text-foreground mb-2">{stat.label}</div>
+                <div className="text-sm text-muted-foreground">{stat.description}</div>
               </div>
             ))}
           </div>
