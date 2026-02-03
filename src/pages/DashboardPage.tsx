@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
-import { listCompanies, testMCPConnection, type Company } from "@/lib/mcp";
+import { listCompanies, getCompany, testMCPConnection, type Company } from "@/lib/mcp";
 
 type ExpandedStat = "targets" | "contacts" | "enriched" | "pending" | null;
 
@@ -43,7 +43,29 @@ export default function DashboardPage() {
     try {
       const result = await listCompanies();
       if (result.success && result.data) {
-        setCompanies(Array.isArray(result.data) ? result.data : []);
+        const companiesList = Array.isArray(result.data) ? result.data : [];
+        
+        // Fetch full details for each company to get employee titles
+        const batchSize = 5;
+        const fullCompanies: Company[] = [];
+        
+        for (let i = 0; i < companiesList.length; i += batchSize) {
+          const batch = companiesList.slice(i, i + batchSize);
+          const results = await Promise.all(
+            batch.map(company => getCompany(company.name))
+          );
+          
+          results.forEach((res, idx) => {
+            if (res.success && res.data) {
+              fullCompanies.push(res.data);
+            } else {
+              // Fallback to original company data if fetch fails
+              fullCompanies.push(batch[idx]);
+            }
+          });
+        }
+        
+        setCompanies(fullCompanies);
       } else {
         setError(result.error || "Failed to load targets");
       }
