@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import kbygLogo from "@/assets/kbyg-logo.png";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -83,12 +84,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Zap className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">GTM Hub</span>
-          </div>
+          <img src={kbygLogo} alt="KBYG.ai" className="h-8" />
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={handleCTA}>
               Dashboard
@@ -281,12 +277,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-border">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-semibold">GTM Intelligence Hub</span>
-          </div>
+          <img src={kbygLogo} alt="KBYG.ai" className="h-6" />
           
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <button onClick={handleCTA} className="hover:text-foreground transition-colors">
