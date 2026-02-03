@@ -246,39 +246,50 @@ export default function DashboardPage() {
 
       {/* Expanded Stat Details */}
       {expandedStat && getExpandedContent() && (
-        <Card className="animate-fade-in">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center justify-between">
-              {expandedStat === "targets" && "All Targets"}
-              {expandedStat === "enriched" && "Enriched Targets"}
-              {expandedStat === "pending" && "Pending Targets"}
-              {expandedStat === "contacts" && "All Contacts"}
-              <Button variant="ghost" size="sm" onClick={() => setExpandedStat(null)}>
-                <ChevronUp className="h-4 w-4" />
-              </Button>
-            </CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <div>
+              <CardTitle>
+                {expandedStat === "targets" && "All Targets"}
+                {expandedStat === "enriched" && "Enriched Targets"}
+                {expandedStat === "pending" && "Pending Targets"}
+                {expandedStat === "contacts" && "All Contacts"}
+              </CardTitle>
+              <CardDescription>
+                {getExpandedContent()?.length || 0} items
+              </CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setExpandedStat(null)}>
+              <ChevronUp className="h-4 w-4" />
+            </Button>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-2 max-h-64 overflow-y-auto">
-              {getExpandedContent()?.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    {expandedStat === "contacts" ? (
-                      <User className="h-4 w-4 text-primary" />
-                    ) : (
-                      <Building2 className="h-4 w-4 text-primary" />
-                    )}
+            {getExpandedContent()?.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No items</p>
+            ) : (
+              <div className="space-y-3 max-h-80 overflow-y-auto">
+                {getExpandedContent()?.map((item, idx) => (
+                  <div 
+                    key={idx} 
+                    className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        {expandedStat === "contacts" ? (
+                          <User className="h-5 w-5 text-primary" />
+                        ) : (
+                          <Crosshair className="h-5 w-5 text-primary" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm text-muted-foreground">{item.sub}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-sm">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">{item.sub}</p>
-                  </div>
-                </div>
-              ))}
-              {getExpandedContent()?.length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">No items</p>
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
