@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
+import kbygLogo from "@/assets/kbyg-logo.png";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -97,19 +97,16 @@ export default function AuthPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4">
       <Link 
         to="/" 
-        className="flex items-center gap-2 mb-8 group"
+        className="mb-8 group hover:opacity-80 transition-opacity"
       >
-        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center group-hover:scale-105 transition-transform">
-          <Zap className="h-6 w-6 text-primary-foreground" />
-        </div>
-        <span className="text-xl font-bold group-hover:text-primary transition-colors">GTM Hub</span>
+        <img src={kbygLogo} alt="KBYG.ai" className="h-10" />
       </Link>
       
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
           <CardDescription>
-            Sign in or create an account to start capturing leads
+            Sign in to start finding your next $100k contract
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
