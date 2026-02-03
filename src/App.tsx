@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
 import TestLandingPage from "./pages/TestLandingPage";
 import TechnicalPage from "./pages/TechnicalPage";
+import TechnicalArchitecturePage from "./pages/TechnicalArchitecturePage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import CompaniesPage from "./pages/CompaniesPage";
@@ -64,6 +65,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<TestLandingPage />} />
             <Route path="/old-landing" element={<LandingPage />} />
+            <Route path="/technical" element={<TechnicalArchitecturePage />} />
             <Route path="/technical_stuff" element={<TechnicalPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/*" element={<AppLayout />} />
