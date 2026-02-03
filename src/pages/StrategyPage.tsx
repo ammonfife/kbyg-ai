@@ -12,6 +12,7 @@ import { StrategyDisplay } from "@/components/StrategyDisplay";
 import { listCompanies, getCompany, generateStrategy, type Company, type Strategy } from "@/lib/mcp";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { BrandIcon } from "@/components/BrandIcon";
 
 export default function StrategyPage() {
   const [searchParams] = useSearchParams();
@@ -145,14 +146,14 @@ export default function StrategyPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Target className="h-8 w-8 text-primary" />
-          Strategy Generator
-        </h1>
-        <p className="text-muted-foreground">
-          Generate personalized GTM strategies for target companies
-        </p>
+      <div className="flex items-center gap-3">
+        <BrandIcon variant="filled" size="lg" />
+        <div>
+          <h1 className="text-3xl font-bold">Execution Playbooks</h1>
+          <p className="text-muted-foreground">
+            Generate personalized GTM strategies for target companies
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

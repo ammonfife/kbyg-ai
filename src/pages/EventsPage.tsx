@@ -7,6 +7,7 @@ import { Calendar, MapPin, Users, Building2, RefreshCw, Loader2 } from "lucide-r
 import { useToast } from "@/hooks/use-toast";
 import { listCompanies, getCompany, type Company } from "@/lib/mcp";
 import { useNavigate } from "react-router-dom";
+import { BrandIcon } from "@/components/BrandIcon";
 
 interface EventGroup {
   eventName: string;
@@ -110,14 +111,14 @@ export default function EventsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Calendar className="h-8 w-8 text-primary" />
-            Conference Events
-          </h1>
-          <p className="text-muted-foreground">
-            Intelligence extracted from conferences via the KBYG Chrome Extension
-          </p>
+        <div className="flex items-center gap-3">
+          <BrandIcon variant="filled" size="lg" />
+          <div>
+            <h1 className="text-3xl font-bold">Conference Events</h1>
+            <p className="text-muted-foreground">
+              Intelligence extracted from conferences via the KBYG Chrome Extension
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary">{eventGroups.length} events</Badge>

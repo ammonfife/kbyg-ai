@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { listCompanies, getCompany, type Company, type Employee } from "@/lib/mcp";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { BrandIcon } from "@/components/BrandIcon";
 
 interface PersonWithCompany extends Employee {
   companyName: string;
@@ -109,14 +110,14 @@ export default function PeoplePage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Users className="h-8 w-8 text-primary" />
-            People
-          </h1>
-          <p className="text-muted-foreground">
-            All contacts across your target companies
-          </p>
+        <div className="flex items-center gap-3">
+          <BrandIcon variant="filled" size="lg" />
+          <div>
+            <h1 className="text-3xl font-bold">People</h1>
+            <p className="text-muted-foreground">
+              All contacts across your target companies
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="text-sm">

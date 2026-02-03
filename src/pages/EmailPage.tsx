@@ -10,6 +10,7 @@ import { EmailDisplay } from "@/components/EmailDisplay";
 import { listCompanies, draftEmail, type Company, type DraftedEmail } from "@/lib/mcp";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { BrandIcon } from "@/components/BrandIcon";
 
 export default function EmailPage() {
   const [searchParams] = useSearchParams();
@@ -92,14 +93,14 @@ export default function EmailPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Mail className="h-8 w-8 text-primary" />
-          Email Composer
-        </h1>
-        <p className="text-muted-foreground">
-          Draft personalized outreach emails for target companies
-        </p>
+      <div className="flex items-center gap-3">
+        <BrandIcon variant="filled" size="lg" />
+        <div>
+          <h1 className="text-3xl font-bold">Outreach Composer</h1>
+          <p className="text-muted-foreground">
+            Draft personalized outreach emails for target companies
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

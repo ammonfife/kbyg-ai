@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair, User, ChevronDown, ChevronUp } from "lucide-react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, User, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { listCompanies, getCompany, testMCPConnection, type Company } from "@/lib/mcp";
+import { BrandIcon } from "@/components/BrandIcon";
 
 type ExpandedStat = "targets" | "contacts" | "enriched" | "pending" | null;
 
@@ -98,7 +99,7 @@ export default function DashboardPage() {
       id: "targets" as ExpandedStat,
       title: "Targets Acquired",
       value: totalCompanies,
-      icon: Crosshair,
+      icon: Target,
       description: "In your database",
       color: "text-primary",
       clickable: true,
@@ -171,11 +172,14 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Command Center</h1>
-        <p className="text-muted-foreground">
-          KBYG Intelligence Engine — Your conference execution platform
-        </p>
+      <div className="flex items-center gap-3">
+        <BrandIcon variant="filled" size="xl" />
+        <div>
+          <h1 className="text-3xl font-bold">Command Center</h1>
+          <p className="text-muted-foreground">
+            KBYG Intelligence Engine — Your conference execution platform
+          </p>
+        </div>
       </div>
 
       {/* MCP Connection Status */}
@@ -300,7 +304,7 @@ export default function DashboardPage() {
                         {expandedStat === "contacts" ? (
                           <User className="h-5 w-5 text-primary" />
                         ) : (
-                          <Crosshair className="h-5 w-5 text-primary" />
+                          <Target className="h-5 w-5 text-primary" />
                         )}
                       </div>
                       <div>
@@ -336,7 +340,7 @@ export default function DashboardPage() {
             Draft Outreach
           </Button>
           <Button variant="outline" onClick={() => navigate("/import")}>
-            <Crosshair className="h-4 w-4 mr-2" />
+            <Target className="h-4 w-4 mr-2" />
             Extract Intelligence
           </Button>
         </CardContent>
@@ -377,7 +381,7 @@ export default function DashboardPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Crosshair className="h-5 w-5 text-primary" />
+                      <Building2 className="h-5 w-5 text-primary" />
                     </div>
                     <div>
                       <p className="font-medium">{company.name}</p>
