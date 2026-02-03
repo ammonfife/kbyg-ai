@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw } from "lucide-react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -42,10 +42,10 @@ export default function DashboardPage() {
       if (result.success && result.data) {
         setCompanies(Array.isArray(result.data) ? result.data : []);
       } else {
-        setError(result.error || "Failed to load companies");
+        setError(result.error || "Failed to load targets");
       }
     } catch (err) {
-      setError("Unable to connect to server");
+      setError("Unable to connect to intelligence server");
     } finally {
       setLoading(false);
     }
@@ -54,24 +54,35 @@ export default function DashboardPage() {
   const totalCompanies = companies.length;
   const enrichedCompanies = companies.filter(c => c.enriched_data).length;
   const pendingEnrichments = totalCompanies - enrichedCompanies;
+  
+  // Calculate potential pipeline value (enriched companies * avg deal size)
+  const potentialPipelineValue = enrichedCompanies * 100000;
 
   const stats = [
     {
-      title: "Total Companies",
+      title: "Potential Pipeline Value",
+      value: `$${potentialPipelineValue.toLocaleString()}`,
+      icon: DollarSign,
+      description: "Based on enriched targets",
+      color: "text-success",
+      highlight: true,
+    },
+    {
+      title: "Targets Acquired",
       value: totalCompanies,
-      icon: Building2,
+      icon: Crosshair,
       description: "In your database",
       color: "text-primary",
     },
     {
-      title: "Enriched",
+      title: "Intel Extracted",
       value: enrichedCompanies,
       icon: Sparkles,
-      description: "With full data",
-      color: "text-success",
+      description: "With deep enrichment",
+      color: "text-accent",
     },
     {
-      title: "Pending",
+      title: "Pending Extraction",
       value: pendingEnrichments,
       icon: TrendingUp,
       description: "Awaiting enrichment",
@@ -81,8 +92,8 @@ export default function DashboardPage() {
       title: "Total Contacts",
       value: companies.reduce((acc, c) => acc + (c.employees?.length || 0), 0),
       icon: Users,
-      description: "Across all companies",
-      color: "text-accent",
+      description: "Across all targets",
+      color: "text-muted-foreground",
     },
   ];
 
@@ -91,9 +102,9 @@ export default function DashboardPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">Command Center</h1>
         <p className="text-muted-foreground">
-          Welcome to GTM Intelligence Hub - your conference intelligence platform
+          KBYG Intelligence Engine — Your conference execution platform
         </p>
       </div>
 
@@ -111,13 +122,13 @@ export default function DashboardPage() {
               )}
               <div>
                 <p className="font-medium">
-                  MCP Server: {testingConnection ? "Testing..." : mcpConnected ? "Connected" : "Disconnected"}
+                  Intelligence Server: {testingConnection ? "Testing..." : mcpConnected ? "Connected" : "Disconnected"}
                 </p>
                 {mcpError && (
                   <p className="text-sm text-muted-foreground">{mcpError}</p>
                 )}
                 {mcpConnected && (
-                  <p className="text-sm text-muted-foreground">8 GTM tools available</p>
+                  <p className="text-sm text-muted-foreground">8 extraction tools available</p>
                 )}
               </div>
             </div>
@@ -143,10 +154,10 @@ export default function DashboardPage() {
       )}
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {loading ? (
           <>
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <Card key={i}>
                 <CardHeader className="pb-2">
                   <Skeleton className="h-4 w-24" />
@@ -160,13 +171,13 @@ export default function DashboardPage() {
           </>
         ) : (
           stats.map((stat) => (
-            <Card key={stat.title}>
+            <Card key={stat.title} className={stat.highlight ? "border-success bg-success/5" : ""}>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
                 <stat.icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className={`text-2xl font-bold ${stat.highlight ? 'text-success' : ''}`}>{stat.value}</div>
                 <p className="text-xs text-muted-foreground">{stat.description}</p>
               </CardContent>
             </Card>
@@ -178,34 +189,34 @@ export default function DashboardPage() {
       <Card>
         <CardHeader>
           <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Get started with common tasks</CardDescription>
+          <CardDescription>Execute your next move</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
           <Button onClick={() => navigate("/companies")}>
             <Building2 className="h-4 w-4 mr-2" />
-            View Companies
+            View Target Database
           </Button>
           <Button variant="outline" onClick={() => navigate("/strategy")}>
             <Target className="h-4 w-4 mr-2" />
-            Generate Strategy
+            Deploy GTM Strategy
           </Button>
           <Button variant="outline" onClick={() => navigate("/email")}>
             <Sparkles className="h-4 w-4 mr-2" />
-            Draft Email
+            Draft Outreach
           </Button>
           <Button variant="outline" onClick={() => navigate("/import")}>
-            <TrendingUp className="h-4 w-4 mr-2" />
-            Import Data
+            <Crosshair className="h-4 w-4 mr-2" />
+            Extract Intelligence
           </Button>
         </CardContent>
       </Card>
 
-      {/* Recent Companies */}
+      {/* Recent Targets */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Recent Companies</CardTitle>
-            <CardDescription>Latest companies in your database</CardDescription>
+            <CardTitle>Recent Targets</CardTitle>
+            <CardDescription>Latest acquisitions in your database</CardDescription>
           </div>
           <Button variant="ghost" size="sm" onClick={() => navigate("/companies")}>
             View All
@@ -235,12 +246,12 @@ export default function DashboardPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Building2 className="h-5 w-5 text-primary" />
+                      <Crosshair className="h-5 w-5 text-primary" />
                     </div>
                     <div>
                       <p className="font-medium">{company.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        {company.employees?.length || 0} employees
+                        {company.employees?.length || 0} contacts
                         {company.enriched_data?.industry && ` • ${company.enriched_data.industry}`}
                       </p>
                     </div>
@@ -249,7 +260,7 @@ export default function DashboardPage() {
                     {company.enriched_data ? (
                       <span className="text-success flex items-center gap-1">
                         <Sparkles className="h-3 w-3" />
-                        Enriched
+                        Intel Extracted
                       </span>
                     ) : (
                       <span>Pending</span>
@@ -260,7 +271,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <p className="text-center text-muted-foreground py-8">
-              No companies yet. Import data to get started!
+              No targets yet. Extract intelligence to get started!
             </p>
           )}
         </CardContent>

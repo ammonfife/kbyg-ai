@@ -10,7 +10,8 @@ import {
   ArrowRight,
   Users,
   TrendingUp,
-  Star
+  Star,
+  Crosshair
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,17 +36,17 @@ export default function LandingPage() {
   const features = [
     {
       icon: Chrome,
-      title: "Deep-Tier Intelligence",
+      title: "Deep-Tier Intelligence Extraction",
       description: "Our browser extension surfaces speakers, sponsors, and attendees—not floor maps and coffee breaks."
     },
     {
-      icon: Sparkles,
-      title: "Persona Mapping",
+      icon: Crosshair,
+      title: "Pre-Qualified Target Mapping",
       description: "Automatically identify the exact buyer personas attending and what makes them tick."
     },
     {
       icon: Target,
-      title: "Conversation Starters",
+      title: "Weaponized Conversation Openers",
       description: "Get tailored talking points that open doors, not generic icebreakers that close them."
     },
     {
@@ -69,12 +70,12 @@ export default function LandingPage() {
     },
     {
       number: "02", 
-      title: "Scan Any Event",
+      title: "Extract Intelligence",
       description: "Hit any conference site. We extract speakers, sponsors, and attendee intel automatically."
     },
     {
       number: "03",
-      title: "Win the Room",
+      title: "Dominate the Room",
       description: "Walk in knowing exactly who to talk to, what to say, and how to close."
     }
   ];
@@ -87,7 +88,7 @@ export default function LandingPage() {
           <img src={kbygLogo} alt="KBYG.ai" className="h-8" />
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={handleCTA}>
-              Dashboard
+              Command Center
             </Button>
             <Button 
               className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
@@ -111,20 +112,19 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto relative">
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-              <Sparkles className="h-3 w-3 mr-1" />
-              Conference Intelligence for Revenue Teams
+              <Crosshair className="h-3 w-3 mr-1" />
+              Intelligence Extraction for Revenue Teams
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Turn Trade Shows Into{" "}
+              KBYG: The Conference{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-pulse">
-                Revenue Ops
+                Execution Engine
               </span>
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              We don't care where the coffee is. We care where your next $100k contract is sitting.
-              Deep-tier intel on speakers, sponsors, and attendees—delivered to your browser.
+            <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto">
+              Extract every high-value prospect, generate pre-qualified openers, and build a permanent sales asset from every event. Stop networking; start executing.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -148,7 +148,7 @@ export default function LandingPage() {
                 className="text-lg px-8 py-6"
                 onClick={handleCTA}
               >
-                View Dashboard
+                Enter Command Center
               </Button>
             </div>
 
@@ -214,7 +214,7 @@ export default function LandingPage() {
               Capabilities
             </Badge>
             <h2 className="text-4xl font-bold mb-4">
-              Replace Generic Logistics With Tactical Intel
+              Your Unfair Competitive Advantage
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Stop memorizing booth numbers. Start knowing exactly who writes the checks.
@@ -324,18 +324,18 @@ export default function LandingPage() {
           
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <button onClick={handleCTA} className="hover:text-foreground transition-colors">
-              Dashboard
+              Command Center
             </button>
             <button onClick={() => navigate("/companies")} className="hover:text-foreground transition-colors">
-              Companies
+              Target Database
             </button>
             <button onClick={() => navigate("/import")} className="hover:text-foreground transition-colors">
-              Import
+              Capture Analysis
             </button>
           </div>
           
           <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} GTM Hub. All rights reserved.
+            © {new Date().getFullYear()} KBYG.ai. All rights reserved.
           </div>
         </div>
       </footer>

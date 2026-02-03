@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* Light mode - kept as fallback but dark is default */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -49,42 +50,43 @@
     --warning-foreground: 0 0% 100%;
   }
 
+  /* Dark mode - Command Center aesthetic */
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 6%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 217 91% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 217 32% 17%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 32% 12%;
+    --muted-foreground: 215 20% 65%;
 
     --accent: 160 84% 39%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
     --ring: 217 91% 60%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-background: 222 47% 5%;
+    --sidebar-foreground: 240 5% 96%;
     --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-accent: 217 32% 12%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 217 32% 15%;
     --sidebar-ring: 217 91% 60%;
 
     --success: 160 84% 39%;
@@ -97,6 +99,10 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html {
+    @apply dark;
   }
 
   body {

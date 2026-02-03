@@ -26,7 +26,7 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
       onUpdate(editedStrategy);
     }
     setIsEditing(false);
-    toast({ title: "Saved!", description: "Strategy updated successfully" });
+    toast({ title: "Playbook Updated!", description: `Execution playbook for ${companyName} saved successfully` });
   };
 
   const handleCancel = () => {
@@ -41,13 +41,13 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
 
   const formatStrategyAsText = () => {
     const displayStrategy = isEditing ? editedStrategy : strategy;
-    let text = `# GTM Strategy for ${companyName}\n\n`;
+    let text = `# Execution Playbook for ${companyName}\n\n`;
     text += `## Value Alignment\n${displayStrategy.value_alignment}\n\n`;
-    text += `## Key Topics\n${displayStrategy.key_topics?.map(t => `- ${t}`).join('\n') || 'N/A'}\n\n`;
+    text += `## Attack Vectors\n${displayStrategy.key_topics?.map(t => `- ${t}`).join('\n') || 'N/A'}\n\n`;
     text += `## Tone & Voice\n${displayStrategy.tone_and_voice}\n\n`;
     text += `## Product Positioning\n${displayStrategy.product_positioning}\n\n`;
-    text += `## Talking Points\n${displayStrategy.talking_points?.map(t => `- ${t}`).join('\n') || 'N/A'}\n\n`;
-    text += `## Opening Line\n${displayStrategy.opening_line}\n\n`;
+    text += `## Winning Tactics\n${displayStrategy.talking_points?.map(t => `- ${t}`).join('\n') || 'N/A'}\n\n`;
+    text += `## The Opener\n${displayStrategy.opening_line}\n\n`;
     text += `## What to Avoid\n${displayStrategy.what_to_avoid?.map(t => `- ${t}`).join('\n') || 'N/A'}`;
     return text;
   };
@@ -56,7 +56,7 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
     try {
       await navigator.clipboard.writeText(formatStrategyAsText());
       setCopied(true);
-      toast({ title: "Copied!", description: "Strategy copied to clipboard" });
+      toast({ title: "Copied!", description: "Execution playbook copied to clipboard" });
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       toast({ 
@@ -74,23 +74,23 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
       printWindow.document.write(`
         <html>
           <head>
-            <title>GTM Strategy - ${companyName}</title>
+            <title>Execution Playbook - ${companyName}</title>
             <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+              body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #0f172a; color: #e2e8f0; }
               h1 { color: #3B82F6; }
-              h2 { color: #1F2937; margin-top: 24px; }
+              h2 { color: #10B981; margin-top: 24px; }
               ul { margin: 8px 0; padding-left: 24px; }
               li { margin: 4px 0; }
               p { line-height: 1.6; }
             </style>
           </head>
           <body>
-            <h1>GTM Strategy for ${companyName}</h1>
+            <h1>Execution Playbook: ${companyName}</h1>
             
             <h2>Value Alignment</h2>
             <p>${displayStrategy.value_alignment}</p>
             
-            <h2>Key Topics</h2>
+            <h2>Attack Vectors</h2>
             <ul>${displayStrategy.key_topics?.map(t => `<li>${t}</li>`).join('') || '<li>N/A</li>'}</ul>
             
             <h2>Tone & Voice</h2>
@@ -99,10 +99,10 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
             <h2>Product Positioning</h2>
             <p>${displayStrategy.product_positioning}</p>
             
-            <h2>Talking Points</h2>
+            <h2>Winning Tactics</h2>
             <ul>${displayStrategy.talking_points?.map(t => `<li>${t}</li>`).join('') || '<li>N/A</li>'}</ul>
             
-            <h2>Opening Line</h2>
+            <h2>The Opener</h2>
             <p>"${displayStrategy.opening_line}"</p>
             
             <h2>What to Avoid</h2>
@@ -121,7 +121,7 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
     <Card className="mt-6">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-xl">
-          GTM Strategy for {companyName}
+          Execution Playbook: {companyName}
           {isEditing && <Badge variant="outline" className="ml-2">Editing</Badge>}
         </CardTitle>
         <div className="flex gap-2">
@@ -181,12 +181,12 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
         <Separator />
 
         <section>
-          <h3 className="font-semibold text-primary mb-2">Key Topics</h3>
+          <h3 className="font-semibold text-accent mb-2">Attack Vectors</h3>
           {isEditing ? (
             <Textarea
               value={editedStrategy.key_topics?.join('\n') || ''}
               onChange={(e) => updateListField('key_topics', e.target.value)}
-              placeholder="One topic per line"
+              placeholder="One attack vector per line"
               rows={4}
               className="text-sm font-mono"
             />
@@ -197,7 +197,7 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">No topics available</p>
+            <p className="text-sm text-muted-foreground">No attack vectors defined</p>
           )}
         </section>
 
@@ -236,12 +236,12 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
         <Separator />
 
         <section>
-          <h3 className="font-semibold text-primary mb-2">Talking Points</h3>
+          <h3 className="font-semibold text-accent mb-2">Winning Tactics</h3>
           {isEditing ? (
             <Textarea
               value={editedStrategy.talking_points?.join('\n') || ''}
               onChange={(e) => updateListField('talking_points', e.target.value)}
-              placeholder="One point per line"
+              placeholder="One tactic per line"
               rows={5}
               className="text-sm font-mono"
             />
@@ -252,14 +252,14 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">No talking points available</p>
+            <p className="text-sm text-muted-foreground">No winning tactics defined</p>
           )}
         </section>
 
         <Separator />
 
         <section>
-          <h3 className="font-semibold text-primary mb-2">Opening Line</h3>
+          <h3 className="font-semibold text-success mb-2">The Opener</h3>
           {isEditing ? (
             <Input
               value={editedStrategy.opening_line}
@@ -267,14 +267,14 @@ export function StrategyDisplay({ strategy, companyName, onUpdate }: StrategyDis
               className="text-sm"
             />
           ) : (
-            <p className="text-sm italic">"{displayStrategy.opening_line || "N/A"}"</p>
+            <p className="text-sm italic border-l-4 border-success pl-4 py-2 bg-success/5 rounded-r">"{displayStrategy.opening_line || "N/A"}"</p>
           )}
         </section>
 
         <Separator />
 
         <section>
-          <h3 className="font-semibold text-primary mb-2">What to Avoid</h3>
+          <h3 className="font-semibold text-destructive mb-2">What to Avoid</h3>
           {isEditing ? (
             <Textarea
               value={editedStrategy.what_to_avoid?.join('\n') || ''}
