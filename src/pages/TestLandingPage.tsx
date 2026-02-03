@@ -115,7 +115,7 @@ export default function TestLandingPage() {
       </nav>
 
       {/* Hero Section with data-viz background */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden min-h-[90vh] flex items-center">
+      <section className="pt-28 pb-12 px-6 relative overflow-hidden min-h-[80vh] flex items-center">
         {/* Hero data-viz background image */}
         <div 
           className="absolute inset-0 z-0"
@@ -195,15 +195,15 @@ export default function TestLandingPage() {
       </section>
 
       {/* Operational Impact Section */}
-      <section className="py-20 px-6 border-y border-border bg-muted/30">
+      <section className="py-14 px-6 border-y border-border bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
               Operational Impact
             </Badge>
             <h2 className="text-3xl font-bold">Real-Time Performance Metrics</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border hover:border-[#3b82f6]/30 transition-colors">
                 <div 
@@ -225,9 +225,9 @@ export default function TestLandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 px-6">
+      <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
               Capabilities
             </Badge>
@@ -239,14 +239,14 @@ export default function TestLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {features.map((feature, idx) => (
               <div 
                 key={idx}
-                className="group p-8 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300"
+                className="group p-6 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300"
               >
                 <div 
-                  className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+                  className="h-12 w-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
                   style={{
                     background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)'
                   }}
@@ -262,9 +262,9 @@ export default function TestLandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-6 bg-muted/30">
+      <section className="py-16 px-6 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <Badge className="mb-4 bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20">
               How It Works
             </Badge>
@@ -276,7 +276,7 @@ export default function TestLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {steps.map((step, idx) => (
               <div key={idx} className="relative">
                 <div 
@@ -302,9 +302,9 @@ export default function TestLandingPage() {
       </section>
 
       {/* How to Install Section */}
-      <section className="py-24 px-6">
+      <section className="py-16 px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
               Get Started
             </Badge>
@@ -339,9 +339,9 @@ export default function TestLandingPage() {
       </section>
 
       {/* Product Fit Timeline Section */}
-      <section className="py-12 px-6 bg-muted/30">
+      <section className="py-8 px-6 bg-muted/30">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
               Full Event Coverage
             </Badge>
@@ -358,10 +358,10 @@ export default function TestLandingPage() {
       </section>
 
       {/* CTA Section - Full brand gradient with logo */}
-      <section className="py-24 px-6">
+      <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
           <div 
-            className="relative overflow-hidden rounded-3xl p-12 md:p-16 text-center"
+            className="relative overflow-hidden rounded-3xl p-10 md:p-12 text-center"
             style={{
               background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%)'
             }}
@@ -402,7 +402,7 @@ export default function TestLandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-border">
+      <footer className="py-10 px-6 border-t border-border">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <img src={logoCompact} alt="KBYG.ai" className="h-8" />
           
