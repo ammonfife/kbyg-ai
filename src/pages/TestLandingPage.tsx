@@ -18,6 +18,7 @@ import logoCompact from "@/assets/brand/logo-compact.svg";
 import logoFull from "@/assets/brand/logo-full.svg";
 import heroDataViz from "@/assets/brand/hero-data-viz.png";
 import productFitImg from "@/assets/product-fit.svg";
+import howItWorksBg from "@/assets/brand/how-it-works-bg.png";
 
 export default function TestLandingPage() {
   const navigate = useNavigate();
@@ -123,7 +124,7 @@ export default function TestLandingPage() {
             backgroundImage: `url(${heroDataViz})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.15,
+            opacity: 0.20,
           }}
         />
         
@@ -262,8 +263,19 @@ export default function TestLandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 px-6 bg-muted/30 relative overflow-hidden">
+        {/* Background image */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${howItWorksBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.25,
+          }}
+        />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-muted/30 via-transparent to-muted/30" />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-10">
             <Badge className="mb-4 bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20">
               How It Works
