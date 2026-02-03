@@ -358,15 +358,7 @@ export default function TestLandingPage() {
             <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
             <div className="absolute bottom-0 right-0 w-60 h-60 bg-white/10 rounded-full blur-2xl" />
             
-            {/* Brand logo watermark */}
-            <img 
-              src={logoFull} 
-              alt="" 
-              className="absolute top-6 left-1/2 -translate-x-1/2 h-8 opacity-20"
-              aria-hidden="true"
-            />
-            
-            <div className="relative pt-6">
+            <div className="relative">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Your Next Trade Show Shouldn't Be a Gamble
               </h2>
