@@ -6,7 +6,7 @@
 
 **File:** `sync-extension.yml`
 
-**Purpose:** Automatically syncs `chrome-extension/` folder to public `ammonfife/kbyg` repository.
+**Purpose:** Automatically syncs `chrome-extension/` folder to public `ammonfife/kbyg-ai` repository.
 
 **Triggers:**
 - Push to `main` branch (when `chrome-extension/**` changes)

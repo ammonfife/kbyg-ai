@@ -20,25 +20,25 @@ jobs:
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
-          repository: ammonfife/kbyg
+          repository: ammonfife/kbyg-ai
           token: ${{ secrets.KBYG_PAT }}
-          path: kbyg
+          path: kbyg-ai
           fetch-depth: 0
       
       - name: Copy extension files
         run: |
           # Remove old chrome-extension folder in target
-          rm -rf kbyg/chrome-extension
+          rm -rf kbyg-ai/chrome-extension
           
           # Copy new chrome-extension folder
-          cp -r chrome-extension kbyg/
+          cp -r chrome-extension kbyg-ai/
           
           # Update README with latest changes
-          cd kbyg
+          cd kbyg-ai
           
       - name: Commit and push changes
         run: |
-          cd kbyg
+          cd kbyg-ai
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
           
@@ -51,7 +51,7 @@ jobs:
             Triggered by: ${{ github.actor }}
             Date: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
-            echo "✅ Extension synced to ammonfife/kbyg"
+            echo "✅ Extension synced to ammonfife/kbyg-ai"
           else
             echo "ℹ️ No changes to sync"
           fi
