@@ -1,7 +1,7 @@
 import { ArrowRight, Chrome, Database, Server, Cpu, Globe, Zap, Code2, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import kbygLogo from "@/assets/kbyg-logo.png";
+import kbygLogo from "@/assets/brand/logo-primary.png";
 
 export default function TechnicalPage() {
   const navigate = useNavigate();

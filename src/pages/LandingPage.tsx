@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import kbygLogo from "@/assets/kbyg-logo.png";
+import kbygLogo from "@/assets/brand/logo-primary.png";
 import productFitImg from "@/assets/product-fit.svg";
 import { TeamTimeline } from "@/components/landing/TeamTimeline";
 

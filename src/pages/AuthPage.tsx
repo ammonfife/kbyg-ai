@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import kbygLogo from "@/assets/kbyg-logo.png";
+import kbygLogo from "@/assets/brand/logo-primary.png";
 import { Zap } from "lucide-react";
 import { createUser, createOrganization } from "@/lib/mcp";
 
