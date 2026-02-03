@@ -4,7 +4,7 @@ import {
   Building2, 
   Target, 
   Mail, 
-  Download,
+  Crosshair,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -17,11 +17,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const navItems = [
-  { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/companies", icon: Building2, label: "Companies" },
-  { to: "/strategy", icon: Target, label: "Strategy Generator" },
-  { to: "/email", icon: Mail, label: "Email Composer" },
-  { to: "/import", icon: Download, label: "Import" },
+  { to: "/dashboard", icon: LayoutDashboard, label: "Command Center" },
+  { to: "/companies", icon: Building2, label: "Target Database" },
+  { to: "/strategy", icon: Target, label: "Execution Playbooks" },
+  { to: "/email", icon: Mail, label: "Outreach Composer" },
+  { to: "/import", icon: Crosshair, label: "Capture Analysis" },
 ];
 
 export function AppSidebar() {
@@ -43,9 +43,9 @@ export function AppSidebar() {
         {!collapsed && (
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <Target className="h-5 w-5 text-primary-foreground" />
+              <Crosshair className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg">GTM Hub</span>
+            <span className="font-bold text-lg">KBYG</span>
           </div>
         )}
         <Button
@@ -122,7 +122,7 @@ export function AppSidebar() {
         )}
         {!collapsed && (
           <p className="text-xs text-muted-foreground text-center pt-2">
-            GTM Intelligence Hub v1.0
+            KBYG Intelligence Engine v1.0
           </p>
         )}
       </div>
