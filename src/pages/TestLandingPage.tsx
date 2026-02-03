@@ -18,7 +18,6 @@ import logoCompact from "@/assets/brand/logo-compact.svg";
 import logoFull from "@/assets/brand/logo-full.svg";
 import heroDataViz from "@/assets/brand/hero-data-viz.png";
 import productFitImg from "@/assets/product-fit.svg";
-import devModeToggle from "@/assets/dev-mode-toggle.png";
 import howItWorksBg from "@/assets/brand/how-it-works-bg.png";
 
 // Import components
@@ -214,31 +213,22 @@ export default function TestLandingPage() {
           
           <div className="grid gap-4">
             {[
-              { step: 1, title: "Extract the Folder", desc: 'Click "Get the Extension" and unzip the downloaded folder.', showImage: false },
-              { step: 2, title: "Go to Extensions", desc: "Open Chrome and type chrome://extensions in the address bar.", showImage: false },
-              { step: 3, title: "Turn on Developer Mode", desc: "Flip the switch in the top-right corner.", showImage: true },
-              { step: 4, title: "Upload", desc: "Click Load unpacked (top-left) and select the folder you just unzipped.", showImage: false }
+              { step: 1, title: "Extract the Folder", desc: 'Click "Get the Extension" and unzip the downloaded folder.' },
+              { step: 2, title: "Go to Extensions", desc: "Open Chrome and type chrome://extensions in the address bar." },
+              { step: 3, title: "Turn on Developer Mode", desc: "Flip the switch in the top-right corner." },
+              { step: 4, title: "Upload", desc: "Click Load unpacked (top-left) and select the folder you just unzipped." }
             ].map((item) => (
-              <div key={item.step} className="flex gap-4 items-center justify-between p-5 rounded-xl bg-card border border-border hover:border-[#3b82f6]/30 transition-colors group">
-                <div className="flex gap-4 items-start">
-                  <span 
-                    className="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform"
-                    style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
-                  >
-                    {item.step}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-lg">{item.title}</p>
-                    <p className="text-muted-foreground">{item.desc}</p>
-                  </div>
+              <div key={item.step} className="flex gap-4 items-start p-5 rounded-xl bg-card border border-border hover:border-[#3b82f6]/30 transition-colors group">
+                <span 
+                  className="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
+                >
+                  {item.step}
+                </span>
+                <div>
+                  <p className="font-semibold text-lg">{item.title}</p>
+                  <p className="text-muted-foreground">{item.desc}</p>
                 </div>
-                {item.showImage && (
-                  <img 
-                    src={devModeToggle} 
-                    alt="Developer mode toggle switch" 
-                    className="hidden lg:block flex-shrink-0"
-                  />
-                )}
               </div>
             ))}
           </div>
