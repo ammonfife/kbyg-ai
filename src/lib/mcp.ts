@@ -12,7 +12,7 @@ export interface MCPResponse<T = unknown> {
 }
 
 export interface Company {
-  id?: string;
+  id?: string | number;
   name: string;
   description?: string;
   industry?: string;
@@ -21,6 +21,7 @@ export interface Company {
   employees?: Employee[];
   enriched_data?: EnrichedData;
   created_at?: string;
+  updated_at?: string;
   last_enriched?: string;
   enriched_at?: string;
 }

@@ -120,11 +120,11 @@ export default function DashboardPage() {
     
     switch (expandedStat) {
       case "targets":
-        return companies.map(c => ({ name: c.name, sub: c.enriched_data?.industry || "No industry" }));
+        return companies.map(c => ({ name: c.name, sub: c.enriched_data?.industry || c.industry || "No industry" }));
       case "enriched":
-        return companies.filter(c => c.enriched_data).map(c => ({ name: c.name, sub: c.enriched_data?.industry || "No industry" }));
+        return companies.filter(c => c.enriched_data).map(c => ({ name: c.name, sub: c.enriched_data?.industry || c.industry || "No industry" }));
       case "pending":
-        return companies.filter(c => !c.enriched_data).map(c => ({ name: c.name, sub: "Awaiting enrichment" }));
+        return companies.filter(c => !c.enriched_data).map(c => ({ name: c.name, sub: c.industry || "Awaiting enrichment" }));
       case "contacts":
         return allContacts.map(c => ({ name: c.name, sub: `${c.title || "No title"} @ ${c.companyName}` }));
       default:
@@ -361,7 +361,7 @@ export default function DashboardPage() {
                       <p className="font-medium">{company.name}</p>
                       <p className="text-sm text-muted-foreground">
                         {company.employees?.length || 0} contacts
-                        {company.enriched_data?.industry && ` • ${company.enriched_data.industry}`}
+                        {(company.enriched_data?.industry || company.industry) && ` • ${company.enriched_data?.industry || company.industry}`}
                       </p>
                     </div>
                   </div>
