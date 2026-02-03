@@ -364,6 +364,16 @@ export default function LandingPage() {
             © {new Date().getFullYear()} KBYG.ai. All rights reserved.
           </div>
         </div>
+        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-border text-center text-sm text-muted-foreground">
+          Made with ❤️ at{" "}
+          <a href="https://www.utahtechweek.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Utah Tech Week
+          </a>
+          {" & "}
+          <a href="https://www.getmobly.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Mobly
+          </a>
+        </div>
       </footer>
     </div>
   );
