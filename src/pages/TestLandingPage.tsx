@@ -270,7 +270,7 @@ export default function TestLandingPage() {
           style={{
             backgroundImage: `url(${howItWorksBg})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center 30%',
             opacity: 0.25,
           }}
         />
