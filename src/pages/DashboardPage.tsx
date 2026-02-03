@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair, User } from "lucide-react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair, User, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { listCompanies, testMCPConnection, type Company } from "@/lib/mcp";
+
+type ExpandedStat = "targets" | "contacts" | "enriched" | "pending" | null;
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ export default function DashboardPage() {
   const [testingConnection, setTestingConnection] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedStat, setExpandedStat] = useState<ExpandedStat>(null);
 
   useEffect(() => {
     checkConnection();
@@ -60,42 +63,74 @@ export default function DashboardPage() {
 
   const stats = [
     {
+      id: null as ExpandedStat,
       title: "Potential Pipeline Value",
       value: `$${potentialPipelineValue.toLocaleString()}`,
       icon: DollarSign,
       description: "Based on enriched targets",
       color: "text-success",
       highlight: true,
+      clickable: false,
     },
     {
+      id: "targets" as ExpandedStat,
       title: "Targets Acquired",
       value: totalCompanies,
       icon: Crosshair,
       description: "In your database",
       color: "text-primary",
+      clickable: true,
     },
     {
+      id: "enriched" as ExpandedStat,
       title: "Intel Extracted",
       value: enrichedCompanies,
       icon: Sparkles,
       description: "With deep enrichment",
       color: "text-accent",
+      clickable: true,
     },
     {
+      id: "pending" as ExpandedStat,
       title: "Pending Extraction",
       value: pendingEnrichments,
       icon: TrendingUp,
       description: "Awaiting enrichment",
       color: "text-warning",
+      clickable: true,
     },
     {
+      id: "contacts" as ExpandedStat,
       title: "Total Contacts",
       value: companies.reduce((acc, c) => acc + (c.employees?.length || 0), 0),
       icon: Users,
       description: "Across all targets",
       color: "text-muted-foreground",
+      clickable: true,
     },
   ];
+
+  const toggleStat = (id: ExpandedStat) => {
+    setExpandedStat(prev => prev === id ? null : id);
+  };
+
+  // Get data for expanded stat
+  const getExpandedContent = () => {
+    if (!expandedStat) return null;
+    
+    switch (expandedStat) {
+      case "targets":
+        return companies.map(c => ({ name: c.name, sub: c.enriched_data?.industry || "No industry" }));
+      case "enriched":
+        return companies.filter(c => c.enriched_data).map(c => ({ name: c.name, sub: c.enriched_data?.industry || "No industry" }));
+      case "pending":
+        return companies.filter(c => !c.enriched_data).map(c => ({ name: c.name, sub: "Awaiting enrichment" }));
+      case "contacts":
+        return allContacts.map(c => ({ name: c.name, sub: `${c.title || "No title"} @ ${c.companyName}` }));
+      default:
+        return null;
+    }
+  };
 
   const recentCompanies = companies.slice(0, 5);
 
@@ -184,10 +219,21 @@ export default function DashboardPage() {
           </>
         ) : (
           stats.map((stat) => (
-            <Card key={stat.title} className={stat.highlight ? "border-success bg-success/5" : ""}>
+            <Card 
+              key={stat.title} 
+              className={`${stat.highlight ? "border-success bg-success/5" : ""} ${stat.clickable ? "cursor-pointer hover:border-primary/50 transition-colors" : ""} ${expandedStat === stat.id ? "ring-2 ring-primary" : ""}`}
+              onClick={() => stat.clickable && stat.id && toggleStat(stat.id)}
+            >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                <div className="flex items-center gap-1">
+                  <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                  {stat.clickable && (
+                    expandedStat === stat.id ? 
+                      <ChevronUp className="h-3 w-3 text-muted-foreground" /> : 
+                      <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                  )}
+                </div>
               </CardHeader>
               <CardContent>
                 <div className={`text-2xl font-bold ${stat.highlight ? 'text-success' : ''}`}>{stat.value}</div>
@@ -197,6 +243,45 @@ export default function DashboardPage() {
           ))
         )}
       </div>
+
+      {/* Expanded Stat Details */}
+      {expandedStat && getExpandedContent() && (
+        <Card className="animate-fade-in">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center justify-between">
+              {expandedStat === "targets" && "All Targets"}
+              {expandedStat === "enriched" && "Enriched Targets"}
+              {expandedStat === "pending" && "Pending Targets"}
+              {expandedStat === "contacts" && "All Contacts"}
+              <Button variant="ghost" size="sm" onClick={() => setExpandedStat(null)}>
+                <ChevronUp className="h-4 w-4" />
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-2 max-h-64 overflow-y-auto">
+              {getExpandedContent()?.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    {expandedStat === "contacts" ? (
+                      <User className="h-4 w-4 text-primary" />
+                    ) : (
+                      <Building2 className="h-4 w-4 text-primary" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">{item.sub}</p>
+                  </div>
+                </div>
+              ))}
+              {getExpandedContent()?.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">No items</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Quick Actions */}
       <Card>
