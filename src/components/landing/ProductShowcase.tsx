@@ -36,7 +36,7 @@ const screenshots = [
 
 export default function ProductShowcase() {
   return (
-    <section className="py-16 px-6 overflow-hidden">
+    <section className="py-16 px-6 overflow-hidden bg-[#3b82f6]/[0.15]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
