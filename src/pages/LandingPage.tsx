@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Chrome, 
   Download, 
@@ -16,10 +16,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [isHovered, setIsHovered] = useState(false);
+  
+  const handleCTA = () => {
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/auth");
+    }
+  };
 
   const features = [
     {
@@ -80,7 +90,7 @@ export default function LandingPage() {
             <span className="text-xl font-bold">GTM Hub</span>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+            <Button variant="ghost" onClick={handleCTA}>
               Dashboard
             </Button>
             <Button 
@@ -140,7 +150,7 @@ export default function LandingPage() {
                 variant="outline" 
                 size="lg" 
                 className="text-lg px-8 py-6"
-                onClick={() => navigate("/dashboard")}
+                onClick={handleCTA}
               >
                 View Dashboard
               </Button>
@@ -279,7 +289,7 @@ export default function LandingPage() {
           </div>
           
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <button onClick={() => navigate("/dashboard")} className="hover:text-foreground transition-colors">
+            <button onClick={handleCTA} className="hover:text-foreground transition-colors">
               Dashboard
             </button>
             <button onClick={() => navigate("/companies")} className="hover:text-foreground transition-colors">

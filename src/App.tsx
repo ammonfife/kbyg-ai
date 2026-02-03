@@ -4,7 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
+import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
+import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import CompaniesPage from "./pages/CompaniesPage";
 import StrategyPage from "./pages/StrategyPage";
@@ -23,19 +26,21 @@ function AppLayout() {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
-      <AppSidebar />
-      <main className="flex-1 overflow-auto">
-        <Routes>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/companies" element={<CompaniesPage />} />
-          <Route path="/strategy" element={<StrategyPage />} />
-          <Route path="/email" element={<EmailPage />} />
-          <Route path="/import" element={<ImportPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-    </div>
+    <ProtectedRoute>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <main className="flex-1 overflow-auto">
+          <Routes>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/strategy" element={<StrategyPage />} />
+            <Route path="/email" element={<EmailPage />} />
+            <Route path="/import" element={<ImportPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </ProtectedRoute>
   );
 }
 
@@ -45,10 +50,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/*" element={<AppLayout />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/*" element={<AppLayout />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

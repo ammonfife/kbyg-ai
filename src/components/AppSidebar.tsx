@@ -6,11 +6,15 @@ import {
   Mail, 
   Download,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  LogOut,
+  User
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -22,6 +26,11 @@ const navItems = [
 
 export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const { user, signOut } = useAuth();
+  
+  const getInitials = (email: string) => {
+    return email.substring(0, 2).toUpperCase();
+  };
 
   return (
     <aside 
@@ -74,9 +83,45 @@ export function AppSidebar() {
         ))}
       </nav>
 
-      <div className="p-4 border-t">
+      <div className="p-4 border-t space-y-2">
+        {user && (
+          <>
+            {!collapsed ? (
+              <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-sidebar-accent/50">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                    {getInitials(user.email || 'U')}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{user.email}</p>
+                  <p className="text-xs text-muted-foreground">Active</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                    {getInitials(user.email || 'U')}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            )}
+            <Button
+              variant="ghost"
+              onClick={signOut}
+              className={cn(
+                "w-full",
+                collapsed ? "justify-center px-2" : "justify-start"
+              )}
+            >
+              <LogOut className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Sign Out</span>}
+            </Button>
+          </>
+        )}
         {!collapsed && (
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-xs text-muted-foreground text-center pt-2">
             GTM Intelligence Hub v1.0
           </p>
         )}
