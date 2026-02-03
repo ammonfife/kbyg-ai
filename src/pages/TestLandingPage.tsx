@@ -16,8 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
 import logoCompact from "@/assets/brand/logo-compact.svg";
 import logoFull from "@/assets/brand/logo-full.svg";
-import iconGradient from "@/assets/brand/icon-gradient.svg";
-import iconFilled from "@/assets/brand/icon-filled.svg";
+import heroDataViz from "@/assets/brand/hero-data-viz.png";
 import productFitImg from "@/assets/product-fit.svg";
 
 export default function TestLandingPage() {
@@ -115,36 +114,28 @@ export default function TestLandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section - Using brand gradient colors */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-        {/* Floating brand icons as decorative elements */}
-        <img 
-          src={iconGradient} 
-          alt="" 
-          className="absolute top-24 right-[15%] w-16 h-16 opacity-20 animate-pulse"
-          aria-hidden="true"
+      {/* Hero Section with data-viz background */}
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden min-h-[90vh] flex items-center">
+        {/* Hero data-viz background image */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${heroDataViz})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.15,
+          }}
         />
-        <img 
-          src={iconFilled} 
-          alt="" 
-          className="absolute bottom-32 left-[10%] w-12 h-12 opacity-15 animate-pulse"
-          style={{ animationDelay: '1s' }}
-          aria-hidden="true"
-        />
-        <img 
-          src={iconGradient} 
-          alt="" 
-          className="absolute top-1/2 left-[5%] w-10 h-10 opacity-10 animate-pulse"
-          style={{ animationDelay: '2s' }}
-          aria-hidden="true"
-        />
+        
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         
         {/* Background gradient orbs using brand colors */}
-        <div className="absolute top-20 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[#8b5cf6]/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-[#06b6d4]/15 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-3xl z-0" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[#8b5cf6]/20 rounded-full blur-3xl z-0" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-[#06b6d4]/15 rounded-full blur-3xl z-0" />
         
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20 hover:bg-[#3b82f6]/20">
               <Crosshair className="h-3 w-3 mr-1" />
@@ -203,15 +194,9 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Operational Impact Section with floating icons */}
-      <section className="py-20 px-6 border-y border-border bg-muted/30 relative overflow-hidden">
-        <img 
-          src={iconFilled} 
-          alt="" 
-          className="absolute top-8 right-[8%] w-14 h-14 opacity-10"
-          aria-hidden="true"
-        />
-        <div className="max-w-7xl mx-auto relative">
+      {/* Operational Impact Section */}
+      <section className="py-20 px-6 border-y border-border bg-muted/30">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
               Operational Impact
@@ -220,14 +205,7 @@ export default function TestLandingPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border relative group hover:border-[#3b82f6]/30 transition-colors">
-                {/* Subtle icon watermark */}
-                <img 
-                  src={iconGradient} 
-                  alt="" 
-                  className="absolute top-3 right-3 w-8 h-8 opacity-5 group-hover:opacity-10 transition-opacity"
-                  aria-hidden="true"
-                />
+              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border hover:border-[#3b82f6]/30 transition-colors">
                 <div 
                   className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent mb-3"
                   style={{
@@ -246,14 +224,8 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Features Section with brand icons */}
-      <section className="py-24 px-6 relative">
-        <img 
-          src={iconGradient} 
-          alt="" 
-          className="absolute bottom-16 right-[12%] w-20 h-20 opacity-10"
-          aria-hidden="true"
-        />
+      {/* Features Section */}
+      <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
@@ -271,25 +243,18 @@ export default function TestLandingPage() {
             {features.map((feature, idx) => (
               <div 
                 key={idx}
-                className="group p-8 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                className="group p-8 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300"
               >
-                {/* Brand icon as subtle background */}
-                <img 
-                  src={iconFilled} 
-                  alt="" 
-                  className="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity"
-                  aria-hidden="true"
-                />
                 <div 
-                  className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative"
+                  className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
                   style={{
                     background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)'
                   }}
                 >
                   <feature.icon className="h-7 w-7 text-[#3b82f6]" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-3 relative">{feature.title}</h3>
-                <p className="text-muted-foreground text-lg relative">{feature.description}</p>
+                <h3 className="text-2xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground text-lg">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -297,13 +262,7 @@ export default function TestLandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-6 bg-muted/30 relative overflow-hidden">
-        <img 
-          src={iconGradient} 
-          alt="" 
-          className="absolute top-12 left-[6%] w-16 h-16 opacity-10"
-          aria-hidden="true"
-        />
+      <section className="py-24 px-6 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20">
@@ -343,13 +302,7 @@ export default function TestLandingPage() {
       </section>
 
       {/* How to Install Section */}
-      <section className="py-24 px-6 relative">
-        <img 
-          src={iconFilled} 
-          alt="" 
-          className="absolute bottom-20 left-[8%] w-14 h-14 opacity-10"
-          aria-hidden="true"
-        />
+      <section className="py-24 px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
@@ -394,20 +347,7 @@ export default function TestLandingPage() {
             </Badge>
             <h2 className="text-3xl font-bold">From Planning to Follow-up</h2>
           </div>
-          <div className="flex justify-center relative">
-            {/* Decorative icons around timeline */}
-            <img 
-              src={iconGradient} 
-              alt="" 
-              className="absolute -top-4 -left-8 w-12 h-12 opacity-20 hidden md:block"
-              aria-hidden="true"
-            />
-            <img 
-              src={iconFilled} 
-              alt="" 
-              className="absolute -bottom-4 -right-8 w-10 h-10 opacity-15 hidden md:block"
-              aria-hidden="true"
-            />
+          <div className="flex justify-center">
             <img 
               src={productFitImg} 
               alt="KBYG.ai covers the entire event timeline - Planning, Event, and Followup" 
@@ -461,13 +401,10 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Footer - Using brand compact logo */}
+      {/* Footer */}
       <footer className="py-12 px-6 border-t border-border">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <img src={iconGradient} alt="" className="h-8 w-8" />
-            <img src={logoCompact} alt="KBYG.ai" className="h-8" />
-          </div>
+          <img src={logoCompact} alt="KBYG.ai" className="h-8" />
           
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <button onClick={handleCTA} className="hover:text-[#3b82f6] transition-colors">
