@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import kbygLogo from "@/assets/kbyg-logo.png";
 import productFitImg from "@/assets/product-fit.svg";
+import { TeamTimeline } from "@/components/landing/TeamTimeline";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -342,6 +343,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Team Timeline Section */}
+      <TeamTimeline />
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-border">
