@@ -5,6 +5,7 @@ import {
   Target, 
   Mail, 
   Crosshair,
+  Calendar,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -19,6 +20,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Command Center" },
   { to: "/companies", icon: Building2, label: "Target Database" },
+  { to: "/events", icon: Calendar, label: "Conference Events" },
   { to: "/strategy", icon: Target, label: "Execution Playbooks" },
   { to: "/email", icon: Mail, label: "Outreach Composer" },
   { to: "/import", icon: Crosshair, label: "Capture Analysis" },

@@ -14,6 +14,7 @@ import CompaniesPage from "./pages/CompaniesPage";
 import StrategyPage from "./pages/StrategyPage";
 import EmailPage from "./pages/EmailPage";
 import ImportPage from "./pages/ImportPage";
+import EventsPage from "./pages/EventsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ function AppLayout() {
           <Routes>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/events" element={<EventsPage />} />
             <Route path="/strategy" element={<StrategyPage />} />
             <Route path="/email" element={<EmailPage />} />
             <Route path="/import" element={<ImportPage />} />
