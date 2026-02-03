@@ -117,10 +117,11 @@ export default function LandingPage() {
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              KBYG: The Conference{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-pulse">
-                Execution Engine
+                Know Before You Go
               </span>
+              <br />
+              For GTM Teams
             </h1>
             
             <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto">
