@@ -395,7 +395,7 @@ export default function TestLandingPage() {
           </a>
           {" & "}
           <a href="https://www.getmobly.com/" target="_blank" rel="noopener noreferrer" className="text-[#8b5cf6] hover:underline">
-            Mobly
+            Mobly GTM Hackathon
           </a>
         </div>
       </footer>
