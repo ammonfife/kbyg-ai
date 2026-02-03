@@ -34,6 +34,12 @@ const timelineEvents: TimelineEvent[] = [
   },
   {
     time: "Monday, 3:00 PM",
+    title: "kbyg.ai Registered",
+    description: "Domain secured. The brand is official.",
+    isHighlight: true,
+  },
+  {
+    time: "Monday, 4:00 PM",
     title: "Deep Work Mode",
     description: "The team locked in. Features shipping. Problems solving themselves.",
     image: teamWorkingImg,
