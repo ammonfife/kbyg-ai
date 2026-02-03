@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import kbygLogo from "@/assets/kbyg-logo.png";
+import productFitImg from "@/assets/product-fit.png";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -267,6 +268,19 @@ export default function LandingPage() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product Fit Section */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center">
+            <img 
+              src={productFitImg} 
+              alt="KBYG.ai covers the entire event timeline - Planning, Event, and Followup" 
+              className="w-full max-w-2xl h-auto"
+            />
           </div>
         </div>
       </section>
