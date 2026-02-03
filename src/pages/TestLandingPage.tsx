@@ -314,7 +314,7 @@ export default function TestLandingPage() {
       </section>
 
       {/* How to Install Section */}
-      <section className="py-16 px-6 bg-[#3b82f6]/5">
+      <section className="py-16 px-6 bg-[#3b82f6]/10">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
