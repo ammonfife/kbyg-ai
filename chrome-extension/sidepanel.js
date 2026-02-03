@@ -39,6 +39,9 @@ const viewTargetsBtn = document.getElementById('view-targets-btn');
 let currentAnalysisData = null;
 let userProfile = null;
 let currentFilter = 'all';
+let savedEvents = {}; // Store analyzed events by URL
+let currentTabUrl = null;
+let eventsSortBy = 'roi'; // Default sort
 
 // Default profile structure
 const defaultProfile = {
@@ -61,10 +64,13 @@ const defaultProfile = {
 // Initialize side panel
 document.addEventListener('DOMContentLoaded', async () => {
   userProfile = await loadProfile();
+  savedEvents = await loadSavedEvents();
   
   if (userProfile.onboardingComplete && userProfile.geminiApiKey) {
     showMainSection();
-    updateCurrentUrl();
+    await updateCurrentUrl();
+    await checkForCachedAnalysis();
+    updateEventsCount();
   } else {
     showOnboardingStep(1);
   }
@@ -84,6 +90,85 @@ async function saveProfile(profile) {
   return new Promise((resolve) => {
     chrome.storage.local.set({ userProfile: profile }, resolve);
   });
+}
+
+// Events Storage
+async function loadSavedEvents() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['savedEvents'], (result) => {
+      resolve(result.savedEvents || {});
+    });
+  });
+}
+
+async function saveEvent(url, data) {
+  const eventKey = normalizeUrl(url);
+  savedEvents[eventKey] = {
+    ...data,
+    url: url,
+    analyzedAt: new Date().toISOString(),
+    lastViewed: new Date().toISOString()
+  };
+  return new Promise((resolve) => {
+    chrome.storage.local.set({ savedEvents }, resolve);
+  });
+}
+
+async function deleteEvent(url) {
+  const eventKey = normalizeUrl(url);
+  delete savedEvents[eventKey];
+  return new Promise((resolve) => {
+    chrome.storage.local.set({ savedEvents }, resolve);
+  });
+}
+
+function normalizeUrl(url) {
+  try {
+    const u = new URL(url);
+    return u.origin + u.pathname;
+  } catch {
+    return url;
+  }
+}
+
+function getEventByUrl(url) {
+  const eventKey = normalizeUrl(url);
+  return savedEvents[eventKey] || null;
+}
+
+async function checkForCachedAnalysis() {
+  if (!currentTabUrl) return;
+  
+  // Hide saved event banner when checking current page
+  hideSavedEventBanner();
+  
+  const cached = getEventByUrl(currentTabUrl);
+  const cachedIndicator = document.getElementById('cached-indicator');
+  const analyzeBtn = document.getElementById('analyze-btn');
+  
+  if (cached) {
+    // Show cached results
+    cachedIndicator?.classList.remove('hidden');
+    analyzeBtn?.classList.add('hidden'); // Hide main analyze button
+    showResults(cached);
+  } else {
+    // Reset to empty state for new/unanalyzed page
+    cachedIndicator?.classList.add('hidden');
+    analyzeBtn?.classList.remove('hidden'); // Show main analyze button
+    resultsDiv.classList.add('hidden');
+    errorDiv.classList.add('hidden');
+    emptyState.classList.remove('hidden');
+    currentAnalysisData = null;
+  }
+}
+
+function updateEventsCount() {
+  const countEl = document.getElementById('events-count');
+  if (countEl) {
+    const count = Object.keys(savedEvents).length;
+    countEl.textContent = count;
+    countEl.classList.toggle('hidden', count === 0);
+  }
 }
 
 // Onboarding Navigation
@@ -120,6 +205,378 @@ function showMainSection() {
   onboardingCompany.classList.add('hidden');
   onboardingGoals.classList.add('hidden');
   mainSection.classList.remove('hidden');
+  showCurrentPageView(); // Default to current page view
+}
+
+// Main Navigation (Current Page vs Events Index)
+document.getElementById('nav-current')?.addEventListener('click', () => {
+  showCurrentPageView();
+});
+
+document.getElementById('nav-events')?.addEventListener('click', () => {
+  showEventsIndexView();
+});
+
+document.getElementById('nav-personas')?.addEventListener('click', () => {
+  showPersonasIndexView();
+});
+
+function hideAllViews() {
+  document.getElementById('current-page-view')?.classList.add('hidden');
+  document.getElementById('events-index-view')?.classList.add('hidden');
+  document.getElementById('personas-index-view')?.classList.add('hidden');
+  document.getElementById('nav-current')?.classList.remove('active');
+  document.getElementById('nav-events')?.classList.remove('active');
+  document.getElementById('nav-personas')?.classList.remove('active');
+}
+
+function showCurrentPageView() {
+  hideAllViews();
+  document.getElementById('current-page-view')?.classList.remove('hidden');
+  document.getElementById('nav-current')?.classList.add('active');
+}
+
+function showEventsIndexView() {
+  hideAllViews();
+  document.getElementById('events-index-view')?.classList.remove('hidden');
+  document.getElementById('nav-events')?.classList.add('active');
+  renderEventsIndex();
+}
+
+function showPersonasIndexView() {
+  hideAllViews();
+  document.getElementById('personas-index-view')?.classList.remove('hidden');
+  document.getElementById('nav-personas')?.classList.add('active');
+  renderPersonasIndex();
+}
+
+function renderPersonasIndex() {
+  const container = document.getElementById('personas-master-list');
+  if (!container) return;
+  
+  // Build persona -> events map
+  const personaEventsMap = {};
+  
+  Object.values(savedEvents).forEach(event => {
+    const personas = event.expectedPersonas || [];
+    const people = event.people || [];
+    
+    personas.forEach(persona => {
+      // Use 'persona' field which is the job title/role category
+      const personaName = persona.persona || persona.title || persona.name || 'Unknown Persona';
+      
+      if (!personaEventsMap[personaName]) {
+        personaEventsMap[personaName] = {
+          name: personaName,
+          events: []
+        };
+      }
+      
+      // Count people matching this persona at this event
+      const matchingPeople = people.filter(p => {
+        const pRole = (p.role || p.title || p.persona || '').toLowerCase();
+        const personaLower = personaName.toLowerCase();
+        // Check if person's role/title contains persona keywords
+        const personaWords = personaLower.split(/\s+/);
+        return personaWords.some(word => word.length > 2 && pRole.includes(word)) ||
+               pRole.includes(personaLower) || 
+               personaLower.includes(pRole);
+      }).length;
+      
+      personaEventsMap[personaName].events.push({
+        url: event.url,
+        eventName: event.eventName || 'Unknown Event',
+        date: event.date || '',
+        peopleCount: matchingPeople,
+        personaData: persona
+      });
+    });
+  });
+  
+  const personaList = Object.values(personaEventsMap).sort((a, b) => 
+    b.events.length - a.events.length
+  );
+  
+  if (personaList.length === 0) {
+    container.innerHTML = `
+      <div class="events-empty">
+        <div class="empty-icon">🎭</div>
+        <p>No personas found yet</p>
+        <p class="hint">Analyze events to see personas here</p>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = personaList.map(persona => {
+    const totalPeople = persona.events.reduce((sum, e) => sum + e.peopleCount, 0);
+    
+    return `
+      <div class="persona-master-card">
+        <div class="persona-master-header">
+          <div class="persona-master-title">
+            <span class="persona-icon">🎯</span>
+            <h3>${escapeHtml(persona.name)}</h3>
+          </div>
+          <div class="persona-master-stats">
+            <span class="stat-badge">${persona.events.length} event${persona.events.length !== 1 ? 's' : ''}</span>
+            <span class="stat-badge people">${totalPeople} people</span>
+          </div>
+        </div>
+        <div class="persona-events-list">
+          ${persona.events.map(event => `
+            <div class="persona-event-row" data-url="${escapeHtml(event.url)}" data-persona="${escapeHtml(persona.name)}">
+              <div class="persona-event-info">
+                <span class="event-name">${escapeHtml(event.eventName)}</span>
+                ${event.date ? `<span class="event-date">${escapeHtml(event.date)}</span>` : ''}
+              </div>
+              <div class="persona-event-count">
+                <span class="people-count">${event.peopleCount} people</span>
+              </div>
+              <button class="btn-icon persona-dive-btn" title="View Persona Details">🔍</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Add click handlers
+  container.querySelectorAll('.persona-event-row').forEach(row => {
+    row.querySelector('.persona-dive-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const url = row.dataset.url;
+      const personaName = row.dataset.persona;
+      openPersonaFromMasterIndex(url, personaName);
+    });
+    
+    row.addEventListener('click', () => {
+      const url = row.dataset.url;
+      const personaName = row.dataset.persona;
+      openPersonaFromMasterIndex(url, personaName);
+    });
+  });
+}
+
+function openPersonaFromMasterIndex(eventUrl, personaName) {
+  const event = savedEvents[eventUrl];
+  if (!event) return;
+  
+  const personas = event.expectedPersonas || [];
+  const persona = personas.find(p => (p.persona || p.title || p.name || '') === personaName);
+  
+  if (persona) {
+    openPersonaModal(persona, event);
+  }
+}
+
+// Sort change handler
+document.getElementById('events-sort')?.addEventListener('change', (e) => {
+  eventsSortBy = e.target.value;
+  renderEventsIndex();
+});
+
+// Export events as CSV
+document.getElementById('export-events-csv')?.addEventListener('click', exportEventsAsCSV);
+
+function calculateEventROI(event) {
+  const people = event.people || [];
+  const targetCount = people.filter(p => isTargetPersona(p)).length;
+  if (!userProfile.dealSize || !userProfile.conversionRate) return 0;
+  const dealSize = parseFloat(userProfile.dealSize) || 0;
+  const convRate = parseFloat(userProfile.conversionRate) / 100 || 0;
+  const winRate = parseFloat(userProfile.oppWinRate) / 100 || 0.25;
+  return targetCount * convRate * winRate * dealSize;
+}
+
+function sortEvents(events, sortBy) {
+  return [...events].sort((a, b) => {
+    switch (sortBy) {
+      case 'roi':
+        return calculateEventROI(b) - calculateEventROI(a);
+      case 'targets':
+        const aTargets = (a.people || []).filter(p => isTargetPersona(p)).length;
+        const bTargets = (b.people || []).filter(p => isTargetPersona(p)).length;
+        return bTargets - aTargets;
+      case 'people':
+        return (b.people || []).length - (a.people || []).length;
+      case 'date':
+        return new Date(b.analyzedAt || 0) - new Date(a.analyzedAt || 0);
+      case 'eventDate':
+        return (b.date || '').localeCompare(a.date || '');
+      case 'name':
+        return (a.eventName || '').localeCompare(b.eventName || '');
+      default:
+        return 0;
+    }
+  });
+}
+
+function renderEventsIndex() {
+  const container = document.getElementById('events-list');
+  const tableHeader = document.getElementById('events-table-header');
+  if (!container) return;
+  
+  const events = sortEvents(Object.values(savedEvents), eventsSortBy);
+  
+  if (events.length === 0) {
+    tableHeader?.classList.add('hidden');
+    container.innerHTML = `
+      <div class="events-empty">
+        <div class="empty-icon">📭</div>
+        <p>No events analyzed yet</p>
+        <p class="hint">Analyze your first event to see it here</p>
+      </div>
+    `;
+    return;
+  }
+  
+  tableHeader?.classList.remove('hidden');
+  
+  container.innerHTML = events.map(event => {
+    const people = event.people || [];
+    const targetCount = people.filter(p => isTargetPersona(p)).length;
+    const roi = calculateEventROI(event);
+    const roiText = roi > 0 ? `$${formatNumber(roi)}` : '-';
+    const analyzedDate = event.analyzedAt ? new Date(event.analyzedAt).toLocaleDateString() : '-';
+    
+    return `
+      <div class="event-row" data-url="${escapeHtml(event.url)}">
+        <div class="col-name">
+          <div class="event-row-title">${escapeHtml(event.eventName || 'Unknown Event')}</div>
+          <div class="event-row-location">${escapeHtml(event.location || '')}</div>
+        </div>
+        <div class="col-date">${escapeHtml(event.date || '-')}</div>
+        <div class="col-people">${people.length}</div>
+        <div class="col-targets"><span class="target-highlight">${targetCount}</span></div>
+        <div class="col-roi ${roi > 0 ? 'roi-positive' : ''}">${roiText}</div>
+        <div class="col-actions">
+          <button class="btn-icon view-event-btn" title="View">👁️</button>
+          <button class="btn-icon delete-event-btn" title="Delete">🗑️</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Add event handlers
+  container.querySelectorAll('.event-row').forEach(row => {
+    const url = row.dataset.url;
+    
+    row.querySelector('.view-event-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      viewEventDetails(url);
+    });
+    
+    row.querySelector('.delete-event-btn')?.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (confirm('Delete this event analysis?')) {
+        await deleteEvent(url);
+        updateEventsCount();
+        renderEventsIndex();
+        showToast('Event deleted');
+      }
+    });
+    
+    // Click anywhere on row to view
+    row.addEventListener('click', () => viewEventDetails(url));
+  });
+}
+
+function exportEventsAsCSV() {
+  const events = Object.values(savedEvents);
+  if (events.length === 0) {
+    showToast('No events to export');
+    return;
+  }
+  
+  const rows = [];
+  rows.push(['Event Name', 'Event Date', 'Location', 'URL', 'People Count', 'Target Count', 'Sponsor Count', 'Est. ROI', 'Analyzed Date']);
+  
+  events.forEach(event => {
+    const people = event.people || [];
+    const targetCount = people.filter(p => isTargetPersona(p)).length;
+    const sponsorCount = (event.sponsors || []).length;
+    const roi = calculateEventROI(event);
+    const analyzedDate = event.analyzedAt ? new Date(event.analyzedAt).toLocaleDateString() : '';
+    
+    rows.push([
+      event.eventName || '',
+      event.date || '',
+      event.location || '',
+      event.url || '',
+      people.length,
+      targetCount,
+      sponsorCount,
+      roi > 0 ? roi.toFixed(0) : '',
+      analyzedDate
+    ]);
+  });
+  
+  const csvContent = rows.map(row => 
+    row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
+  ).join('\n');
+  
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', `conference_intel_events_${Date.now()}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  
+  showToast('Events exported!');
+}
+
+function viewEventDetails(url) {
+  const event = getEventByUrl(url);
+  if (event) {
+    currentAnalysisData = event;
+    showCurrentPageView();
+    showResults(event);
+    
+    // Show the saved event banner with original URL
+    showSavedEventBanner(url, event.eventName);
+  }
+}
+
+function showSavedEventBanner(url, eventName) {
+  // Hide the normal current page info
+  document.querySelector('.current-page')?.classList.add('hidden');
+  document.getElementById('cached-indicator')?.classList.add('hidden');
+  
+  // Show or create the saved event banner
+  let banner = document.getElementById('saved-event-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'saved-event-banner';
+    banner.className = 'saved-event-banner';
+    const actionsDiv = document.querySelector('#current-page-view .actions');
+    actionsDiv?.parentNode.insertBefore(banner, actionsDiv);
+  }
+  
+  try {
+    const urlObj = new URL(url);
+    const displayUrl = urlObj.hostname + urlObj.pathname;
+    banner.innerHTML = `
+      <div class="saved-banner-header">📋 Viewing saved event</div>
+      <div class="saved-banner-url">${escapeHtml(displayUrl)}</div>
+      <button id="open-event-url-btn" class="btn primary small">🔗 Open This Page</button>
+    `;
+    banner.classList.remove('hidden');
+    
+    document.getElementById('open-event-url-btn')?.addEventListener('click', () => {
+      chrome.tabs.update({ url: url });
+    });
+  } catch (e) {
+    banner.innerHTML = `<div class="saved-banner-header">📋 Viewing saved event</div>`;
+  }
+}
+
+function hideSavedEventBanner() {
+  document.getElementById('saved-event-banner')?.classList.add('hidden');
+  document.querySelector('.current-page')?.classList.remove('hidden');
 }
 
 // Onboarding Event Listeners
@@ -316,15 +773,24 @@ if (resetExtensionBtn) {
 }
 
 // Listen for tab changes to update current URL
-chrome.tabs.onActivated.addListener(() => updateCurrentUrl());
-chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-  if (changeInfo.url) updateCurrentUrl();
+chrome.tabs.onActivated.addListener(async () => {
+  await updateCurrentUrl();
+  showCurrentPageView(); // Switch to current page view
+  await checkForCachedAnalysis();
+});
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+  if (changeInfo.url) {
+    await updateCurrentUrl();
+    showCurrentPageView(); // Switch to current page view
+    await checkForCachedAnalysis();
+  }
 });
 
 async function updateCurrentUrl() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tab && tab.url) {
+      currentTabUrl = tab.url;
       const url = new URL(tab.url);
       currentUrlSpan.textContent = url.hostname + url.pathname;
     }
@@ -392,8 +858,14 @@ analyzeBtn.addEventListener('click', runAnalysis);
 reanalyzeBtn.addEventListener('click', runAnalysis);
 retryBtn.addEventListener('click', runAnalysis);
 
+// Reanalyze fresh button (for cached results)
+document.getElementById('reanalyze-fresh-btn')?.addEventListener('click', runAnalysis);
+
 async function runAnalysis() {
   showLoading();
+  
+  // Hide cached indicator during fresh analysis
+  document.getElementById('cached-indicator')?.classList.add('hidden');
   
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -430,7 +902,16 @@ async function runAnalysis() {
       throw new Error(result.error);
     }
     
+    // Save the analysis
+    await saveEvent(tab.url, result.data);
+    updateEventsCount();
+    
+    // Hide analyze button, show cached indicator after successful analysis
+    document.getElementById('analyze-btn')?.classList.add('hidden');
+    document.getElementById('cached-indicator')?.classList.remove('hidden');
+    
     showResults(result.data);
+    showToast('Event analyzed and saved!');
   } catch (error) {
     console.error('Analysis error:', error);
     showError(error.message || 'Failed to analyze event. Please try again.');
@@ -682,24 +1163,57 @@ function renderResults(data) {
   }
 }
 
+let currentActionIndex = 0;
+let currentActions = [];
+
 function renderNextActions(data) {
   const container = document.getElementById('next-actions');
+  const nextBtn = document.getElementById('next-action-btn');
   if (!container) return;
   
-  if (data.nextBestActions && data.nextBestActions.length > 0) {
-    container.innerHTML = data.nextBestActions.map((action, i) => `
-      <div class="action-item priority-${action.priority || 'medium'}">
-        <div class="action-number">${i + 1}</div>
-        <div class="action-content">
-          <div class="action-text">${escapeHtml(action.action)}</div>
-          ${action.reason ? `<div class="action-reason">${escapeHtml(action.reason)}</div>` : ''}
-        </div>
-      </div>
-    `).join('');
+  currentActions = data.nextBestActions || [];
+  currentActionIndex = 0;
+  
+  if (currentActions.length > 0) {
+    renderCurrentAction();
+    if (nextBtn) {
+      nextBtn.classList.toggle('hidden', currentActions.length <= 1);
+    }
   } else {
     container.innerHTML = '<p class="empty-state-small">No actions available</p>';
+    if (nextBtn) nextBtn.classList.add('hidden');
   }
 }
+
+function renderCurrentAction() {
+  const container = document.getElementById('next-actions');
+  if (!container || currentActions.length === 0) return;
+  
+  const action = currentActions[currentActionIndex];
+  const total = currentActions.length;
+  
+  container.innerHTML = `
+    <div class="action-item single priority-${action.priority || 'medium'}">
+      <div class="action-number">${currentActionIndex + 1}</div>
+      <div class="action-content">
+        <div class="action-text">${escapeHtml(action.action)}</div>
+        ${action.reason ? `<div class="action-reason">${escapeHtml(action.reason)}</div>` : ''}
+      </div>
+    </div>
+    <div class="action-progress">
+      ${Array.from({length: total}, (_, i) => 
+        `<span class="progress-dot ${i === currentActionIndex ? 'active' : ''}"></span>`
+      ).join('')}
+    </div>
+  `;
+}
+
+document.getElementById('next-action-btn')?.addEventListener('click', () => {
+  if (currentActions.length > 0) {
+    currentActionIndex = (currentActionIndex + 1) % currentActions.length;
+    renderCurrentAction();
+  }
+});
 
 function renderPersonas(data) {
   const container = document.getElementById('personas-list');
@@ -758,17 +1272,18 @@ function renderPeopleList(data, people, filter) {
   
   if (filtered.length > 0) {
     peopleCount.textContent = filter === 'all' ? people.length : `${filtered.length}/${people.length}`;
-    peopleContainer.innerHTML = filtered.map(person => {
+    peopleContainer.innerHTML = filtered.map((person, index) => {
       const linkedinUrl = person.linkedin || generateLinkedInSearch(person.name, person.company);
       const isTarget = isTargetPersona(person);
       return `
-      <div class="person-item ${isTarget ? 'target-match' : ''}">
+      <div class="person-item ${isTarget ? 'target-match' : ''}" data-person-index="${index}">
         <div class="person-avatar">${getInitials(person.name)}</div>
         <div class="person-info">
           <div class="person-name">
             ${escapeHtml(person.name)}
             ${person.role ? ` <span class="person-role">${escapeHtml(person.role)}</span>` : ''}
             ${isTarget ? ' <span class="target-badge">🎯 Target</span>' : ''}
+            ${isTarget ? '<button class="target-dive-btn" title="Why target?">🔍 Dive In</button>' : ''}
           </div>
           ${person.title ? `<div class="person-title">${escapeHtml(person.title)}</div>` : ''}
           ${person.company ? `<div class="person-company">${escapeHtml(person.company)}</div>` : ''}
@@ -810,6 +1325,19 @@ function renderPeopleList(data, people, filter) {
         showToast('Copied to clipboard!');
       });
     });
+    
+    // Add dive-in handlers for targets
+    peopleContainer.querySelectorAll('.target-dive-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const personItem = btn.closest('.person-item');
+        const personIndex = parseInt(personItem.dataset.personIndex);
+        const person = filtered[personIndex];
+        if (person) {
+          openTargetModal(person, data);
+        }
+      });
+    });
   } else {
     peopleCount.textContent = filter === 'all' ? '0' : `0/${people.length}`;
     peopleContainer.innerHTML = `<p class="empty-state-small">${filter === 'all' ? 'No people found' : 'No matches for this filter'}</p>`;
@@ -836,23 +1364,23 @@ function renderROIEstimate(data, people) {
   
   roiCard.classList.remove('hidden');
   roiContent.innerHTML = `
-    <div class="roi-grid">
+    <div class="roi-grid-3">
       <div class="roi-stat">
         <div class="roi-value">${targetPeople}</div>
-        <div class="roi-label">Target Personas</div>
+        <div class="roi-label">Targets</div>
       </div>
       <div class="roi-stat">
         <div class="roi-value">${potentialOpps.toFixed(1)}</div>
-        <div class="roi-label">Est. Opportunities</div>
+        <div class="roi-label">Est. Opps</div>
       </div>
       <div class="roi-stat">
         <div class="roi-value">${potentialDeals.toFixed(1)}</div>
         <div class="roi-label">Est. Deals</div>
       </div>
-      <div class="roi-stat highlight">
-        <div class="roi-value">$${formatNumber(potentialRevenue)}</div>
-        <div class="roi-label">Potential Revenue</div>
-      </div>
+    </div>
+    <div class="roi-revenue">
+      <div class="roi-value">$${formatNumber(potentialRevenue)}</div>
+      <div class="roi-label">Potential Revenue</div>
     </div>
     <p class="roi-disclaimer">Based on ${userProfile.conversionRate}% lead→opp rate, ${userProfile.oppWinRate || 25}% win rate, $${formatNumber(dealSize)} avg deal</p>
   `;
@@ -1013,6 +1541,236 @@ document.getElementById('persona-modal-close')?.addEventListener('click', () => 
   currentPersonaContext = null;
   personaChatHistory = [];
 });
+
+// Target person modal
+let currentTargetContext = null;
+let targetChatHistory = [];
+
+function openTargetModal(person, eventData) {
+  currentTargetContext = { person, eventData };
+  targetChatHistory = [];
+  
+  const modal = document.getElementById('target-modal');
+  const headerInfo = document.getElementById('target-header-info');
+  const whySection = document.getElementById('target-why');
+  const nextActionsSection = document.getElementById('target-next-actions');
+  const whatToSaySection = document.getElementById('target-what-to-say');
+  const chatMessages = document.getElementById('target-chat-messages');
+  
+  // Fixed header with person info and LinkedIn
+  const linkedinUrl = person.linkedin || generateLinkedInSearch(person.name, person.company);
+  const hasDirectLinkedin = person.linkedin ? true : false;
+  headerInfo.innerHTML = `
+    <div class="target-header-row">
+      <div class="person-avatar">${getInitials(person.name)}</div>
+      <div class="target-header-text">
+        <div class="target-header-name">${escapeHtml(person.name)}</div>
+        <div class="target-header-meta">
+          ${person.title || person.role ? `${escapeHtml(person.title || person.role)}` : ''}
+          ${(person.title || person.role) && person.company ? ' • ' : ''}
+          ${person.company ? `${escapeHtml(person.company)}` : ''}
+        </div>
+      </div>
+      <a href="${linkedinUrl}" target="_blank" class="linkedin-btn ${hasDirectLinkedin ? 'direct' : ''}">
+        🔗 ${hasDirectLinkedin ? 'LinkedIn' : 'Search'}
+      </a>
+    </div>
+  `;
+  
+  // Why Target - specific and concise
+  const role = person.role || person.title || 'professional';
+  whySection.innerHTML = `
+    <div class="target-insight-compact">
+      <p><strong>${escapeHtml(role)}</strong> at <strong>${escapeHtml(person.company || 'their company')}</strong> — likely decision-maker or influencer for ${escapeHtml(userProfile.product || 'your solution')}.</p>
+    </div>
+  `;
+  
+  // Next Actions - specific steps
+  nextActionsSection.innerHTML = `
+    <div class="target-actions-list">
+      <div class="action-item">
+        <span class="action-num">1</span>
+        <span>Connect on LinkedIn before the event</span>
+      </div>
+      <div class="action-item">
+        <span class="action-num">2</span>
+        <span>Find them at ${escapeHtml(eventData.eventName || 'the event')} and introduce yourself</span>
+      </div>
+      <div class="action-item">
+        <span class="action-num">3</span>
+        <span>Ask about their challenges with ${escapeHtml(userProfile.targetPersonas?.split(',')[0] || 'their role')}</span>
+      </div>
+      <div class="action-item">
+        <span class="action-num">4</span>
+        <span>Share how ${escapeHtml(userProfile.product || 'your product')} helps</span>
+      </div>
+    </div>
+  `;
+  
+  // What to Say - LinkedIn message and ice breaker
+  whatToSaySection.innerHTML = `
+    ${person.linkedinMessage ? `
+      <div class="say-card">
+        <div class="say-card-header">
+          <span>💼 LinkedIn Request</span>
+          <button class="copy-btn-inline" data-copy="${escapeHtml(person.linkedinMessage)}">📋 Copy</button>
+        </div>
+        <div class="say-card-body">${escapeHtml(person.linkedinMessage)}</div>
+      </div>
+    ` : ''}
+    ${person.iceBreaker ? `
+      <div class="say-card highlight">
+        <div class="say-card-header">
+          <span>🗣️ In-Person Opener</span>
+          <button class="copy-btn-inline" data-copy="${escapeHtml(person.iceBreaker)}">📋 Copy</button>
+        </div>
+        <div class="say-card-body">${escapeHtml(person.iceBreaker)}</div>
+      </div>
+    ` : ''}
+  `;
+  
+  // Add copy handlers
+  whatToSaySection.querySelectorAll('.copy-btn-inline').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(btn.dataset.copy);
+      showToast('Copied to clipboard!');
+    });
+  });
+  
+  // Initial chat message
+  chatMessages.innerHTML = `
+    <div class="chat-message assistant">
+      <p>Need help with <strong>${escapeHtml(person.name)}</strong>? Ask me anything!</p>
+    </div>
+  `;
+  
+  modal.classList.remove('hidden');
+}
+
+function generateTargetPainPoints(person, profile) {
+  const role = (person.role || person.title || '').toLowerCase();
+  const points = [];
+  
+  if (role.includes('ceo') || role.includes('founder') || role.includes('chief')) {
+    points.push('Pressure to drive growth while managing costs');
+    points.push('Need for visibility into team performance and ROI');
+    points.push('Balancing strategic initiatives with day-to-day operations');
+  } else if (role.includes('vp') || role.includes('head') || role.includes('director')) {
+    points.push('Meeting aggressive targets with limited resources');
+    points.push('Difficulty getting buy-in for new tools and processes');
+    points.push('Lack of actionable data for decision-making');
+  } else if (role.includes('manager')) {
+    points.push('Team productivity and efficiency challenges');
+    points.push('Pressure from leadership to show results');
+    points.push('Manual processes that waste time');
+  } else if (role.includes('sales') || role.includes('revenue') || role.includes('ae') || role.includes('sdr')) {
+    points.push('Difficulty finding and qualifying the right prospects');
+    points.push('Time-consuming manual outreach tasks');
+    points.push('Pressure to hit quota with limited quality leads');
+  } else if (role.includes('marketing') || role.includes('growth')) {
+    points.push('Proving ROI on marketing spend');
+    points.push('Generating quality leads that convert');
+    points.push('Aligning with sales on priorities');
+  } else {
+    points.push('Efficiency and productivity challenges');
+    points.push('Need for better tools and processes');
+    points.push('Pressure to deliver results faster');
+  }
+  
+  return points;
+}
+
+function generateProductHelps(person, profile) {
+  const product = profile.product || 'Your solution';
+  const valueProp = profile.valueProp || '';
+  const helps = [];
+  
+  helps.push(`Addressing their key pain points with ${product}`);
+  helps.push('Saving time and reducing manual work');
+  helps.push('Providing visibility and actionable insights');
+  
+  if (valueProp) {
+    helps.push(`Delivering on: ${valueProp.substring(0, 100)}${valueProp.length > 100 ? '...' : ''}`);
+  }
+  
+  return helps;
+}
+
+// Close target modal
+document.getElementById('target-modal-close')?.addEventListener('click', () => {
+  document.getElementById('target-modal').classList.add('hidden');
+  currentTargetContext = null;
+  targetChatHistory = [];
+});
+
+// Target chat
+document.getElementById('target-chat-send')?.addEventListener('click', sendTargetChatMessage);
+document.getElementById('target-chat-input')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendTargetChatMessage();
+});
+
+async function sendTargetChatMessage() {
+  const input = document.getElementById('target-chat-input');
+  const messagesContainer = document.getElementById('target-chat-messages');
+  const userMessage = input.value.trim();
+  
+  if (!userMessage || !currentTargetContext) return;
+  
+  input.value = '';
+  
+  // Add user message
+  messagesContainer.innerHTML += `
+    <div class="chat-message user">
+      <p>${escapeHtml(userMessage)}</p>
+    </div>
+  `;
+  
+  // Add loading message
+  messagesContainer.innerHTML += `
+    <div class="chat-message assistant loading" id="target-chat-loading">
+      <p>Thinking...</p>
+    </div>
+  `;
+  
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  targetChatHistory.push({ role: 'user', content: userMessage });
+  
+  try {
+    const response = await chrome.runtime.sendMessage({
+      action: 'targetChat',
+      person: currentTargetContext.person,
+      eventData: currentTargetContext.eventData,
+      userProfile: userProfile,
+      chatHistory: targetChatHistory,
+      userMessage: userMessage
+    });
+    
+    document.getElementById('target-chat-loading')?.remove();
+    
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    
+    targetChatHistory.push({ role: 'assistant', content: response.reply });
+    
+    messagesContainer.innerHTML += `
+      <div class="chat-message assistant">
+        <p>${escapeHtml(response.reply)}</p>
+      </div>
+    `;
+  } catch (error) {
+    document.getElementById('target-chat-loading')?.remove();
+    messagesContainer.innerHTML += `
+      <div class="chat-message assistant error">
+        <p>Error: ${escapeHtml(error.message)}</p>
+      </div>
+    `;
+  }
+  
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
 
 // Click outside modal to close
 document.getElementById('persona-modal')?.addEventListener('click', (e) => {

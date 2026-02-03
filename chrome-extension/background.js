@@ -25,6 +25,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .catch(error => sendResponse({ error: error.message }));
     return true;
   }
+  
+  if (request.action === 'targetChat') {
+    handleTargetChat(request)
+      .then(result => sendResponse(result))
+      .catch(error => sendResponse({ error: error.message }));
+    return true;
+  }
 });
 
 async function handleAnalyzeEvent(request) {
@@ -75,8 +82,22 @@ USER CONTEXT (use this to personalize insights):
 `;
   }
 
+  // Parse target personas into a list for prioritization
+  const targetPersonasList = (profile.targetPersonas || '')
+    .split(',')
+    .map(p => p.trim())
+    .filter(p => p.length > 0);
+  
+  const personaGuidance = targetPersonasList.length > 0 
+    ? `IMPORTANT: The user's priority target personas are: ${targetPersonasList.join(', ')}. 
+When generating expectedPersonas, ALWAYS include these target personas FIRST if they are likely to attend this type of event. 
+Then add other relevant personas you identify from the event content.`
+    : '';
+
   return `You are an AI assistant helping a Go-To-Market (GTM) team analyze conference and event websites.
 ${userContext}
+${personaGuidance}
+
 Extract ALL people and companies from this event page. Return a JSON object:
 
 {
@@ -288,4 +309,124 @@ ${historyText || 'None yet'}
 USER'S QUESTION: ${userMessage}
 
 Provide a helpful, concise response. Give specific, actionable advice for engaging this persona at this event. Be conversational and practical. Keep response under 150 words.`;
+}
+
+// Handle target person chat
+async function handleTargetChat(request) {
+  const { person, eventData, userProfile, chatHistory, userMessage } = request;
+  const apiKey = userProfile?.geminiApiKey;
+  
+  if (!apiKey) {
+    throw new Error('API key not configured');
+  }
+  
+  const prompt = buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage);
+  const response = await callGeminiAPI(apiKey, prompt);
+  
+  const textContent = response.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!textContent) {
+    throw new Error('No response from AI');
+  }
+  
+  return { reply: textContent.trim() };
+}
+
+function buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage) {
+  const historyText = chatHistory.map(m => 
+    `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`
+  ).join('\n');
+  
+  return `You are a sales coach helping a GTM professional prepare for a one-on-one conversation with a specific target at a conference.
+
+TARGET PERSON:
+- Name: ${person.name || 'Unknown'}
+- Title/Role: ${person.title || person.role || 'Unknown'}
+- Company: ${person.company || 'Unknown'}
+- Event Role: ${person.role || 'Attendee'}
+
+EVENT CONTEXT:
+- Event: ${eventData.eventName || 'Conference'}
+- Event Date: ${eventData.date || 'Unknown'}
+- Location: ${eventData.location || 'Unknown'}
+
+USER'S COMPANY/PRODUCT:
+- Company: ${userProfile.companyName || 'Unknown'}
+- Product: ${userProfile.product || 'Unknown'}
+- Value Proposition: ${userProfile.valueProp || 'Unknown'}
+- User's Role: ${userProfile.yourRole || 'Sales'}
+- Target Personas: ${userProfile.targetPersonas || 'Not specified'}
+- Target Industries: ${userProfile.targetIndustries || 'Not specified'}
+
+CHAT HISTORY:
+${historyText || 'None yet'}
+
+USER'S QUESTION: ${userMessage}
+
+Provide helpful, specific advice for engaging this particular person. Consider:
+- Their likely pain points based on their role
+- How the user's product specifically helps someone in their position
+- Objections they might raise and how to handle them
+- Good questions to ask to build rapport and qualify the opportunity
+
+Be conversational and practical. Give concrete examples and scripts when appropriate. Keep response under 150 words.`;
+}
+
+// Handle target person chat
+async function handleTargetChat(request) {
+  const { person, eventData, userProfile, chatHistory, userMessage } = request;
+  const apiKey = userProfile?.geminiApiKey;
+  
+  if (!apiKey) {
+    throw new Error('API key not configured');
+  }
+  
+  const prompt = buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage);
+  const response = await callGeminiAPI(apiKey, prompt);
+  
+  const textContent = response.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!textContent) {
+    throw new Error('No response from AI');
+  }
+  
+  return { reply: textContent.trim() };
+}
+
+function buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage) {
+  const historyText = chatHistory.map(m => 
+    `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`
+  ).join('\n');
+  
+  return `You are a sales coach helping a GTM professional prepare for a one-on-one conversation with a specific target at a conference.
+
+TARGET PERSON:
+- Name: ${person.name || 'Unknown'}
+- Title/Role: ${person.title || person.role || 'Unknown'}
+- Company: ${person.company || 'Unknown'}
+- Event Role: ${person.role || 'Attendee'}
+
+EVENT CONTEXT:
+- Event: ${eventData.eventName || 'Conference'}
+- Event Date: ${eventData.date || 'Unknown'}
+- Location: ${eventData.location || 'Unknown'}
+
+USER'S COMPANY/PRODUCT:
+- Company: ${userProfile.companyName || 'Unknown'}
+- Product: ${userProfile.product || 'Unknown'}
+- Value Proposition: ${userProfile.valueProp || 'Unknown'}
+- User's Role: ${userProfile.yourRole || 'Sales'}
+- Target Personas: ${userProfile.targetPersonas || 'Not specified'}
+- Target Industries: ${userProfile.targetIndustries || 'Not specified'}
+
+CHAT HISTORY:
+${historyText || 'None yet'}
+
+USER'S QUESTION: ${userMessage}
+
+Provide helpful, specific advice for engaging this particular person. Consider:
+- Their likely pain points based on their role
+- How the user's product specifically helps someone in their position
+- Objections they might raise and how to handle them
+- Good questions to ask to build rapport and qualify the opportunity
+
+Be conversational and practical. Give concrete examples and scripts when appropriate. Keep response under 150 words.`;
 }

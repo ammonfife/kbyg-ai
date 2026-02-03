@@ -138,25 +138,39 @@
 
     <!-- Main Analysis Section -->
     <div id="main-section" class="section hidden">
-      <!-- Current Page Info -->
-      <div class="current-page">
-        <span class="label">Current page:</span>
-        <span id="current-url" class="url">Loading...</span>
-      </div>
-
-      <div class="actions">
-        <button id="analyze-btn" class="btn primary large">
-          <span class="icon">🔍</span>
-          Analyze This Event
-        </button>
+      <!-- Navigation Tabs -->
+      <div class="main-nav">
+        <button id="nav-current" class="nav-tab active">📍 Current Page</button>
+        <button id="nav-events" class="nav-tab">📋 My Events <span id="events-count" class="nav-count">0</span></button>
+        <button id="nav-personas" class="nav-tab">🎯 Personas</button>
         <button id="settings-btn" class="btn secondary icon-btn" title="Settings">⚙️</button>
       </div>
 
-      <!-- Loading State -->
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Analyzing event page...</p>
-      </div>
+      <!-- Current Page View -->
+      <div id="current-page-view">
+        <div class="current-page">
+          <span class="label">Current page:</span>
+          <span id="current-url" class="url">Loading...</span>
+        </div>
+
+        <!-- Cached indicator -->
+        <div id="cached-indicator" class="cached-indicator hidden">
+          <span>✅ Previously analyzed</span>
+          <button id="reanalyze-fresh-btn" class="btn-link">Analyze again</button>
+        </div>
+
+        <div class="actions">
+          <button id="analyze-btn" class="btn primary large">
+            <span class="icon">🔍</span>
+            Analyze This Event
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading hidden">
+          <div class="spinner"></div>
+          <p>Analyzing event page...</p>
+        </div>
 
       <!-- Results Section -->
       <div id="results" class="results hidden">
@@ -168,14 +182,11 @@
 
         <!-- Next Best Actions -->
         <div class="card highlight">
-          <h3>⚡ Next Best Actions</h3>
+          <div class="card-header-row">
+            <h3>⚡ Next Best Action</h3>
+            <button id="next-action-btn" class="btn-text">Next →</button>
+          </div>
           <div id="next-actions" class="content"></div>
-        </div>
-
-        <!-- Quick Actions Bar -->
-        <div class="quick-actions">
-          <button id="export-all-btn" class="btn primary">📥 Export All Contacts</button>
-          <button id="view-targets-btn" class="btn secondary">🎯 View Targets Only</button>
         </div>
 
         <!-- Event Overview -->
@@ -197,6 +208,7 @@
           <div class="card-header">
             <h3>👥 People</h3>
             <span id="people-count" class="count"></span>
+            <button id="export-all-btn" class="btn small primary">📥 Export CSV</button>
           </div>
           <div id="people-filter" class="filter-bar hidden">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -217,7 +229,7 @@
 
         <!-- Additional Actions -->
         <div class="result-actions">
-          <button id="copy-btn" class="btn secondary">📋 Copy</button>
+          <button id="copy-btn" class="btn secondary">� Copy</button>
           <button id="csv-btn" class="btn secondary">📥 CSV</button>
           <button id="reanalyze-btn" class="btn secondary">🔄 Refresh</button>
         </div>
@@ -234,6 +246,61 @@
         <div class="empty-icon">🎪</div>
         <h3>Ready to Analyze</h3>
         <p>Navigate to a conference or event website, then click "Analyze This Event" to extract insights.</p>
+      </div>
+      </div><!-- end current-page-view -->
+
+      <!-- Events Index View -->
+      <div id="events-index-view" class="hidden">
+        <div class="events-header">
+          <h2>📋 My Analyzed Events</h2>
+          <div class="events-toolbar">
+            <div class="sort-controls">
+              <label>Sort by:</label>
+              <select id="events-sort">
+                <option value="roi">Est. ROI</option>
+                <option value="targets">Targets</option>
+                <option value="people">People</option>
+                <option value="date">Date Analyzed</option>
+                <option value="eventDate">Event Date</option>
+                <option value="name">Event Name</option>
+              </select>
+            </div>
+            <button id="export-events-csv" class="btn secondary small">📥 Export CSV</button>
+          </div>
+        </div>
+        
+        <!-- Table Header -->
+        <div id="events-table-header" class="events-table-header hidden">
+          <span class="col-name">Event</span>
+          <span class="col-date">Event Date</span>
+          <span class="col-people">People</span>
+          <span class="col-targets">Targets</span>
+          <span class="col-roi">Est. ROI</span>
+          <span class="col-actions">Actions</span>
+        </div>
+        
+        <div id="events-list" class="events-list">
+          <div class="events-empty">
+            <div class="empty-icon">📭</div>
+            <p>No events analyzed yet</p>
+            <p class="hint">Analyze your first event to see it here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personas Index View -->
+      <div id="personas-index-view" class="hidden">
+        <div class="personas-header">
+          <h2>🎯 Personas Across Events</h2>
+          <p class="hint">All persona types found in your analyzed events</p>
+        </div>
+        <div id="personas-master-list" class="personas-master-list">
+          <div class="events-empty">
+            <div class="empty-icon">🎭</div>
+            <p>No personas found yet</p>
+            <p class="hint">Analyze events to see personas here</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -360,6 +427,42 @@
         <div class="chat-input-container">
           <input type="text" id="persona-chat-input" placeholder="e.g., How should I open if they seem busy?" />
           <button id="persona-chat-send" class="btn primary">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target Person Deep Dive Modal -->
+  <div id="target-modal" class="modal hidden">
+    <div class="modal-content persona-modal-content">
+      <div class="modal-header target-modal-header">
+        <div id="target-header-info" class="target-header-info"></div>
+        <button id="target-modal-close" class="btn-close">×</button>
+      </div>
+      <div class="target-scrollable-content">
+        <div class="target-section">
+          <h4>🎯 Why Target</h4>
+          <div id="target-why"></div>
+        </div>
+        
+        <div class="target-section">
+          <h4>⚡ Next Actions</h4>
+          <div id="target-next-actions"></div>
+        </div>
+        
+        <div class="target-section">
+          <h4>💬 What to Say</h4>
+          <div id="target-what-to-say"></div>
+        </div>
+        
+        <div class="target-section target-chat-section">
+          <h4>🤖 Refine Your Approach</h4>
+          <p class="hint">Ask questions to customize your pitch for this specific person</p>
+          <div id="target-chat-messages" class="chat-messages"></div>
+          <div class="chat-input-container">
+            <input type="text" id="target-chat-input" placeholder="e.g., What objections might they have?" />
+            <button id="target-chat-send" class="btn primary">Send</button>
+          </div>
         </div>
       </div>
     </div>
