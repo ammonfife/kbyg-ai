@@ -9,6 +9,7 @@ interface TimelineEvent {
   description: string;
   image?: string;
   imageName?: string;
+  additionalImages?: { image: string; name: string }[];
   isTeamPhoto?: boolean;
   isFuture?: boolean;
   isHighlight?: boolean;
@@ -16,41 +17,41 @@ interface TimelineEvent {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    time: "Sunday, 8:00 AM",
+    time: "Monday, 10:00 AM",
     title: "The Idea Sparks",
     description: "Team assembles. Coffee brewed. Vision crystalized.",
     image: parkerImg,
     imageName: "Parker",
+    additionalImages: [
+      { image: altonImg, name: "Alton" },
+      { image: benImg, name: "Ben" }
+    ]
   },
   {
-    time: "Sunday, 2:00 PM",
+    time: "Monday, 12:00 PM",
     title: "Architecture Takes Shape",
     description: "Database models, API design, and core intelligence engine mapped out.",
-    image: altonImg,
-    imageName: "Alton",
   },
   {
-    time: "Sunday, 8:00 PM",
-    title: "First Working Prototype",
-    description: "Chrome extension capturing live data. The magic begins.",
-    image: benImg,
-    imageName: "Ben",
-  },
-  {
-    time: "Monday, 3:00 AM",
+    time: "Monday, 3:00 PM",
     title: "Deep Work Mode",
     description: "The team locked in. Features shipping. Problems solving themselves.",
     image: teamWorkingImg,
     isTeamPhoto: true,
   },
   {
-    time: "Monday, 12:00 PM",
+    time: "Monday, 6:00 PM",
+    title: "First Working Prototype",
+    description: "Chrome extension capturing live data. The magic begins.",
+  },
+  {
+    time: "Monday, 10:00 PM",
     title: "Final Polish",
     description: "UI refinements, demo prep, last-minute optimizations.",
     isHighlight: true,
   },
   {
-    time: "Monday, 4:00 PM",
+    time: "Tuesday, 4:00 PM",
     title: "Judgement Day",
     description: "Presenting KBYG to the judges...",
     isFuture: true,
@@ -150,6 +151,28 @@ export function TeamTimeline() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg" />
                             <p className="absolute bottom-2 left-2 text-white text-xs font-medium">
                               Team KBYG
+                            </p>
+                          </div>
+                        ) : event.additionalImages ? (
+                          <div className="flex items-center gap-2">
+                            <div className="flex -space-x-3">
+                              <img 
+                                src={event.image} 
+                                alt={event.imageName} 
+                                className="w-12 h-12 object-cover rounded-full border-2 border-background shadow-md z-30"
+                              />
+                              {event.additionalImages.map((img, i) => (
+                                <img 
+                                  key={i}
+                                  src={img.image} 
+                                  alt={img.name} 
+                                  className="w-12 h-12 object-cover rounded-full border-2 border-background shadow-md"
+                                  style={{ zIndex: 20 - i }}
+                                />
+                              ))}
+                            </div>
+                            <p className="text-sm font-medium text-muted-foreground">
+                              {event.imageName}, {event.additionalImages.map(img => img.name).join(", ")}
                             </p>
                           </div>
                         ) : (
