@@ -1,7 +1,7 @@
 import iconGradient from "@/assets/brand/icon-gradient.svg";
 import iconFilled from "@/assets/brand/icon-filled.svg";
 import logoCompact from "@/assets/brand/logo-compact.svg";
-import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
+import logoPng from "@/assets/brand/kbyg-logo.png";
 
 interface BrandIconProps {
   variant?: "gradient" | "filled";
@@ -34,7 +34,7 @@ interface BrandLogoProps {
 }
 
 export function BrandLogo({ variant = "horizontal", className = "" }: BrandLogoProps) {
-  const logo = variant === "compact" ? logoCompact : logoHorizontal;
+  const logo = variant === "compact" ? logoCompact : logoPng;
   
   return (
     <img 
