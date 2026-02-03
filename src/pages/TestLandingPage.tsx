@@ -326,36 +326,6 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Operational Impact Section */}
-      <section className="py-14 px-6 border-y border-border bg-muted/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
-              Operational Impact
-            </Badge>
-            <h2 className="text-3xl font-bold">Real-Time Performance Metrics</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border hover:border-[#3b82f6]/30 transition-colors">
-                <div 
-                  className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent mb-3"
-                  style={{
-                    backgroundImage: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%)',
-                    textShadow: '0 0 40px rgba(59, 130, 246, 0.4), 0 0 80px rgba(6, 182, 212, 0.2)',
-                    filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.3))'
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div className="text-lg font-semibold text-foreground mb-2">{stat.label}</div>
-                <div className="text-sm text-muted-foreground">{stat.description}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Product Fit Timeline Section */}
       <section className="py-8 px-6 bg-muted/30">
         <div className="max-w-4xl mx-auto">
