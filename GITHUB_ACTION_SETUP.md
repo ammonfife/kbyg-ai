@@ -5,7 +5,7 @@
 ### GitHub Action Workflow
 **File:** `.github/workflows/sync-extension.yml`
 
-**Function:** Automatically syncs `chrome-extension/` folder to public `ammonfife/kbyg` repository.
+**Function:** Automatically syncs `chrome-extension/` folder to public `ammonfife/kbyg-ai` repository.
 
 **Triggers:**
 - ✅ Push to `main` branch (when `chrome-extension/**` changes)
@@ -16,7 +16,7 @@
 - **Quick Reference:** `.github/workflows/README.md`
 
 ### Updated Public Repo
-- **Repository:** https://github.com/ammonfife/kbyg
+- **Repository:** https://github.com/ammonfife/kbyg-ai
 - **README:** Updated to document auto-sync
 
 ## 🚀 How to Enable
@@ -56,7 +56,7 @@ Check it worked:
 1. Visit: https://github.com/altonalexander/easy-event-planner/actions
 2. Look for: **"Sync Chrome Extension to Public Repo"** workflow
 3. Should show ✅ green checkmark
-4. Verify changes in: https://github.com/ammonfife/kbyg/tree/main/chrome-extension
+4. Verify changes in: https://github.com/ammonfife/kbyg-ai/tree/main/chrome-extension
 
 ## 🔄 How It Works
 
@@ -71,7 +71,7 @@ GitHub Action detects change
         ↓
 Copies chrome-extension/ folder
         ↓
-Commits to ammonfife/kbyg
+Commits to ammonfife/kbyg-ai
         ↓
 Public repo updated! ✅
 ```
@@ -109,7 +109,7 @@ git add chrome-extension/
 git commit -m "Fix: Update sidepanel UI"
 git push
 
-# Auto-syncs to kbyg repo automatically! ✅
+# Auto-syncs to kbyg-ai repo automatically! ✅
 ```
 
 ### Use Case 2: Manual Sync
@@ -149,7 +149,7 @@ gh run view <run-id>
 ```
 
 **Check public repo:**
-https://github.com/ammonfife/kbyg
+https://github.com/ammonfife/kbyg-ai
 
 ## 🔒 Security
 
@@ -182,7 +182,7 @@ See: `.github/workflows/README.md`
 **After setup:** 
 1. Edit `chrome-extension/mcp-integration.js`
 2. Push to GitHub
-3. **kbyg repo updates automatically in ~30 seconds!**
+3. **kbyg-ai repo updates automatically in ~30 seconds!**
 
 ---
 
@@ -190,4 +190,4 @@ See: `.github/workflows/README.md`
 
 **Repos:**
 - Source: https://github.com/altonalexander/easy-event-planner
-- Public: https://github.com/ammonfife/kbyg
+- Public: https://github.com/ammonfife/kbyg-ai

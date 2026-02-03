@@ -106,7 +106,7 @@ export default function ImportPage() {
               asChild
             >
               <a 
-                href="https://github.com/ammonfife/kbyg/archive/refs/heads/main.zip"
+                href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip"
                 download="gtm-chrome-extension.zip"
               >
                 <Download className="h-4 w-4 mr-2" />

@@ -1,6 +1,6 @@
 # GitHub Action Setup: Extension Auto-Sync
 
-This GitHub Action automatically syncs the `chrome-extension/` folder to the public `ammonfife/kbyg` repository whenever changes are pushed.
+This GitHub Action automatically syncs the `chrome-extension/` folder to the public `ammonfife/kbyg-ai` repository whenever changes are pushed.
 
 ## 🔐 Setup Instructions
 
@@ -53,7 +53,7 @@ This GitHub Action automatically syncs the `chrome-extension/` folder to the pub
    - Should show ✅ green checkmark
 
 3. Verify in target repo:
-   - Visit: https://github.com/ammonfife/kbyg
+   - Visit: https://github.com/ammonfife/kbyg-ai
    - Check that changes appeared in `chrome-extension/`
 
 ## 🚀 How It Works
@@ -63,7 +63,7 @@ This GitHub Action automatically syncs the `chrome-extension/` folder to the pub
 **Process:**
 1. Checks out both repositories
 2. Copies `chrome-extension/` folder
-3. Commits changes to `ammonfife/kbyg`
+3. Commits changes to `ammonfife/kbyg-ai`
 4. Pushes automatically
 
 **Commit Message Format:**
@@ -94,7 +94,7 @@ You can also manually trigger the sync:
 3. Update `KBYG_PAT` secret with new token
 
 ### Action fails with "Repository not found"
-**Cause:** PAT doesn't have access to `ammonfife/kbyg` repo
+**Cause:** PAT doesn't have access to `ammonfife/kbyg-ai` repo
 
 **Fix:**
 1. Ensure `ammonfife` account owns the PAT
