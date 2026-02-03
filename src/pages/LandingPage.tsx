@@ -273,7 +273,7 @@ export default function LandingPage() {
       </section>
 
       {/* Product Fit Section */}
-      <section className="py-16 px-6">
+      <section className="py-8 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center">
             <img 
