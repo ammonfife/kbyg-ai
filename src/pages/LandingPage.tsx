@@ -158,7 +158,7 @@ export default function LandingPage() {
 
             <p className="text-sm text-muted-foreground mt-4 flex items-center justify-center gap-2">
               <CheckCircle className="h-4 w-4 text-success" />
-              Free to use • No account required
+              Free to start
             </p>
           </div>
         </div>
