@@ -1,0 +1,41 @@
+{
+  "global": {
+    "kbyg": {
+      "blue": {
+        "gtm": {
+          "value": "#3b82f6",
+          "type": "color",
+          "description": "Primary brand color - GTM Blue"
+        }
+      },
+      "purple": {
+        "conference": {
+          "value": "#8b5cf6",
+          "type": "color",
+          "description": "Secondary brand color - Conference Purple"
+        }
+      },
+      "cyan": {
+        "revenue": {
+          "value": "#06b6d4",
+          "type": "color",
+          "description": "Accent brand color - Revenue Cyan"
+        }
+      }
+    },
+    "semantic": {
+      "primary": {
+        "value": "{kbyg.blue.gtm}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{kbyg.purple.conference}",
+        "type": "color"
+      },
+      "accent": {
+        "value": "{kbyg.cyan.revenue}",
+        "type": "color"
+      }
+    }
+  }
+}

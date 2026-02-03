@@ -1,0 +1,60 @@
+// KBYG.ai Brand Colors - SCSS Variables
+
+// Primary Brand Colors
+$kbyg-blue-gtm: #3b82f6;
+$kbyg-purple-conference: #8b5cf6;
+$kbyg-cyan-revenue: #06b6d4;
+
+// Semantic Names
+$color-primary: $kbyg-blue-gtm;
+$color-secondary: $kbyg-purple-conference;
+$color-accent: $kbyg-cyan-revenue;
+
+// Neutrals
+$color-dark: #111827;
+$color-gray: #6b7280;
+$color-light-gray: #f3f4f6;
+$color-white: #ffffff;
+
+// Color Map for iteration
+$brand-colors: (
+  'blue-gtm': $kbyg-blue-gtm,
+  'purple-conference': $kbyg-purple-conference,
+  'cyan-revenue': $kbyg-cyan-revenue,
+  'dark': $color-dark,
+  'gray': $color-gray,
+  'light-gray': $color-light-gray,
+  'white': $color-white,
+);
+
+// Mixins
+@mixin gradient-primary {
+  background: linear-gradient(135deg, $kbyg-blue-gtm 0%, $kbyg-purple-conference 100%);
+}
+
+@mixin gradient-full {
+  background: linear-gradient(135deg, $kbyg-blue-gtm 0%, $kbyg-purple-conference 50%, $kbyg-cyan-revenue 100%);
+}
+
+// Alpha function
+@function alpha-color($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+// Usage example
+.btn-primary {
+  background-color: $color-primary;
+  color: $color-white;
+  
+  &:hover {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+.bg-overlay {
+  background-color: alpha-color($kbyg-blue-gtm, 0.1);
+}
+
+.gradient-bg {
+  @include gradient-primary;
+}

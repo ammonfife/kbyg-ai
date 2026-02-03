@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter Font Specimen</title>
+    <link rel="stylesheet" href="fonts.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 40px;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .weight-section {
+            margin-bottom: 60px;
+        }
+
+        .weight-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .weight-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .weight-value {
+            font-size: 14px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .sample-sizes {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .size-sample {
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .size-sample:hover {
+            background: #f0f0f0;
+        }
+
+        .size-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .alphabet {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .alphabet h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #000;
+        }
+
+        .alphabet-line {
+            font-size: 16px;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .paragraph-sample {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .paragraph-sample h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #000;
+        }
+
+        .paragraph-sample p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e5e5;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Inter Font Family</h1>
+            <p class="subtitle">A carefully crafted typeface for user interfaces, featuring 5 weights</p>
+        </header>
+
+        <!-- Light 300 -->
+        <section class="weight-section">
+            <div class="weight-header">
+                <h2 class="weight-name" style="font-weight: 300;">Inter Light</h2>
+                <span class="weight-value">Weight: 300</span>
+            </div>
+            <div class="sample-sizes">
+                <div class="size-sample">
+                    <div class="size-label">72px</div>
+                    <div style="font-size: 72px; font-weight: 300;">The quick brown fox</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">48px</div>
+                    <div style="font-size: 48px; font-weight: 300;">The quick brown fox jumps over</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">24px</div>
+                    <div style="font-size: 24px; font-weight: 300;">The quick brown fox jumps over the lazy dog</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regular 400 -->
+        <section class="weight-section">
+            <div class="weight-header">
+                <h2 class="weight-name" style="font-weight: 400;">Inter Regular</h2>
+                <span class="weight-value">Weight: 400</span>
+            </div>
+            <div class="sample-sizes">
+                <div class="size-sample">
+                    <div class="size-label">72px</div>
+                    <div style="font-size: 72px; font-weight: 400;">The quick brown fox</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">48px</div>
+                    <div style="font-size: 48px; font-weight: 400;">The quick brown fox jumps over</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">24px</div>
+                    <div style="font-size: 24px; font-weight: 400;">The quick brown fox jumps over the lazy dog</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Medium 500 -->
+        <section class="weight-section">
+            <div class="weight-header">
+                <h2 class="weight-name" style="font-weight: 500;">Inter Medium</h2>
+                <span class="weight-value">Weight: 500</span>
+            </div>
+            <div class="sample-sizes">
+                <div class="size-sample">
+                    <div class="size-label">72px</div>
+                    <div style="font-size: 72px; font-weight: 500;">The quick brown fox</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">48px</div>
+                    <div style="font-size: 48px; font-weight: 500;">The quick brown fox jumps over</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">24px</div>
+                    <div style="font-size: 24px; font-weight: 500;">The quick brown fox jumps over the lazy dog</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SemiBold 600 -->
+        <section class="weight-section">
+            <div class="weight-header">
+                <h2 class="weight-name" style="font-weight: 600;">Inter SemiBold</h2>
+                <span class="weight-value">Weight: 600</span>
+            </div>
+            <div class="sample-sizes">
+                <div class="size-sample">
+                    <div class="size-label">72px</div>
+                    <div style="font-size: 72px; font-weight: 600;">The quick brown fox</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">48px</div>
+                    <div style="font-size: 48px; font-weight: 600;">The quick brown fox jumps over</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">24px</div>
+                    <div style="font-size: 24px; font-weight: 600;">The quick brown fox jumps over the lazy dog</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bold 700 -->
+        <section class="weight-section">
+            <div class="weight-header">
+                <h2 class="weight-name" style="font-weight: 700;">Inter Bold</h2>
+                <span class="weight-value">Weight: 700</span>
+            </div>
+            <div class="sample-sizes">
+                <div class="size-sample">
+                    <div class="size-label">72px</div>
+                    <div style="font-size: 72px; font-weight: 700;">The quick brown fox</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">48px</div>
+                    <div style="font-size: 48px; font-weight: 700;">The quick brown fox jumps over</div>
+                </div>
+                <div class="size-sample">
+                    <div class="size-label">24px</div>
+                    <div style="font-size: 24px; font-weight: 700;">The quick brown fox jumps over the lazy dog</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Character Set -->
+        <div class="alphabet">
+            <h3>Character Set</h3>
+            <div class="alphabet-line" style="font-weight: 400;">
+                <strong>Uppercase:</strong> A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+            </div>
+            <div class="alphabet-line" style="font-weight: 400;">
+                <strong>Lowercase:</strong> a b c d e f g h i j k l m n o p q r s t u v w x y z
+            </div>
+            <div class="alphabet-line" style="font-weight: 400;">
+                <strong>Numbers:</strong> 0 1 2 3 4 5 6 7 8 9
+            </div>
+            <div class="alphabet-line" style="font-weight: 400;">
+                <strong>Punctuation:</strong> . , ; : ! ? ' " - – — ( ) [ ] { } / \ @ # $ % & * + = ~ ` ^ < >
+            </div>
+        </div>
+
+        <!-- Paragraph Sample -->
+        <div class="paragraph-sample">
+            <h3>Paragraph Sample (Regular 400, 16px)</h3>
+            <p style="font-weight: 400;">
+                Inter is a typeface carefully crafted & designed for computer screens. It features a tall x-height to aid in readability of mixed-case and lower-case text. Several OpenType features are provided as well, like contextual alternates that adjusts punctuation depending on the shape of surrounding glyphs, slashed zero for when you need to disambiguate "0" from "O", tabular numbers, etc.
+            </p>
+        </div>
+
+        <footer>
+            <p>Inter designed by <a href="https://rsms.me/" target="_blank">Rasmus Andersson</a></p>
+            <p>Licensed under the <a href="https://github.com/rsms/inter/blob/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a></p>
+        </footer>
+    </div>
+</body>
+</html>

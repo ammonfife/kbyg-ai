@@ -1,0 +1,29 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="prodBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f9fafb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#prodBg)"/>
+  
+  <!-- Product box mockup -->
+  <g transform="translate(300, 150)">
+    <!-- Front face -->
+    <rect x="0" y="50" width="200" height="250" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+    <!-- Top face -->
+    <path d="M 0 50 L 40 20 L 240 20 L 200 50 Z" fill="#60a5fa" stroke="#1e40af" stroke-width="2"/>
+    <!-- Side face -->
+    <path d="M 200 50 L 240 20 L 240 270 L 200 300 Z" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+    
+    <!-- Logo on box -->
+    <circle cx="100" cy="150" r="30" fill="white"/>
+    <path d="M 90 150 L 100 160 L 115 140" stroke="#2563eb" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="28" fill="#6b7280" text-anchor="middle">
+    Product Showcase
+  </text>
+</svg>

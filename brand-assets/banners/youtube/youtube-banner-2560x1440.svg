@@ -1,0 +1,46 @@
+<svg width="2560" height="1440" viewBox="0 0 2560 1440" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="banner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="2560" height="1440" fill="url(#banner-gradient)"/>
+  
+  
+  <!-- Background pattern -->
+  <g opacity="0.15">
+    <circle cx="1920.0" cy="432.0" r="216.0" fill="none" stroke="white" stroke-width="2"/>
+    <circle cx="2176.0" cy="864.0" r="144.0" fill="none" stroke="white" stroke-width="2"/>
+    <circle cx="1664.0" cy="1007.9999999999999" r="172.79999999999998" fill="none" stroke="white" stroke-width="2"/>
+    <line x1="1920.0" y1="432.0" x2="2176.0" y2="864.0" stroke="white" stroke-width="1.5"/>
+    <line x1="2176.0" y1="864.0" x2="1664.0" y2="1007.9999999999999" stroke="white" stroke-width="1.5"/>
+  </g>
+
+  
+  <!-- Logo -->
+  <g transform="translate(40, 690) scale(1)">
+    <circle cx="20" cy="20" r="18" fill="none" stroke="white" stroke-width="2.5"/>
+    <circle cx="12" cy="15" r="2.5" fill="white"/>
+    <circle cx="28" cy="15" r="2.5" fill="white"/>
+    <circle cx="20" cy="25" r="2.5" fill="white"/>
+    <circle cx="12" cy="25" r="2" fill="white" opacity="0.7"/>
+    <circle cx="28" cy="25" r="2" fill="white" opacity="0.7"/>
+    <line x1="12" y1="15" x2="20" y2="25" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="28" y1="15" x2="20" y2="25" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="12" y1="25" x2="20" y2="25" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="28" y1="25" x2="20" y2="25" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <text x="45" y="30" font-family="'Inter', sans-serif" font-size="24" font-weight="800" fill="white">kbyg</text>
+    <text x="95" y="30" font-family="'Inter', sans-serif" font-size="24" font-weight="300" fill="white">.ai</text>
+  </g>
+  
+  <!-- Tagline -->
+  <text x="170" y="725" font-family="'Inter', sans-serif" font-size="14" font-weight="600" fill="white" opacity="0.9">Intelligence Extraction for Revenue Teams</text>
+
+  
+  <!-- Platform indicator (remove in production) -->
+  <text x="2550" y="1430" text-anchor="end" font-family="'Inter', sans-serif" font-size="10" fill="white" opacity="0.4">YOUTUBE 2560x1440</text>
+</svg>

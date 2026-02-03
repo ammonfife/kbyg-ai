@@ -1,0 +1,177 @@
+/* Brand Card Styles */
+
+.card {
+  background-color: var(--brand-bg-primary);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Card Header */
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--brand-gray-200);
+}
+
+.card-title {
+  font-family: var(--brand-font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  color: var(--brand-text-primary);
+}
+
+.card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--brand-text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Card Body */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Card Footer */
+.card-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--brand-gray-200);
+  background-color: var(--brand-bg-secondary);
+}
+
+/* Card Image */
+.card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card-image-top {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+/* Card Variants */
+.card-gradient {
+  background: var(--brand-gradient-subtle);
+  color: white;
+}
+
+.card-gradient .card-title,
+.card-gradient .card-subtitle {
+  color: white;
+}
+
+.card-outlined {
+  border: 2px solid var(--brand-gray-200);
+  box-shadow: none;
+}
+
+.card-elevated {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-elevated:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Pricing Card */
+.card-pricing {
+  text-align: center;
+  position: relative;
+}
+
+.card-pricing-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--brand-accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-pricing-price {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--brand-primary);
+  margin: 1rem 0;
+}
+
+.card-pricing-period {
+  font-size: var(--font-size-base);
+  color: var(--brand-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+.card-pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+}
+
+.card-pricing-features li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--brand-gray-200);
+}
+
+.card-pricing-features li:last-child {
+  border-bottom: none;
+}
+
+/* Feature Card */
+.card-feature {
+  padding: 2rem;
+  text-align: center;
+}
+
+.card-feature-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  background: var(--brand-gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+}
+
+/* Product Card */
+.card-product {
+  position: relative;
+}
+
+.card-product-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--brand-error);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  z-index: 1;
+}
+
+.card-product-price {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--brand-primary);
+}
+
+.card-product-price-old {
+  font-size: var(--font-size-base);
+  color: var(--brand-text-secondary);
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}

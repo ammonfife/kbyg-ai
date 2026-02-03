@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBYG.ai Command Center - Intelligence Extraction for Revenue Teams</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+    
+    <!-- Custom kbyg.ai Brand Styles -->
+    <style>
+        :root {
+            --ai-blue: #3b82f6;
+            --neural-purple: #8b5cf6;
+            --cyber-cyan: #06b6d4;
+            --dark-bg: #0f172a;
+            --light-text: #f8fafc;
+        }
+
+        .reveal {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 {
+            background: linear-gradient(135deg, var(--ai-blue), var(--neural-purple), var(--cyber-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            color: var(--ai-blue);
+            font-size: 2.5em;
+        }
+
+        .reveal h3 {
+            color: var(--cyber-cyan);
+            font-size: 1.8em;
+        }
+
+        .reveal p, .reveal li {
+            color: var(--light-text);
+            line-height: 1.6;
+        }
+
+        /* Title Slide Styles */
+        .title-slide {
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-slide .logo {
+            font-size: 4em;
+            font-weight: 900;
+            margin-bottom: 0.3em;
+        }
+
+        .title-slide .tagline {
+            font-size: 1.5em;
+            color: var(--cyber-cyan);
+            opacity: 0.9;
+            margin-bottom: 2em;
+        }
+
+        .title-slide .presenter {
+            font-size: 1.2em;
+            color: var(--light-text);
+            opacity: 0.7;
+            margin-top: 2em;
+        }
+
+        /* Section Divider Styles */
+        .section-divider {
+            background: linear-gradient(135deg, var(--ai-blue) 0%, var(--neural-purple) 50%, var(--cyber-cyan) 100%);
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-divider h2 {
+            color: white;
+            font-size: 4em;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .section-divider .section-number {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 0.5em;
+            font-weight: 400;
+        }
+
+        /* Content Slide Styles */
+        .content-slide {
+            padding: 2em;
+        }
+
+        .content-slide ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-slide li {
+            padding: 0.5em 0;
+            padding-left: 2em;
+            position: relative;
+            font-size: 1.2em;
+        }
+
+        .content-slide li:before {
+            content: "▸";
+            color: var(--ai-blue);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .content-slide .highlight {
+            color: var(--cyber-cyan);
+            font-weight: 600;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3em;
+            align-items: center;
+        }
+
+        .two-column img {
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Image Slide Styles */
+        .image-slide {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .image-slide img {
+            max-width: 80%;
+            max-height: 70vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            margin-bottom: 1em;
+        }
+
+        .image-slide .caption {
+            font-size: 1.3em;
+            color: var(--cyber-cyan);
+            margin-top: 1em;
+        }
+
+        /* Stats/Numbers Slide */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid var(--ai-blue);
+            border-radius: 12px;
+            padding: 2em;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 3em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--ai-blue), var(--cyber-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-box .label {
+            font-size: 1.2em;
+            color: var(--light-text);
+            margin-top: 0.5em;
+        }
+
+        /* Closing Slide Styles */
+        .closing-slide {
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--ai-blue) 100%);
+        }
+
+        .closing-slide h2 {
+            color: white;
+            font-size: 3.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .closing-slide .contact {
+            font-size: 1.5em;
+            color: var(--cyber-cyan);
+            margin-top: 1em;
+        }
+
+        .closing-slide .cta-button {
+            display: inline-block;
+            margin-top: 2em;
+            padding: 1em 3em;
+            background: white;
+            color: var(--ai-blue);
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .closing-slide .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fragment Animations */
+        .reveal .fragment.highlight-current-blue.visible {
+            color: var(--ai-blue);
+        }
+
+        /* Background Image Utilities */
+        .bg-gradient-blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+        }
+
+        .bg-gradient-purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- TITLE SLIDE -->
+            <section class="title-slide">
+                <h1 class="logo">KBYG.ai Command Center</h1>
+                <p class="tagline">Know Before You Go</p>
+                <h3>Intelligence Extraction for Revenue Teams</h3>
+                <p class="presenter">Your Name | Conference Name | Date</p>
+            </section>
+
+            <!-- SECTION DIVIDER 1 -->
+            <section class="section-divider">
+                <div>
+                    <p class="section-number">01</p>
+                    <h2>The Problem</h2>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - The Problem -->
+            <section class="content-slide">
+                <h2>Your Next Trade Show Shouldn't Be a Gamble</h2>
+                <ul>
+                    <li class="fragment"><span class="highlight">Zero pre-event intelligence</span> = blind prospecting</li>
+                    <li class="fragment">Meet 50 people, <span class="highlight">lose 48 of them</span></li>
+                    <li class="fragment">Generic follow-ups = <span class="highlight">wasted travel budget</span></li>
+                </ul>
+            </section>
+
+            <!-- TWO-COLUMN SLIDE - The Solution -->
+            <section class="content-slide">
+                <h2>Extract Every High-Value Prospect</h2>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">Deep-tier intelligence extraction</span> - every attendee, every signal</li>
+                            <li class="fragment"><span class="highlight">Pre-qualified target mapping</span> - ranked by revenue potential</li>
+                            <li class="fragment"><span class="highlight">Weaponized conversation openers</span> - personalized to each prospect</li>
+                            <li class="fragment"><span class="highlight">Revenue-ready outreach</span> - permanent sales asset</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="../images/ai-generated/landing-page/features/feature-event-dashboard.png" alt="Intelligence Extraction Dashboard">
+                    </div>
+                </div>
+            </section>
+
+            <!-- IMAGE SLIDE - Hero Image -->
+            <section class="image-slide bg-gradient-blue">
+                <img src="../images/ai-generated/landing-page/heroes/hero-conference-networking.png" alt="Intelligence Extraction Network">
+                <p class="caption">From Event Page to Pipeline in Minutes</p>
+            </section>
+
+            <!-- SECTION DIVIDER 2 -->
+            <section class="section-divider">
+                <div>
+                    <p class="section-number">02</p>
+                    <h2>Features</h2>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - Platform Features -->
+            <section class="content-slide">
+                <h2>Revenue Extraction Arsenal</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="../images/ai-generated/landing-page/features/feature-attendee-intel.png" alt="Intelligence Extraction Features">
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">Deep-Tier Intelligence Extraction</span> - Every prospect, ranked</li>
+                            <li class="fragment"><span class="highlight">Pre-Qualified Target Mapping</span> - Revenue potential scored</li>
+                            <li class="fragment"><span class="highlight">Weaponized Conversation Openers</span> - Personalized attack vectors</li>
+                            <li class="fragment"><span class="highlight">Revenue-Ready Outreach</span> - Automated deployment</li>
+                            <li class="fragment"><span class="highlight">Permanent Sales Asset</span> - 100% data persistence</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - Deep-Tier Intelligence Extraction -->
+            <section class="content-slide">
+                <h2>Deep-Tier Intelligence Extraction</h2>
+                <ul>
+                    <li class="fragment">🎯 <span class="highlight">< 15s URL to Intelligence</span> - instant prospect extraction</li>
+                    <li class="fragment">🔍 <span class="highlight">Every attendee, speaker, sponsor</span> - nothing escapes</li>
+                    <li class="fragment">💼 <span class="highlight">Revenue signal detection</span> - funding, tech stack, buying signals</li>
+                    <li class="fragment">📊 <span class="highlight">Pre-qualified ranking</span> - sorted by close probability</li>
+                    <li class="fragment">⚡ <span class="highlight">100% Data Persistence</span> - permanent sales asset</li>
+                </ul>
+            </section>
+
+            <!-- CONTENT SLIDE - Weaponized Conversation Openers -->
+            <section class="content-slide">
+                <h2>Weaponized Conversation Openers</h2>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">Personalized attack vectors</span> - engineered for each prospect</li>
+                            <li class="fragment"><span class="highlight">Pre-qualified openers</span> - based on buying signals</li>
+                            <li class="fragment"><span class="highlight">0 Manual Research</span> - fully automated intelligence</li>
+                            <li class="fragment"><span class="highlight">Revenue trigger mapping</span> - pain points identified</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">Target account strategy</span> - approach plans built</li>
+                            <li class="fragment"><span class="highlight">Engagement sequences</span> - pre to post-event</li>
+                            <li class="fragment"><span class="highlight">Competitive intelligence</span> - leveraged automatically</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - Revenue-Ready Outreach -->
+            <section class="content-slide">
+                <h2>Revenue-Ready Outreach</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="../images/ai-generated/landing-page/features/feature-meeting-scheduler.png" alt="Automated Outreach">
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">Weaponized email sequences</span> - personalized per prospect</li>
+                            <li class="fragment"><span class="highlight">Conversation intelligence</span> - context auto-captured</li>
+                            <li class="fragment"><span class="highlight">Optimal deployment timing</span> - strike when hot</li>
+                            <li class="fragment"><span class="highlight">Multi-touch sequences</span> - fully automated</li>
+                            <li class="fragment"><span class="highlight">Revenue attribution</span> - track to close</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATS SLIDE -->
+            <section class="content-slide">
+                <h2>From Event Page to Pipeline in Minutes</h2>
+                <div class="stats-grid">
+                    <div class="stat-box fragment">
+                        <div class="number">&lt; 15s</div>
+                        <div class="label">URL to Intelligence</div>
+                    </div>
+                    <div class="stat-box fragment">
+                        <div class="number">100%</div>
+                        <div class="label">Data Persistence</div>
+                    </div>
+                    <div class="stat-box fragment">
+                        <div class="number">0</div>
+                        <div class="label">Manual Research</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- IMAGE SLIDE - Digital Transformation -->
+            <section class="image-slide bg-gradient-purple">
+                <img src="../images/ai-generated/landing-page/heroes/hero-trade-show-floor.png" alt="Trade Show Floor">
+                <p class="caption">Extract Every High-Value Prospect</p>
+            </section>
+
+            <!-- SECTION DIVIDER 3 -->
+            <section class="section-divider">
+                <div>
+                    <p class="section-number">03</p>
+                    <h2>Use Cases</h2>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - Use Cases -->
+            <section class="content-slide">
+                <h2>Intelligence Extraction Workflow</h2>
+                <ul>
+                    <li class="fragment">📅 <span class="highlight">Pre-event:</span> Extract & rank every high-value prospect</li>
+                    <li class="fragment">💬 <span class="highlight">At event:</span> Deploy weaponized openers, capture intel</li>
+                    <li class="fragment">📧 <span class="highlight">Post-event:</span> Automated revenue-ready outreach sequences</li>
+                </ul>
+            </section>
+
+            <!-- CONTENT SLIDE - Pre-Conference -->
+            <section class="content-slide">
+                <h2>Pre-Event: Intelligence Extraction</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="../images/ai-generated/landing-page/use-cases/usecase-conference-prep.png" alt="Intelligence Extraction">
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">< 15s URL to Intelligence</span> - instant extraction</li>
+                            <li class="fragment"><span class="highlight">Deep-tier enrichment</span> - revenue signals, tech stack, funding</li>
+                            <li class="fragment"><span class="highlight">Pre-qualified ranking</span> - sorted by close probability</li>
+                            <li class="fragment"><span class="highlight">Weaponized openers</span> - engineered per prospect</li>
+                            <li class="fragment"><span class="highlight">Attack strategy</span> - built for each target</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTENT SLIDE - At Event -->
+            <section class="content-slide">
+                <h2>At Event: Target Engagement</h2>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li class="fragment">📱 <span class="highlight">Mobile command center</span> - full intel on every prospect</li>
+                            <li class="fragment">💬 <span class="highlight">Weaponized openers</span> - deploy on contact</li>
+                            <li class="fragment">🎯 <span class="highlight">Real-time intelligence capture</span> - conversations logged</li>
+                            <li class="fragment">📝 <span class="highlight">Revenue priority tagging</span> - sort by close probability</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="../images/ai-generated/landing-page/use-cases/usecase-sales-team.png" alt="Revenue Team Deployment">
+                    </div>
+                </div>
+            </section>
+
+            <!-- IMAGE SLIDE - Team Collaboration -->
+            <section class="image-slide">
+                <img src="../images/ai-generated/landing-page/use-cases/usecase-networking-success.png" alt="Revenue Team Coordination">
+                <p class="caption">Coordinate Revenue Extraction Across Your Team</p>
+            </section>
+
+            <!-- IMAGE SLIDE - Data Visualization -->
+            <section class="image-slide bg-gradient-blue">
+                <img src="../images/ai-generated/landing-page/data-viz/dataviz-attendee-network.png" alt="Target Network Mapping">
+                <p class="caption">Pre-Qualified Target Mapping</p>
+            </section>
+
+            <!-- CONTENT SLIDE - Post-Event -->
+            <section class="content-slide">
+                <h2>Post-Event: Revenue Extraction</h2>
+                <ul>
+                    <li class="fragment">📧 <span class="highlight">Weaponized outreach sequences</span> - personalized per conversation</li>
+                    <li class="fragment">🎯 <span class="highlight">Intelligence-driven messaging</span> - leverages captured intel</li>
+                    <li class="fragment">⚡ <span class="highlight">Optimal deployment timing</span> - strike when hot</li>
+                    <li class="fragment">📊 <span class="highlight">Revenue attribution tracking</span> - from contact to close</li>
+                    <li class="fragment">🔄 <span class="highlight">CRM integration</span> - permanent sales asset built</li>
+                </ul>
+            </section>
+
+            <!-- IMAGE SLIDE - Revenue Pipeline -->
+            <section class="image-slide bg-gradient-purple">
+                <img src="../images/ai-generated/landing-page/data-viz/dataviz-revenue-pipeline.png" alt="Revenue Extraction Pipeline">
+                <p class="caption">Track Every Dollar Back to Extraction</p>
+            </section>
+
+            <!-- CONTENT SLIDE - Why Choose kbyg.ai -->
+            <section class="content-slide">
+                <h2>Why KBYG.ai Command Center?</h2>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">< 15s Extraction:</span> URL to intelligence instantly</li>
+                            <li class="fragment"><span class="highlight">Deep-Tier Intel:</span> Every prospect, ranked & qualified</li>
+                            <li class="fragment"><span class="highlight">Mobile Command Center:</span> Full arsenal on the floor</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><span class="highlight">100% Automated:</span> 0 manual research required</li>
+                            <li class="fragment"><span class="highlight">Weaponized Outreach:</span> Personalized attack vectors</li>
+                            <li class="fragment"><span class="highlight">Permanent Asset:</span> 100% data persistence, forever</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- IMAGE SLIDE - CTA Background -->
+            <section class="image-slide">
+                <img src="../images/ai-generated/landing-page/cta/cta-conference-floor.png" alt="Ready to Extract Revenue">
+                <p class="caption">Ready to Extract Every High-Value Prospect?</p>
+            </section>
+
+            <!-- CLOSING SLIDE -->
+            <section class="closing-slide">
+                <h2>Know Before You Go</h2>
+                <p class="contact">hello@kbyg.ai | www.kbyg.ai</p>
+                <a href="https://kbyg.ai/demo" class="cta-button">Start Extracting Intelligence</a>
+            </section>
+
+            <!-- BLANK TEMPLATE SLIDES (for easy customization) -->
+            
+            <!-- Blank Content Slide -->
+            <section class="content-slide">
+                <h2>Your Slide Title</h2>
+                <ul>
+                    <li>Point 1</li>
+                    <li>Point 2</li>
+                    <li>Point 3</li>
+                </ul>
+            </section>
+
+            <!-- Blank Two-Column Slide -->
+            <section class="content-slide">
+                <h2>Your Slide Title</h2>
+                <div class="two-column">
+                    <div>
+                        <p>Left column content...</p>
+                    </div>
+                    <div>
+                        <p>Right column content...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blank Image Slide -->
+            <section class="image-slide">
+                <img src="path-to-your-image.png" alt="Your Image">
+                <p class="caption">Your caption here</p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            // Display controls in the bottom right corner
+            controls: true,
+
+            // Display a presentation progress bar
+            progress: true,
+
+            // Display the page number of the current slide
+            slideNumber: true,
+
+            // Push each slide change to the browser history
+            history: true,
+
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+
+            // Enable the slide overview mode
+            overview: true,
+
+            // Vertical centering of slides
+            center: true,
+
+            // Enables touch navigation on devices with touch input
+            touch: true,
+
+            // Loop the presentation
+            loop: false,
+
+            // Change the presentation direction to be RTL
+            rtl: false,
+
+            // Turns fragments on and off globally
+            fragments: true,
+
+            // Flags if the presentation is running in an embedded mode
+            embedded: false,
+
+            // Number of milliseconds between automatically proceeding to the next slide
+            autoSlide: 0,
+
+            // Stop auto-sliding after user input
+            autoSlideStoppable: true,
+
+            // Enable slide navigation via mouse wheel
+            mouseWheel: false,
+
+            // Hide cursor if inactive
+            hideInactiveCursor: true,
+
+            // Time before cursor is hidden (ms)
+            hideCursorTime: 5000,
+
+            // Hides the address bar on mobile devices
+            hideAddressBar: true,
+
+            // Opens links in an iframe preview overlay
+            previewLinks: false,
+
+            // Transition style
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+
+            // Number of slides away from the current that are visible
+            viewDistance: 3,
+
+            // Parallax background image
+            parallaxBackgroundImage: '',
+
+            // Parallax background size
+            parallaxBackgroundSize: '',
+
+            // Amount to move parallax background (horizontal and vertical) on slide change
+            parallaxBackgroundHorizontal: null,
+            parallaxBackgroundVertical: null
+        });
+    </script>
+</body>
+</html>
