@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { 
   Chrome, 
   Download, 
@@ -8,7 +8,6 @@ import {
   Building2, 
   Sparkles, 
   ArrowRight,
-  CheckCircle,
   Users,
   TrendingUp,
   Star
@@ -152,10 +151,40 @@ export default function LandingPage() {
               </Button>
             </div>
 
-            <p className="text-sm text-muted-foreground mt-4 flex items-center justify-center gap-2">
-              <CheckCircle className="h-4 w-4 text-success" />
-              Free to start
-            </p>
+            {/* Installation Instructions */}
+            <div className="mt-16 max-w-2xl mx-auto">
+              <h4 className="text-xl font-semibold text-center mb-6">How to Install</h4>
+              <div className="grid gap-4 text-left">
+                <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
+                  <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">1</span>
+                  <div>
+                    <p className="font-medium">Extract the Folder</p>
+                    <p className="text-sm text-muted-foreground">Right-click the downloaded .zip file and select Extract All.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
+                  <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">2</span>
+                  <div>
+                    <p className="font-medium">Go to Extensions</p>
+                    <p className="text-sm text-muted-foreground">Open Chrome and type <code className="bg-muted px-1.5 py-0.5 rounded text-xs">chrome://extensions</code> in the address bar.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
+                  <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">3</span>
+                  <div>
+                    <p className="font-medium">Turn on Developer Mode</p>
+                    <p className="text-sm text-muted-foreground">Flip the switch in the top-right corner.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
+                  <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">4</span>
+                  <div>
+                    <p className="font-medium">Upload</p>
+                    <p className="text-sm text-muted-foreground">Click Load unpacked (top-left) and select the folder you just unzipped.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
