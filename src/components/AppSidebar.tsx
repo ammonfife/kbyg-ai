@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const navItems = [
-  { to: "/", icon: LayoutDashboard, label: "Dashboard" },
+  { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/companies", icon: Building2, label: "Companies" },
   { to: "/strategy", icon: Target, label: "Strategy Generator" },
   { to: "/email", icon: Mail, label: "Email Composer" },
