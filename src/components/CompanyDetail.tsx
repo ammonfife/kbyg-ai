@@ -113,37 +113,37 @@ export function CompanyDetail({
                     {company.enriched_data ? "Enriched" : "Pending"}
                   </Badge>
                 </div>
-                {company.enriched_data ? (
-                  <div className="grid gap-2 text-sm">
-                    {company.enriched_data.industry && (
-                      <p><span className="font-medium">Industry:</span> {company.enriched_data.industry}</p>
-                    )}
-                    {company.enriched_data.description && (
-                      <p><span className="font-medium">Description:</span> {company.enriched_data.description}</p>
-                    )}
-                    {company.enriched_data.website && (
-                      <p className="flex items-center gap-1">
-                        <span className="font-medium">Website:</span>
-                        <a 
-                          href={company.enriched_data.website} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline flex items-center gap-1"
-                        >
-                          {company.enriched_data.website}
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </p>
-                    )}
-                    {company.enriched_data.location && (
-                      <p><span className="font-medium">Location:</span> {company.enriched_data.location}</p>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    No enriched data available. Click "Enrich" to gather company information.
-                  </p>
-                )}
+                <div className="grid gap-2 text-sm">
+                  {(company.enriched_data?.industry || company.industry) && (
+                    <p><span className="font-medium">Industry:</span> {company.enriched_data?.industry || company.industry}</p>
+                  )}
+                  {(company.enriched_data?.description || company.description) && (
+                    <p><span className="font-medium">Description:</span> {company.enriched_data?.description || company.description}</p>
+                  )}
+                  {company.enriched_data?.website && (
+                    <p className="flex items-center gap-1">
+                      <span className="font-medium">Website:</span>
+                      <a 
+                        href={company.enriched_data.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline flex items-center gap-1"
+                      >
+                        {company.enriched_data.website}
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </p>
+                  )}
+                  {company.enriched_data?.location && (
+                    <p><span className="font-medium">Location:</span> {company.enriched_data.location}</p>
+                  )}
+                  {company.context && (
+                    <p className="text-muted-foreground italic">{company.context}</p>
+                  )}
+                  {company.created_at && (
+                    <p><span className="font-medium">Added:</span> {new Date(company.created_at).toLocaleDateString()}</p>
+                  )}
+                </div>
               </div>
 
               <Separator />
@@ -170,9 +170,9 @@ export function CompanyDetail({
                             <p className="text-sm text-primary">{employee.email}</p>
                           )}
                         </div>
-                        {employee.linkedin_url && (
+                        {(employee.linkedin_url || employee.linkedin) && (
                           <a 
-                            href={employee.linkedin_url} 
+                            href={employee.linkedin_url || employee.linkedin} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-primary hover:underline text-sm flex items-center gap-1"

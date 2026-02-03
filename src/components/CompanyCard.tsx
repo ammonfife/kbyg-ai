@@ -91,8 +91,8 @@ export function CompanyCard({
             {isEnriched ? "Intel Extracted" : "Pending"}
           </Badge>
         </div>
-        {company.enriched_data?.industry && (
-          <p className="text-sm text-muted-foreground">{company.enriched_data.industry}</p>
+        {(company.enriched_data?.industry || company.industry) && (
+          <p className="text-sm text-muted-foreground">{company.enriched_data?.industry || company.industry}</p>
         )}
       </CardHeader>
       
@@ -102,10 +102,10 @@ export function CompanyCard({
             <Users className="h-4 w-4" />
             <span>{employeeCount} contacts</span>
           </div>
-          {company.last_enriched && (
+          {(company.last_enriched || company.enriched_at || company.updated_at) && (
             <div className="flex items-center gap-1">
               <Sparkles className="h-4 w-4" />
-              <span>Extracted {formatDistanceToNow(new Date(company.last_enriched))} ago</span>
+              <span>Updated {formatDistanceToNow(new Date(company.last_enriched || company.enriched_at || company.updated_at!))} ago</span>
             </div>
           )}
         </div>
