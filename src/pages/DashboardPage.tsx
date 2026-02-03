@@ -3,11 +3,10 @@ import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wi
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { listCompanies, testMCPConnection, type Company } from "@/lib/mcp";
 
-export default function HomePage() {
+export default function DashboardPage() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [mcpConnected, setMcpConnected] = useState<boolean | null>(null);
