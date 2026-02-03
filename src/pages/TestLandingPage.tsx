@@ -13,8 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 // Import brand assets
-import logoHorizontal from "@/brand-assets/logos/primary/logo-horizontal.svg";
-import logoCompact from "@/brand-assets/logos/primary/logo-compact.svg";
+import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
+import logoCompact from "@/assets/brand/logo-compact.svg";
 
 export default function TestLandingPage() {
   const navigate = useNavigate();
