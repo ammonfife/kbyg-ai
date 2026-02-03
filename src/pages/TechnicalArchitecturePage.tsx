@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Layers, GitBranch, Shield, Table, Code2, Blocks, Server } from "lucide-react";
-import kbygLogo from "@/assets/brand/kbyg-logo.png";
+import kbygLogo from "@/assets/kbyg-logo.png";
 
 import { ArchitectureDiagram } from "@/components/technical/ArchitectureDiagram";
 import { DataFlowTabs } from "@/components/technical/DataFlowTabs";
