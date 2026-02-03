@@ -22,6 +22,7 @@ import howItWorksBg from "@/assets/brand/how-it-works-bg.png";
 
 // Import components
 import ProductShowcase from "@/components/landing/ProductShowcase";
+import { TeamTimeline } from "@/components/landing/TeamTimeline";
 
 export default function TestLandingPage() {
   const navigate = useNavigate();
@@ -362,6 +363,9 @@ export default function TestLandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Team Timeline Section */}
+      <TeamTimeline />
 
       {/* Footer */}
       <footer className="py-10 px-6 border-t border-border">
