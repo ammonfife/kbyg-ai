@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Building2, Users, Sparkles, Target, TrendingUp, ArrowRight, Loader2, Wifi, WifiOff, RefreshCw, DollarSign, Crosshair, User } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -98,6 +98,19 @@ export default function DashboardPage() {
   ];
 
   const recentCompanies = companies.slice(0, 5);
+
+  // Flatten all contacts from all companies
+  const allContacts = useMemo(() => {
+    return companies.flatMap(company => 
+      (company.employees || []).map(employee => ({
+        ...employee,
+        companyName: company.name,
+        companyIndustry: company.enriched_data?.industry
+      }))
+    );
+  }, [companies]);
+
+  const recentContacts = allContacts.slice(0, 5);
 
   return (
     <div className="p-6 space-y-6">
@@ -272,6 +285,67 @@ export default function DashboardPage() {
           ) : (
             <p className="text-center text-muted-foreground py-8">
               No targets yet. Extract intelligence to get started!
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Recent Contacts */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Recent Contacts</CardTitle>
+            <CardDescription>Individuals across your targets</CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : recentContacts.length > 0 ? (
+            <div className="space-y-3">
+              {recentContacts.map((contact, idx) => (
+                <div 
+                  key={idx} 
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center">
+                      <User className="h-5 w-5 text-accent" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{contact.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {contact.title || "No title"}
+                        {contact.companyName && ` @ ${contact.companyName}`}
+                      </p>
+                    </div>
+                  </div>
+                  {contact.linkedin_url || contact.linkedin ? (
+                    <a 
+                      href={contact.linkedin_url || contact.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      LinkedIn
+                    </a>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-8">
+              No contacts yet. Add employees to your targets!
             </p>
           )}
         </CardContent>
