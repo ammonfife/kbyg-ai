@@ -236,7 +236,7 @@ export default function TestLandingPage() {
                   <img 
                     src={devModeToggle} 
                     alt="Developer mode toggle switch" 
-                    className="hidden lg:block h-12 w-auto flex-shrink-0"
+                    className="hidden lg:block flex-shrink-0"
                   />
                 )}
               </div>
