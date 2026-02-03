@@ -20,6 +20,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Command Center" },
   { to: "/companies", icon: Building2, label: "Target Database" },
+  { to: "/people", icon: User, label: "People" },
   { to: "/events", icon: Calendar, label: "Conference Events" },
   { to: "/strategy", icon: Target, label: "Execution Playbooks" },
   { to: "/email", icon: Mail, label: "Outreach Composer" },
