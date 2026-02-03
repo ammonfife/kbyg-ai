@@ -206,10 +206,16 @@ export default function PeoplePage() {
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           {person.title && <span>{person.title}</span>}
                           {person.title && person.companyName && <span>•</span>}
-                          <span className="flex items-center gap-1">
+                          <button 
+                            className="flex items-center gap-1 hover:text-primary hover:underline transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/companies?search=${encodeURIComponent(person.companyName)}`);
+                            }}
+                          >
                             <Building2 className="h-3 w-3" />
                             {person.companyName}
-                          </span>
+                          </button>
                         </div>
                         {person.companyIndustry && (
                           <Badge variant="outline" className="mt-1 text-xs">
