@@ -326,24 +326,6 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Product Fit Timeline Section */}
-      <section className="py-8 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6">
-            <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
-              Full Event Coverage
-            </Badge>
-            <h2 className="text-3xl font-bold">From Planning to Follow-up</h2>
-          </div>
-          <div className="flex justify-center">
-            <img 
-              src={productFitImg} 
-              alt="KBYG.ai covers the entire event timeline - Planning, Event, and Followup" 
-              className="w-full max-w-2xl h-auto"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section - Full brand gradient with logo */}
       <section className="py-16 px-6">
