@@ -80,7 +80,10 @@ export function CompanyCard({
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow hover:border-primary/50">
+    <Card 
+      className="hover:shadow-lg transition-shadow hover:border-primary/50 cursor-pointer"
+      onClick={onViewDetails}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
@@ -114,7 +117,7 @@ export function CompanyCard({
         )}
       </CardContent>
       
-      <CardFooter className="flex flex-wrap gap-2 pt-2">
+      <CardFooter className="flex flex-wrap gap-2 pt-2" onClick={(e) => e.stopPropagation()}>
         <Button variant="outline" size="sm" onClick={onViewDetails}>
           View Intel
         </Button>
