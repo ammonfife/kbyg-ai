@@ -173,9 +173,9 @@ export function CompanyDetail({
                           </div>
                           <div>
                             <p className="font-medium group-hover:text-primary transition-colors">{employee.name}</p>
-                            {employee.title && (
-                              <p className="text-sm text-muted-foreground">{employee.title}</p>
-                            )}
+                            <p className="text-sm text-muted-foreground">
+                              {employee.title || 'Contact'} {employee.company ? `@ ${employee.company}` : ''}
+                            </p>
                             {employee.email && (
                               <p className="text-sm text-primary">{employee.email}</p>
                             )}

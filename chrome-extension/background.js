@@ -1,6 +1,19 @@
 // Background service worker for API calls
 
+// Import Supabase client first (required by config.js)
+importScripts('supabase-client.js', 'config.js', 'backend-api.js');
+
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
+// Backend API initialization
+let backendAPIInitialized = false;
+
+async function ensureBackendAPIInitialized() {
+  if (!backendAPIInitialized) {
+    await backendAPI.initialize();
+    backendAPIInitialized = true;
+  }
+}
 
 // Open side panel when extension icon is clicked
 chrome.action.onClicked.addListener((tab) => {
@@ -53,6 +66,39 @@ async function handleAnalyzeEvent(request) {
 
   // Parse the response
   const data = parseGeminiResponse(response);
+
+  // ✨ NEW: SAVE TO BACKEND
+  try {
+    await ensureBackendAPIInitialized();
+    
+    const eventData = {
+      url: url,
+      eventName: data.eventName,
+      date: data.date,
+      startDate: data.startDate || data.date,
+      endDate: data.endDate || data.date,
+      location: data.location,
+      description: data.description,
+      estimatedAttendees: data.estimatedAttendees || 0,
+      people: data.people || [],
+      sponsors: data.sponsors || [],
+      expectedPersonas: data.expectedPersonas || [],
+      nextBestActions: data.nextBestActions || [],
+      relatedEvents: data.relatedEvents || [],
+      analyzedAt: new Date().toISOString(),
+    };
+
+    const saveResult = await backendAPI.saveEvent(eventData);
+    console.log('[KBYG] Event saved to backend:', saveResult.eventId);
+    
+    // Add backend metadata to response
+    data.backendSaved = true;
+    data.backendEventId = saveResult.eventId;
+  } catch (backendError) {
+    console.error('[KBYG] Failed to save to backend (continuing with local storage):', backendError);
+    data.backendSaved = false;
+    data.backendError = backendError.message;
+  }
 
   return { data };
 }
@@ -309,66 +355,6 @@ ${historyText || 'None yet'}
 USER'S QUESTION: ${userMessage}
 
 Provide a helpful, concise response. Give specific, actionable advice for engaging this persona at this event. Be conversational and practical. Keep response under 150 words.`;
-}
-
-// Handle target person chat
-async function handleTargetChat(request) {
-  const { person, eventData, userProfile, chatHistory, userMessage } = request;
-  const apiKey = userProfile?.geminiApiKey;
-  
-  if (!apiKey) {
-    throw new Error('API key not configured');
-  }
-  
-  const prompt = buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage);
-  const response = await callGeminiAPI(apiKey, prompt);
-  
-  const textContent = response.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!textContent) {
-    throw new Error('No response from AI');
-  }
-  
-  return { reply: textContent.trim() };
-}
-
-function buildTargetChatPrompt(person, eventData, userProfile, chatHistory, userMessage) {
-  const historyText = chatHistory.map(m => 
-    `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`
-  ).join('\n');
-  
-  return `You are a sales coach helping a GTM professional prepare for a one-on-one conversation with a specific target at a conference.
-
-TARGET PERSON:
-- Name: ${person.name || 'Unknown'}
-- Title/Role: ${person.title || person.role || 'Unknown'}
-- Company: ${person.company || 'Unknown'}
-- Event Role: ${person.role || 'Attendee'}
-
-EVENT CONTEXT:
-- Event: ${eventData.eventName || 'Conference'}
-- Event Date: ${eventData.date || 'Unknown'}
-- Location: ${eventData.location || 'Unknown'}
-
-USER'S COMPANY/PRODUCT:
-- Company: ${userProfile.companyName || 'Unknown'}
-- Product: ${userProfile.product || 'Unknown'}
-- Value Proposition: ${userProfile.valueProp || 'Unknown'}
-- User's Role: ${userProfile.yourRole || 'Sales'}
-- Target Personas: ${userProfile.targetPersonas || 'Not specified'}
-- Target Industries: ${userProfile.targetIndustries || 'Not specified'}
-
-CHAT HISTORY:
-${historyText || 'None yet'}
-
-USER'S QUESTION: ${userMessage}
-
-Provide helpful, specific advice for engaging this particular person. Consider:
-- Their likely pain points based on their role
-- How the user's product specifically helps someone in their position
-- Objections they might raise and how to handle them
-- Good questions to ask to build rapport and qualify the opportunity
-
-Be conversational and practical. Give concrete examples and scripts when appropriate. Keep response under 150 words.`;
 }
 
 // Handle target person chat
