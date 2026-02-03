@@ -20,6 +20,9 @@ import heroDataViz from "@/assets/brand/hero-data-viz.png";
 import productFitImg from "@/assets/product-fit.svg";
 import howItWorksBg from "@/assets/brand/how-it-works-bg.png";
 
+// Import components
+import ProductShowcase from "@/components/landing/ProductShowcase";
+
 export default function TestLandingPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -268,6 +271,9 @@ export default function TestLandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Product Showcase Section */}
+      <ProductShowcase />
 
       {/* How It Works Section */}
       <section className="py-16 px-6 bg-muted/30 relative overflow-hidden">
