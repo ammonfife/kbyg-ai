@@ -1,81 +1,72 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Users, Target, Trash2, ExternalLink } from "lucide-react";
+import { Calendar, MapPin, Users, Building2, RefreshCw, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { listCompanies, getCompany, type Company } from "@/lib/mcp";
+import { useNavigate } from "react-router-dom";
 
-interface Person {
-  name: string;
-  role: string;
-  title?: string;
-  company?: string;
-  persona?: string;
-  linkedin?: string;
-  linkedinMessage?: string;
-  iceBreaker?: string;
-}
-
-interface ExpectedPersona {
-  persona: string;
-  likelihood?: string;
-  count?: string;
-  conversationStarters?: string[];
-  keywords?: string[];
-  painPoints?: string[];
-}
-
-interface Event {
-  id: number;
-  url: string;
+interface EventGroup {
   eventName: string;
-  date?: string;
-  startDate?: string;
-  endDate?: string;
-  location?: string;
-  description?: string;
-  estimatedAttendees?: number;
-  people: Person[];
-  sponsors: { name: string; tier?: string }[];
-  expectedPersonas: ExpectedPersona[];
-  nextBestActions: { priority: number; action: string; reason: string }[];
-  relatedEvents: { name: string; url: string; date?: string }[];
-  analyzedAt?: string;
+  companies: Company[];
+  extractedAt?: string;
 }
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchEvents();
+    fetchData();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const userId = localStorage.getItem('userId') || 'default';
-      const response = await fetch(`${API_BASE_URL}/events?userId=${userId}`);
-      const data = await response.json();
       
-      if (data.success) {
-        setEvents(data.events);
-      } else {
+      // Get list of companies
+      const listResult = await listCompanies();
+      if (!listResult.success || !listResult.data) {
         toast({
           title: "Error",
-          description: data.error || "Failed to load events",
+          description: listResult.error || "Failed to load data",
           variant: "destructive",
         });
+        setLoading(false);
+        return;
       }
+
+      const companiesList = Array.isArray(listResult.data) ? listResult.data : [];
+      
+      // Fetch details for companies with context (event info)
+      const companiesWithContext = companiesList.filter(c => c.employees && c.employees.length > 0);
+      const detailedCompanies: Company[] = [];
+      
+      // Fetch in batches
+      const batchSize = 5;
+      for (let i = 0; i < Math.min(companiesWithContext.length, 30); i += batchSize) {
+        const batch = companiesWithContext.slice(i, i + batchSize);
+        const results = await Promise.all(
+          batch.map(company => getCompany(company.name))
+        );
+        
+        results.forEach(result => {
+          if (result.success && result.data) {
+            detailedCompanies.push(result.data);
+          }
+        });
+      }
+      
+      setCompanies(detailedCompanies);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to connect to backend API",
+        description: "Failed to connect to intelligence server",
         variant: "destructive",
       });
     } finally {
@@ -83,241 +74,164 @@ export default function EventsPage() {
     }
   };
 
-  const deleteEvent = async (url: string) => {
-    if (!confirm('Delete this event?')) return;
+  // Group companies by event (extracted from context field)
+  const eventGroups = useMemo(() => {
+    const groups: Record<string, EventGroup> = {};
     
-    try {
-      const userId = localStorage.getItem('userId') || 'default';
-      const encodedUrl = encodeURIComponent(url);
-      const response = await fetch(`${API_BASE_URL}/events/${encodedUrl}?userId=${userId}`, {
-        method: 'DELETE',
-      });
-      const data = await response.json();
+    companies.forEach(company => {
+      if (!company.context) return;
       
-      if (data.success) {
-        setEvents(events.filter(e => e.url !== url));
-        toast({
-          title: "Success",
-          description: "Event deleted",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: data.error || "Failed to delete event",
-          variant: "destructive",
-        });
+      // Extract event name from context like "Extracted from Silicon Slopes Summit on 2026-02-03T22:06:43.111Z"
+      const match = company.context.match(/(?:Extracted from|Attended "?)(.+?)(?:" on|on \d{4})/i);
+      const eventName = match ? match[1].trim().replace(/"/g, '') : 'Other Events';
+      
+      if (!groups[eventName]) {
+        groups[eventName] = {
+          eventName,
+          companies: [],
+          extractedAt: company.updated_at || company.created_at
+        };
       }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete event",
-        variant: "destructive",
-      });
-    }
-  };
+      groups[eventName].companies.push(company);
+    });
+    
+    return Object.values(groups).sort((a, b) => b.companies.length - a.companies.length);
+  }, [companies]);
 
-  const filteredEvents = events.filter(event =>
+  const filteredEvents = eventGroups.filter(event =>
     event.eventName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    event.location?.toLowerCase().includes(searchQuery.toLowerCase())
+    event.companies.some(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  if (loading) {
-    return (
-      <div className="container mx-auto p-6">
-        <div className="flex items-center justify-center h-64">
-          <p className="text-muted-foreground">Loading events...</p>
-        </div>
-      </div>
-    );
-  }
+  const totalPeople = useMemo(() => {
+    return companies.reduce((acc, c) => acc + (c.employees?.length || 0), 0);
+  }, [companies]);
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Conference Events</h1>
-        <p className="text-muted-foreground">
-          Events analyzed from the KBYG Chrome Extension
-        </p>
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold flex items-center gap-2">
+            <Calendar className="h-8 w-8 text-primary" />
+            Conference Events
+          </h1>
+          <p className="text-muted-foreground">
+            Intelligence extracted from conferences via the KBYG Chrome Extension
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary">{eventGroups.length} events</Badge>
+          <Badge variant="secondary">{companies.length} companies</Badge>
+          <Badge variant="secondary">{totalPeople} contacts</Badge>
+          <Button variant="outline" onClick={fetchData} disabled={loading}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+        </div>
       </div>
 
-      <div className="mb-6">
-        <Input
-          type="search"
-          placeholder="Search events..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="max-w-md"
-        />
-      </div>
+      <Input
+        type="search"
+        placeholder="Search events or companies..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="max-w-md"
+      />
 
-      {filteredEvents.length === 0 ? (
+      {loading ? (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <span className="ml-2 text-muted-foreground">Loading event intelligence...</span>
+        </div>
+      ) : filteredEvents.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center h-64">
+          <CardContent className="flex flex-col items-center justify-center py-16">
             <Calendar className="h-16 w-16 text-muted-foreground mb-4" />
             <p className="text-xl font-semibold mb-2">No events yet</p>
             <p className="text-muted-foreground text-center max-w-md">
-              Events analyzed through the KBYG Chrome Extension will appear here
+              Events analyzed through the KBYG Chrome Extension will appear here. 
+              Extract intelligence from conference websites to see them.
             </p>
+            <Button className="mt-4" onClick={() => navigate('/import')}>
+              Go to Capture Analysis
+            </Button>
           </CardContent>
         </Card>
       ) : (
         <div className="grid gap-6">
-          {filteredEvents.map((event) => (
-            <Card key={event.id} className="overflow-hidden">
+          {filteredEvents.map((event, idx) => (
+            <Card key={idx} className="overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <CardTitle className="text-2xl mb-2">{event.eventName}</CardTitle>
-                    <CardDescription className="flex flex-col gap-2">
-                      {event.date && (
-                        <span className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {event.date}
-                        </span>
-                      )}
-                      {event.location && (
-                        <span className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
-                          {event.location}
-                        </span>
-                      )}
-                      {event.estimatedAttendees && (
-                        <span className="flex items-center gap-2">
-                          <Users className="h-4 w-4" />
-                          ~{event.estimatedAttendees.toLocaleString()} attendees
+                    <CardDescription className="flex flex-wrap gap-4">
+                      <span className="flex items-center gap-2">
+                        <Building2 className="h-4 w-4" />
+                        {event.companies.length} companies
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <Users className="h-4 w-4" />
+                        {event.companies.reduce((acc, c) => acc + (c.employees?.length || 0), 0)} contacts
+                      </span>
+                      {event.extractedAt && (
+                        <span className="flex items-center gap-2 text-xs">
+                          <Calendar className="h-3 w-3" />
+                          Extracted: {new Date(event.extractedAt).toLocaleDateString()}
                         </span>
                       )}
                     </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => window.open(event.url, '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => deleteEvent(event.url)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
               </CardHeader>
 
               <CardContent>
-                {event.description && (
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {event.description}
-                  </p>
-                )}
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  {/* People */}
-                  {event.people.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Users className="h-4 w-4" />
-                        People ({event.people.length})
-                      </h3>
-                      <div className="space-y-2">
-                        {event.people.slice(0, 5).map((person, idx) => (
-                          <div key={idx} className="text-sm border-l-2 border-primary pl-3 py-1">
-                            <div className="font-medium">{person.name}</div>
-                            {person.title && (
-                              <div className="text-muted-foreground">{person.title}</div>
-                            )}
-                            {person.company && (
-                              <div className="text-muted-foreground">{person.company}</div>
-                            )}
-                            {person.iceBreaker && (
-                              <div className="text-xs text-blue-600 mt-1 italic">
-                                💬 {person.iceBreaker}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                        {event.people.length > 5 && (
-                          <p className="text-xs text-muted-foreground">
-                            +{event.people.length - 5} more
-                          </p>
-                        )}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {event.companies.slice(0, 6).map((company, cidx) => (
+                    <div 
+                      key={cidx} 
+                      className="p-3 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer transition-colors"
+                      onClick={() => navigate(`/companies?search=${encodeURIComponent(company.name)}`)}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Building2 className="h-4 w-4 text-primary" />
+                        <span className="font-medium">{company.name}</span>
                       </div>
-                    </div>
-                  )}
-
-                  {/* Expected Personas */}
-                  {event.expectedPersonas.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Target className="h-4 w-4" />
-                        Target Personas
-                      </h3>
-                      <div className="space-y-2">
-                        {event.expectedPersonas.slice(0, 3).map((persona, idx) => (
-                          <div key={idx} className="text-sm border-l-2 border-green-500 pl-3 py-1">
-                            <div className="font-medium flex items-center gap-2">
-                              {persona.persona}
-                              {persona.likelihood && (
-                                <Badge variant="secondary" className="text-xs">
-                                  {persona.likelihood}
-                                </Badge>
-                              )}
-                            </div>
-                            {persona.count && (
-                              <div className="text-muted-foreground">Est. {persona.count}</div>
-                            )}
-                            {persona.conversationStarters && persona.conversationStarters.length > 0 && (
-                              <div className="text-xs text-green-700 mt-1">
-                                💡 {persona.conversationStarters[0]}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Sponsors */}
-                {event.sponsors.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Sponsors</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {event.sponsors.map((sponsor, idx) => (
-                        <Badge key={idx} variant="outline">
-                          {sponsor.name}
-                          {sponsor.tier && ` (${sponsor.tier})`}
+                      {company.industry && (
+                        <Badge variant="outline" className="text-xs mb-2">
+                          {company.industry}
                         </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Next Best Actions */}
-                {event.nextBestActions.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Next Best Actions</h3>
-                    <ol className="list-decimal list-inside space-y-1">
-                      {event.nextBestActions.slice(0, 3).map((action, idx) => (
-                        <li key={idx} className="text-sm">
-                          <span className="font-medium">{action.action}</span>
-                          {action.reason && (
-                            <span className="text-muted-foreground"> - {action.reason}</span>
+                      )}
+                      {company.employees && company.employees.length > 0 && (
+                        <div className="space-y-1">
+                          {company.employees.slice(0, 2).map((emp, eidx) => (
+                            <div 
+                              key={eidx} 
+                              className="text-sm text-muted-foreground hover:text-primary cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/people?search=${encodeURIComponent(emp.name || '')}`);
+                              }}
+                            >
+                              <span className="font-medium">{emp.name}</span>
+                              {emp.title && <span> - {emp.title}</span>}
+                            </div>
+                          ))}
+                          {company.employees.length > 2 && (
+                            <p className="text-xs text-muted-foreground">
+                              +{company.employees.length - 2} more
+                            </p>
                           )}
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-
-                {event.analyzedAt && (
-                  <div className="mt-4 text-xs text-muted-foreground">
-                    Analyzed: {new Date(event.analyzedAt).toLocaleDateString()}
-                  </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                {event.companies.length > 6 && (
+                  <p className="mt-4 text-sm text-muted-foreground text-center">
+                    +{event.companies.length - 6} more companies from this event
+                  </p>
                 )}
               </CardContent>
             </Card>
