@@ -1,0 +1,72 @@
+/* kbyg.ai Brand Color Palette */
+
+:root {
+  /* Primary Colors - AI Blue */
+  --brand-primary: #3b82f6;
+  --brand-primary-light: #60a5fa;
+  --brand-primary-dark: #2563eb;
+  
+  /* Secondary Colors - Neural Purple */
+  --brand-secondary: #8b5cf6;
+  --brand-secondary-light: #a78bfa;
+  --brand-secondary-dark: #7c3aed;
+  
+  /* Accent Colors - Cyber Cyan */
+  --brand-accent: #06b6d4;
+  --brand-accent-light: #22d3ee;
+  --brand-accent-dark: #0891b2;
+  
+  /* Neutral Colors */
+  --brand-gray-50: #f9fafb;
+  --brand-gray-100: #f3f4f6;
+  --brand-gray-200: #e5e7eb;
+  --brand-gray-300: #d1d5db;
+  --brand-gray-400: #9ca3af;
+  --brand-gray-500: #6b7280;
+  --brand-gray-600: #4b5563;
+  --brand-gray-700: #374151;
+  --brand-gray-800: #1f2937;
+  --brand-gray-900: #111827;
+  
+  /* Semantic Colors */
+  --brand-success: #10b981;
+  --brand-warning: #f59e0b;
+  --brand-error: #ef4444;
+  --brand-info: #3b82f6;
+  
+  /* Background Colors */
+  --brand-bg-primary: #ffffff;
+  --brand-bg-secondary: #f9fafb;
+  --brand-bg-dark: #0f172a;
+  --brand-bg-darker: #020617;
+  
+  /* Text Colors */
+  --brand-text-primary: #111827;
+  --brand-text-secondary: #6b7280;
+  --brand-text-inverse: #ffffff;
+  
+  /* AI-Themed Gradients */
+  --brand-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+  --brand-gradient-neural: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  --brand-gradient-cyber: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --brand-gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --brand-gradient-glow: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+}
+
+/* Color Classes */
+.bg-primary { background-color: var(--brand-primary); }
+.bg-secondary { background-color: var(--brand-secondary); }
+.bg-accent { background-color: var(--brand-accent); }
+.bg-dark { background-color: var(--brand-bg-dark); }
+
+.text-primary { color: var(--brand-primary); }
+.text-secondary { color: var(--brand-secondary); }
+.text-accent { color: var(--brand-accent); }
+
+.border-primary { border-color: var(--brand-primary); }
+.border-secondary { border-color: var(--brand-secondary); }
+.border-accent { border-color: var(--brand-accent); }
+
+.gradient-primary { background: var(--brand-gradient-primary); }
+.gradient-neural { background: var(--brand-gradient-neural); }
+.gradient-cyber { background: var(--brand-gradient-cyber); }

@@ -1,0 +1,15 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconMinimalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Minimal - just the brain outline -->
+  <circle cx="24" cy="24" r="20" fill="none" stroke="url(#iconMinimalGrad)" stroke-width="2.5"/>
+  <!-- Simplified nodes -->
+  <circle cx="16" cy="19" r="2" fill="url(#iconMinimalGrad)"/>
+  <circle cx="32" cy="19" r="2" fill="url(#iconMinimalGrad)"/>
+  <circle cx="24" cy="29" r="2" fill="url(#iconMinimalGrad)"/>
+</svg>

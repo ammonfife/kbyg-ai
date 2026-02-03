@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kbyg.ai Poster 24x36"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: 24in 36in;
+            margin: 0;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: #f5f5f5;
+        }
+        
+        .poster {
+            width: 24in;
+            height: 36in;
+            position: relative;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+            margin: 20px auto;
+        }
+        
+        /* Background Effects */
+        .bg-effect-1 {
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .bg-effect-2 {
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 1200px;
+            height: 1200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .bg-effect-3 {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1500px;
+            height: 1500px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        /* Grid Pattern Overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.5;
+        }
+        
+        /* AI Network Background Image */
+        .ai-network-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../../images/ai-generated/landing-page/heroes/hero-trade-show-floor.png') center/cover;
+            opacity: 0.15;
+            mix-blend-mode: screen;
+        }
+        
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2in;
+        }
+        
+        /* Header */
+        .header {
+            margin-bottom: 1.5in;
+        }
+        
+        .logo {
+            font-size: 120px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 30px rgba(59, 130, 246, 0.5);
+        }
+        
+        .tagline {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Main Headline */
+        .main-headline {
+            text-align: center;
+            margin-bottom: 1in;
+        }
+        
+        .headline {
+            font-size: 140px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .headline-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subheadline {
+            font-size: 52px;
+            color: #cbd5e1;
+            line-height: 1.4;
+            font-weight: 500;
+            max-width: 18in;
+            margin: 0 auto;
+        }
+        
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-bottom: 1in;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+        }
+        
+        .feature-icon {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+        }
+        
+        .feature-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 24px;
+        }
+        
+        .feature-description {
+            font-size: 32px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+        
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px;
+            margin-bottom: 1in;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 90px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 32px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        .cta-title {
+            font-size: 72px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        
+        .cta-button {
+            padding: 40px 80px;
+            border-radius: 20px;
+            font-size: 42px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 10px 50px rgba(59, 130, 246, 0.5);
+        }
+        
+        .cta-button-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 3px solid white;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Contact Info */
+        .contact {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            font-size: 36px;
+            color: #94a3b8;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .contact-item a {
+            color: #06b6d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* QR Code */
+        .qr-code {
+            position: absolute;
+            bottom: 2in;
+            right: 2in;
+            width: 3in;
+            height: 3in;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #64748b;
+            text-align: center;
+            padding: 30px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            border: 4px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- Background Effects -->
+        <div class="bg-effect-1"></div>
+        <div class="bg-effect-2"></div>
+        <div class="bg-effect-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="ai-network-bg"></div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">kbyg.ai</div>
+                <div class="tagline">Intelligence Extraction for Revenue Teams</div>
+            </div>
+            
+            <!-- Main Headline -->
+            <div class="main-headline">
+                <div class="headline">
+                    YOUR <span class="headline-gradient">UNFAIR</span><br>
+                    COMPETITIVE ADVANTAGE
+                </div>
+                <div class="subheadline">
+                    Extract every high-value prospect, generate pre-qualified openers,<br>
+                    and build a permanent sales asset from every event
+                </div>
+            </div>
+            
+            <!-- Features -->
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Deep-Tier Intelligence</div>
+                    <div class="feature-description">
+                        Extract every decision-maker and high-value target before the event starts
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title">Weaponized Openers</div>
+                    <div class="feature-description">
+                        Pre-qualified conversation starters that get straight to revenue
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <div class="feature-title">Revenue-Ready Outreach</div>
+                    <div class="feature-description">
+                        Build a permanent, actionable sales asset from every trade show
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Target Coverage</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Missed Prospects</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">10x</div>
+                    <div class="stat-label">Revenue Impact</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Permanent Asset</div>
+                </div>
+            </div>
+            
+            <!-- CTA -->
+            <div class="cta">
+                <div class="cta-title">Know Before You Go</div>
+                
+                <div class="cta-buttons">
+                    <a href="https://kbyg.ai/extension" class="cta-button cta-button-primary">
+                        Get the Extension →
+                    </a>
+                    <a href="https://kbyg.ai/demo" class="cta-button cta-button-secondary">
+                        See Command Center
+                    </a>
+                </div>
+                
+                <div class="contact">
+                    <div class="contact-item">
+                        <span>🌐</span>
+                        <a href="https://kbyg.ai">kbyg.ai</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉</span>
+                        <a href="mailto:hello@kbyg.ai">hello@kbyg.ai</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>📞</span>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- QR Code -->
+        <div class="qr-code">
+            SCAN TO<br>VISIT SITE<br>
+            <small style="font-size: 20px; margin-top: 10px;">kbyg.ai</small>
+        </div>
+    </div>
+</body>
+</html>

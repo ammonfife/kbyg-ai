@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kbyg.ai - Intelligence Extraction for Revenue Teams | Know Before You Go</title>
+  <meta name="description" content="Extract every high-value prospect, generate pre-qualified openers, and build a permanent sales asset from every event. Stop networking; start executing.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========================================
+       RESET & BASE STYLES
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ========================================
+       CSS VARIABLES - BRAND COLORS
+       ======================================== */
+    :root {
+      /* Primary Colors - AI Blue */
+      --brand-primary: #3b82f6;
+      --brand-primary-light: #60a5fa;
+      --brand-primary-dark: #2563eb;
+      
+      /* Secondary Colors - Neural Purple */
+      --brand-secondary: #8b5cf6;
+      --brand-secondary-light: #a78bfa;
+      --brand-secondary-dark: #7c3aed;
+      
+      /* Accent Colors - Cyber Cyan */
+      --brand-accent: #06b6d4;
+      --brand-accent-light: #22d3ee;
+      --brand-accent-dark: #0891b2;
+      
+      /* Success/Revenue Green */
+      --brand-success: #10b981;
+      --brand-success-light: #34d399;
+      --brand-success-dark: #059669;
+      
+      /* Neutral Colors */
+      --brand-gray-50: #f9fafb;
+      --brand-gray-100: #f3f4f6;
+      --brand-gray-200: #e5e7eb;
+      --brand-gray-300: #d1d5db;
+      --brand-gray-400: #9ca3af;
+      --brand-gray-500: #6b7280;
+      --brand-gray-600: #4b5563;
+      --brand-gray-700: #374151;
+      --brand-gray-800: #1f2937;
+      --brand-gray-900: #111827;
+      
+      /* Background Colors */
+      --brand-bg-primary: #ffffff;
+      --brand-bg-secondary: #f9fafb;
+      --brand-bg-dark: #0f172a;
+      --brand-bg-darker: #020617;
+      
+      /* Text Colors */
+      --brand-text-primary: #111827;
+      --brand-text-secondary: #6b7280;
+      --brand-text-inverse: #ffffff;
+      
+      /* AI-Themed Gradients */
+      --brand-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+      --brand-gradient-revenue: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+      --brand-gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      
+      /* Font Families */
+      --brand-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --brand-font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      
+      /* Spacing */
+      --section-padding: 5rem 0;
+      --container-max-width: 1200px;
+      --content-max-width: 800px;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    body {
+      font-family: var(--brand-font-primary);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--brand-text-primary);
+      background-color: var(--brand-bg-primary);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--brand-font-heading);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 2rem; }
+    h4 { font-size: 1.5rem; }
+    h5 { font-size: 1.25rem; }
+    h6 { font-size: 1.125rem; }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    /* ========================================
+       LAYOUT UTILITIES
+       ======================================== */
+    .container {
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section {
+      padding: var(--section-padding);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-gradient {
+      background: var(--brand-gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-revenue {
+      background: var(--brand-gradient-revenue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 2rem;
+      font-family: var(--brand-font-primary);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--brand-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--brand-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-success {
+      background-color: var(--brand-success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: var(--brand-success-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--brand-primary);
+      border: 2px solid var(--brand-primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--brand-primary);
+      color: white;
+    }
+
+    .btn-gradient {
+      background: var(--brand-gradient-primary);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      border: none;
+    }
+
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-gradient:hover::before {
+      opacity: 1;
+    }
+
+    .btn-gradient span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-lg {
+      padding: 1.125rem 2.5rem;
+      font-size: 1.125rem;
+      border-radius: 0.625rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--brand-gray-200);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-family: var(--brand-font-heading);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand-primary);
+      text-decoration: none;
+    }
+
+    .navbar-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .navbar-menu a {
+      text-decoration: none;
+      color: var(--brand-text-primary);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .navbar-menu a:hover {
+      color: var(--brand-primary);
+    }
+
+    .navbar-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--brand-text-primary);
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--brand-gradient-dark);
+      padding-top: 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+      z-index: 1;
+    }
+
+    .hero-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      max-width: 750px;
+      color: white;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--brand-success-light);
+    }
+
+    .hero h1 {
+      font-size: 3.75rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--brand-gray-300);
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-stat {
+      text-align: left;
+    }
+
+    .hero-stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--brand-success-light);
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      color: var(--brand-gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ========================================
+       FEATURES SECTION
+       ======================================== */
+    .features {
+      background-color: var(--brand-bg-secondary);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: var(--content-max-width);
+      margin: 0 auto 4rem;
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--brand-primary);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .section-description {
+      font-size: 1.125rem;
+      color: var(--brand-text-secondary);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--brand-gradient-primary);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--brand-text-primary);
+    }
+
+    .feature-description {
+      color: var(--brand-text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       PRODUCT SHOWCASE SECTION
+       ======================================== */
+    .product-showcase {
+      background: white;
+    }
+
+    .showcase-grid {
+      display: grid;
+      gap: 4rem;
+    }
+
+    .showcase-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .showcase-item:nth-child(even) {
+      direction: rtl;
+    }
+
+    .showcase-item:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .showcase-image {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .showcase-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .showcase-content h3 {
+      margin-bottom: 1rem;
+    }
+
+    .showcase-content p {
+      color: var(--brand-text-secondary);
+      font-size: 1.125rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .showcase-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .showcase-features li {
+      padding: 0.75rem 0;
+      color: var(--brand-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .showcase-features li::before {
+      content: '✓';
+      color: var(--brand-success);
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    /* ========================================
+       USE CASES SECTION
+       ======================================== */
+    .use-cases {
+      background: var(--brand-bg-secondary);
+    }
+
+    .use-cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .use-case-card {
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .use-case-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .use-case-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .use-case-content {
+      padding: 1.5rem;
+    }
+
+    .use-case-role {
+      color: var(--brand-primary);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .use-case-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--brand-text-primary);
+    }
+
+    .use-case-description {
+      color: var(--brand-text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .use-case-result {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--brand-gray-200);
+    }
+
+    .use-case-result-icon {
+      font-size: 1.25rem;
+    }
+
+    .use-case-result-text {
+      font-weight: 600;
+      color: var(--brand-success);
+      font-size: 0.9375rem;
+    }
+
+    /* ========================================
+       CTA SECTION
+       ======================================== */
+    .cta {
+      background: var(--brand-gradient-primary);
+      color: white;
+      text-align: center;
+    }
+
+    .cta-content {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+    }
+
+    .cta h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+    }
+
+    .cta .btn {
+      background: white;
+      color: var(--brand-primary);
+    }
+
+    .cta .btn:hover {
+      background: var(--brand-gray-100);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta .btn-outline {
+      background: transparent;
+      color: white;
+      border-color: white;
+    }
+
+    .cta .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--brand-bg-dark);
+      color: var(--brand-gray-400);
+      padding: 3rem 0 1.5rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      font-family: var(--brand-font-heading);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .footer-description {
+      color: var(--brand-gray-400);
+      line-height: 1.7;
+    }
+
+    .footer-title {
+      color: white;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--brand-gray-400);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--brand-primary-light);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid var(--brand-gray-700);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copyright {
+      font-size: 0.875rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-social a {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--brand-gray-800);
+      border-radius: 50%;
+      color: var(--brand-gray-400);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    
+    /* Tablet (768px and below) */
+    @media (max-width: 768px) {
+      :root {
+        --section-padding: 3rem 0;
+      }
+
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      /* Navigation */
+      .navbar-menu {
+        position: fixed;
+        top: 73px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-120%);
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-menu.active {
+        transform: translateY(0);
+      }
+
+      .navbar-toggle {
+        display: block;
+      }
+
+      /* Hero */
+      .hero {
+        min-height: auto;
+        padding: 6rem 0 4rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      /* Typography */
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.75rem; }
+
+      /* Features */
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      /* Product Showcase */
+      .showcase-item {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .showcase-item:nth-child(even) {
+        direction: ltr;
+      }
+
+      /* Use Cases */
+      .use-cases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Footer */
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      /* Buttons */
+      .btn-group {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .btn-group .btn {
+        width: 100%;
+      }
+    }
+
+    /* Mobile (480px and below) */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+      }
+
+      .btn-lg {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+
+      .hero-stat-value {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="navbar-brand">kbyg.ai</a>
+      
+      <button class="navbar-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+        ☰
+      </button>
+      
+      <ul class="navbar-menu" id="navbarMenu">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#use-cases">Use Cases</a></li>
+        <li><a href="#cta" class="btn btn-success" style="padding: 0.625rem 1.5rem;">Get the Extension</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========================================
+       HERO SECTION
+       ======================================== -->
+  <section class="hero">
+    <img src="../images/ai-generated/landing-page/conference-hero.png" alt="Conference Intelligence Network" class="hero-image">
+    
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge">⚡ Intelligence Extraction for Revenue Teams</span>
+        
+        <h1>Extract every high-value prospect, generate pre-qualified openers, and build a <span class="text-gradient-revenue">permanent sales asset</span> from every event.</h1>
+        
+        <p class="hero-subtitle">
+          Stop networking; start executing. Know Before You Go.
+        </p>
+        
+        <div class="btn-group">
+          <a href="#cta" class="btn btn-success btn-lg">
+            Get the Extension
+          </a>
+          <a href="#how-it-works" class="btn btn-outline btn-lg">Watch Demo</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">&lt; 15s</div>
+            <div class="hero-stat-label">From URL to Intelligence</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">100%</div>
+            <div class="hero-stat-label">Data Persistence</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">0</div>
+            <div class="hero-stat-label">Manual Research Required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FEATURES SECTION
+       ======================================== -->
+  <section class="features section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">⚡ Revenue-Ready Features</span>
+        <h2 class="section-title">From Event Page to Pipeline in Minutes</h2>
+        <p class="section-description">
+          Extract intelligence, map targets, generate openers, deploy outreach. 
+          Every feature built for revenue execution.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3 class="feature-title">Deep-Tier Intelligence Extraction</h3>
+          <p class="feature-description">
+            Rip every high-value contact from any event page. Attendees, speakers, sponsors—
+            extracted, enriched, and scored in seconds. No manual scraping, no missed opportunities, 
+            no excuses.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3 class="feature-title">Weaponized Conversation Openers</h3>
+          <p class="feature-description">
+            Pre-qualified, personalized openers that cut through noise. AI analyzes LinkedIn 
+            activity, company triggers, and intent signals to craft openers that get responses, 
+            not ignored.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Pre-Qualified Target Mapping</h3>
+          <p class="feature-description">
+            Auto-scored prospect lists ranked by fit, intent, and revenue potential. Focus 
+            on the 20% that will generate 80% of your pipeline. Stop wasting time on tire-kickers.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3 class="feature-title">Company Intelligence Layer</h3>
+          <p class="feature-description">
+            Tech stack, funding events, growth signals, org structure, buying triggers. 
+            Everything you need to position, pitch, and close—delivered automatically for 
+            every target company.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3 class="feature-title">Revenue-Ready Outreach</h3>
+          <p class="feature-description">
+            Pre-built pitch angles, pain point hypotheses, and multi-touch sequences 
+            tailored to each prospect. Deploy outreach the second the event ends. Strike 
+            while the iron is hot.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✉️</div>
+          <h3 class="feature-title">Auto-Drafted Follow-Ups</h3>
+          <p class="feature-description">
+            AI-written emails based on enrichment data, conversation context, and proven 
+            frameworks. One click to send. Track opens, replies, and meetings. Close deals, 
+            not browser tabs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       PRODUCT SHOWCASE SECTION
+       ======================================== -->
+  <section class="product-showcase section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">🚀 How It Works</span>
+        <h2 class="section-title">From Event Page to Pipeline in Minutes</h2>
+        <p class="section-description">
+          Three steps to extract intelligence, map targets, and deploy revenue-ready outreach. 
+          No fluff, no friction, no wasted time.
+        </p>
+      </div>
+
+      <div class="showcase-grid">
+        <!-- Step 1 -->
+        <div class="showcase-item">
+          <div class="showcase-image">
+            <img src="../images/ai-generated/landing-page/chrome-extension.png" alt="Conference Intelligence Chrome Extension">
+          </div>
+          <div class="showcase-content">
+            <h3>1. Extract Intelligence</h3>
+            <p>
+              Click the extension on any event page. AI rips every contact, enriches with 
+              50+ data sources, and scores by revenue potential. &lt; 15 seconds from URL 
+              to fully-qualified target list.
+            </p>
+            <ul class="showcase-features">
+              <li>Deep-tier extraction from any event page</li>
+              <li>Auto-enrichment: tech stack, funding, org charts</li>
+              <li>AI scoring by fit, intent, and revenue potential</li>
+              <li>100% data persistence—nothing gets lost</li>
+            </ul>
+            <a href="#cta" class="btn btn-primary">Get the Extension</a>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="showcase-item">
+          <div class="showcase-image">
+            <img src="../images/ai-generated/landing-page/persona-targeting.png" alt="AI-Powered Persona Targeting">
+          </div>
+          <div class="showcase-content">
+            <h3>2. Map Targets & Generate Openers</h3>
+            <p>
+              AI ranks prospects by revenue potential and generates weaponized conversation 
+              openers. No generic "Hey, I saw you're attending..." garbage. Real openers 
+              based on buying signals, company triggers, and intent data.
+            </p>
+            <ul class="showcase-features">
+              <li>Pre-qualified target mapping by ICP fit</li>
+              <li>Personalized openers that cut through noise</li>
+              <li>Pain point hypotheses and pitch angles</li>
+              <li>Multi-touch sequences auto-generated</li>
+            </ul>
+            <a href="#cta" class="btn btn-primary">See It In Action</a>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="showcase-item">
+          <div class="showcase-image">
+            <img src="../images/ai-generated/landing-page/email-drafting.png" alt="Automated Email Follow-up">
+          </div>
+          <div class="showcase-content">
+            <h3>3. Deploy Outreach & Close</h3>
+            <p>
+              AI drafts follow-ups based on enrichment data and conversation context. 
+              One click to send. Track opens, replies, meetings. Sync to CRM. Close deals 
+              while your competitors are still researching LinkedIn profiles.
+            </p>
+            <ul class="showcase-features">
+              <li>Revenue-ready emails written by AI</li>
+              <li>One-click deploy with full tracking</li>
+              <li>Auto-sync to Salesforce, HubSpot, etc.</li>
+              <li>Pipeline reporting and ROI metrics</li>
+            </ul>
+            <a href="#cta" class="btn btn-primary">Start Closing</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       USE CASES SECTION
+       ======================================== -->
+  <section class="use-cases section" id="use-cases">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">💼 Revenue Proof</span>
+        <h2 class="section-title">Teams Executing, Not Networking</h2>
+        <p class="section-description">
+          Real results from revenue teams using intelligence extraction to dominate events 
+          and close deals faster than their competition.
+        </p>
+      </div>
+
+      <div class="use-cases-grid">
+        <div class="use-case-card">
+          <img src="../images/ai-generated/landing-page/success-1.png" alt="Sales Team Success" class="use-case-image">
+          <div class="use-case-content">
+            <p class="use-case-role">Enterprise Sales Rep</p>
+            <h4 class="use-case-title">Extracted 240 Leads from SaaStr in 2 Minutes</h4>
+            <p class="use-case-description">
+              "Clicked the Chrome extension on the SaaStr attendee page. It pulled 240 
+              contacts, enriched them all, and generated personalized ice breakers. 
+              Booked 18 meetings before I even arrived in San Francisco."
+            </p>
+            <div class="use-case-result">
+              <span class="use-case-result-icon">📊</span>
+              <span class="use-case-result-text">240 leads in 2 minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="use-case-card">
+          <img src="../images/ai-generated/landing-page/success-2.png" alt="BD Professional Success" class="use-case-image">
+          <div class="use-case-content">
+            <p class="use-case-role">Business Development</p>
+            <h4 class="use-case-title">AI-Generated Ice Breakers Got 67% Reply Rate</h4>
+            <p class="use-case-description">
+              "The AI ice breakers are insanely good. They reference recent LinkedIn posts, 
+              company news, and mutual connections. I sent 30 emails to AWS re:Invent 
+              attendees and got 20 replies. 67% reply rate is unheard of."
+            </p>
+            <div class="use-case-result">
+              <span class="use-case-result-icon">💬</span>
+              <span class="use-case-result-text">67% reply rate on cold outreach</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="use-case-card">
+          <img src="../images/ai-generated/landing-page/success-3.png" alt="Sales Leader Success" class="use-case-image">
+          <div class="use-case-content">
+            <p class="use-case-role">VP of Sales</p>
+            <h4 class="use-case-title">Gemini Enrichment Found Hidden Decision-Makers</h4>
+            <p class="use-case-description">
+              "The Gemini AI enrichment is magic. It identified 15 VP-level contacts 
+              at Dreamforce who weren't listed as attendees. Our AEs connected with 
+              them directly and booked 8 qualified meetings with real decision-makers."
+            </p>
+            <div class="use-case-result">
+              <span class="use-case-result-icon">🎯</span>
+              <span class="use-case-result-text">15 hidden VPs identified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="use-case-card">
+          <img src="../images/ai-generated/landing-page/success-4.png" alt="Account Executive Success" class="use-case-image">
+          <div class="use-case-content">
+            <p class="use-case-role">Account Executive</p>
+            <h4 class="use-case-title">GTM Strategies Generated for 80 Companies</h4>
+            <p class="use-case-description">
+              "The GTM strategy generation is incredible. It analyzed 80 companies 
+              attending TechCrunch Disrupt and created custom approach strategies for 
+              each. I knew exactly how to position our product to every prospect."
+            </p>
+            <div class="use-case-result">
+              <span class="use-case-result-icon">🚀</span>
+              <span class="use-case-result-text">80 custom GTM strategies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       CTA SECTION
+       ======================================== -->
+  <section class="cta section" id="cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Your Next Trade Show Shouldn't Be a Gamble</h2>
+        <p>
+          Extract intelligence. Map targets. Deploy outreach. Build permanent sales assets 
+          from every event. Stop networking; start executing.
+        </p>
+        <div class="btn-group" style="justify-content: center;">
+          <a href="#" class="btn btn-lg">Download Free Extension</a>
+          <a href="#" class="btn btn-outline btn-lg">
+            Watch Demo
+          </a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.875rem; opacity: 0.8;">
+          ✓ &lt; 15s from URL to intelligence &nbsp;&nbsp; ✓ 100% data persistence &nbsp;&nbsp; ✓ 0 manual research required
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">kbyg.ai</div>
+          <p class="footer-description">
+            Intelligence Extraction for Revenue Teams. Extract every high-value prospect, 
+            generate pre-qualified openers, and build a permanent sales asset from every event. 
+            Know Before You Go.
+          </p>
+        </div>
+
+        <div>
+          <h5 class="footer-title">Product</h5>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="footer-title">Company</h5>
+          <ul class="footer-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Success Stories</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="footer-title">Resources</h5>
+          <ul class="footer-links">
+            <li><a href="#">Conference Calendar</a></li>
+            <li><a href="#">Sales Playbooks</a></li>
+            <li><a href="#">ROI Calculator</a></li>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2025 kbyg.ai. All rights reserved.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="GitHub">⚡</a>
+          <a href="#" aria-label="YouTube">▶</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================
+       JAVASCRIPT
+       ======================================== -->
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const menu = document.getElementById('navbarMenu');
+      menu.classList.toggle('active');
+    }
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.navbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        const menu = document.getElementById('navbarMenu');
+        menu.classList.remove('active');
+      });
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 80; // Height of fixed navbar
+          const targetPosition = target.offsetTop - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add scroll effect to navbar
+    let lastScroll = 0;
+    const navbar = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        navbar.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards
+    document.querySelectorAll('.feature-card, .use-case-card, .showcase-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

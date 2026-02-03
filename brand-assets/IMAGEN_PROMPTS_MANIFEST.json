@@ -1,0 +1,335 @@
+{
+  "heroes_desktop": {
+    "hero-conference-command-center-1920x1080.png": {
+      "prompt": "Modern conference exhibition hall with professional networking, sleek digital displays showing real-time intelligence dashboards in blue (#3b82f6) and purple (#8b5cf6). Revenue teams strategically positioned, commanding presence. Tactical, aggressive atmosphere. Ultra-professional, photorealistic, cinematic lighting. 8K quality.",
+      "size": "1920x1080",
+      "ratio": "16:9"
+    },
+    "hero-gtm-intelligence-extraction-1920x1080.png": {
+      "prompt": "Futuristic command center interface showing GTM intelligence extraction in action. Holographic displays with conference attendee data, company insights, revenue metrics. Color scheme: electric blue #3b82f6, vibrant purple #8b5cf6, tactical cyan #06b6d4. Aggressive, tactical aesthetic. Photorealistic, premium tech visualization.",
+      "size": "1920x1080",
+      "ratio": "16:9"
+    },
+    "hero-revenue-team-domination-2560x1440.png": {
+      "prompt": "Elite revenue team in high-rise conference room, large screens showing competitive intelligence dashboards. Dominant positioning, tactical execution. Blue and purple holographic data overlays. Professional, aggressive, command presence. Cinematic photography, dramatic lighting. 2K quality.",
+      "size": "2560x1440",
+      "ratio": "16:9"
+    },
+    "hero-tactical-networking-2560x1440.png": {
+      "prompt": "Professional trade show floor from elevated perspective, digital overlay showing networked connections between high-value prospects. Blue (#3b82f6) and purple (#8b5cf6) connection lines mapping strategic targets. Tactical, intelligence-focused. Photorealistic with tech overlay.",
+      "size": "2560x1440",
+      "ratio": "16:9"
+    }
+  },
+  "heroes_tablet": {
+    "hero-intelligence-dashboard-1024x768.png": {
+      "prompt": "Close-up of premium tablet displaying KBYG.ai intelligence extraction interface. Clean UI with neural network visualization, prospect cards, weaponized openers. Color palette: #3b82f6, #8b5cf6, #06b6d4. Premium product photography, soft shadows, modern aesthetic.",
+      "size": "1024x768",
+      "ratio": "4:3"
+    },
+    "hero-conference-prep-2048x1536.png": {
+      "prompt": "Revenue professional reviewing conference intelligence on tablet in modern airport lounge. Screen shows attendee list with enriched company data, GTM strategies. Professional, tactical preparation. Natural lighting, photorealistic, premium feel.",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    }
+  },
+  "heroes_square": {
+    "hero-neural-intelligence-1080x1080.png": {
+      "prompt": "Abstract 3D neural network visualization representing intelligence extraction. Glowing nodes in gradient blue (#3b82f6) to purple (#8b5cf6) to cyan (#06b6d4). Interconnected pathways showing data flow. Clean white background, modern, premium aesthetic. Perfect symmetry.",
+      "size": "1080x1080",
+      "ratio": "1:1"
+    },
+    "hero-command-icon-2048x2048.png": {
+      "prompt": "Minimalist 3D render of KBYG.ai neural network icon. Metallic finish with gradient blue to purple glow. Floating in clean white space with soft shadows. Premium, modern, tactical aesthetic. High detail, 4K quality.",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    }
+  },
+  "heroes_mobile": {
+    "hero-mobile-app-1080x1920.png": {
+      "prompt": "iPhone 15 Pro displaying KBYG.ai mobile app interface. Conference intelligence extraction, prospect cards, real-time enrichment. UI in blue (#3b82f6), purple (#8b5cf6) gradients. Professional product photography, premium feel. Vertical orientation.",
+      "size": "1080x1920",
+      "ratio": "9:16"
+    },
+    "hero-on-the-go-intelligence-1080x1920.png": {
+      "prompt": "Professional using phone at conference, screen showing live intelligence extraction. Modern trade show background, tactical focus on device. Blue and purple UI visible. Professional photography, natural lighting. Vertical mobile format.",
+      "size": "1080x1920",
+      "ratio": "9:16"
+    }
+  },
+  "conference_scenes": {
+    "conference-scene-01.png": {
+      "prompt": "Professional trade show booth with revenue teams executing tactical conversations, modern exhibition hall, blue and purple lighting accents, command presence, photorealistic",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-02.png": {
+      "prompt": "Business conference networking reception, professionals exchanging intelligence, modern venue, strategic positioning, blue and purple ambient lighting, cinematic",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-03.png": {
+      "prompt": "Tech conference keynote from audience perspective, large screen displaying data visualizations in blue and purple, engaged professional audience, premium photography",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-04.png": {
+      "prompt": "Conference hallway conversations, revenue professionals in tactical discussions, modern convention center, blue accent lighting, command atmosphere",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-05.png": {
+      "prompt": "Trade show floor aerial view, connected networking pathways visualized in blue and purple light, strategic territory mapping, futuristic overlay",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-06.png": {
+      "prompt": "Professional roundtable discussion at conference, diverse revenue leaders, modern venue, tactical execution focus, natural lighting with blue tones",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-07.png": {
+      "prompt": "Conference badge scanning and data capture, modern check-in area, digital intelligence extraction visualization, blue and purple tech overlay",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-08.png": {
+      "prompt": "VIP networking lounge at tech conference, elite revenue professionals, premium modern space, tactical conversations, sophisticated lighting",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-09.png": {
+      "prompt": "Conference breakout session, engaged professionals, large displays with intelligence dashboards, blue and purple data visualizations, premium venue",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-10.png": {
+      "prompt": "Post-conference debrief, revenue team reviewing captured intelligence on laptops, modern hotel lounge, tactical analysis, professional atmosphere",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-11.png": {
+      "prompt": "Conference expo hall wide shot, multiple booths with digital signage, revenue teams in command positions, blue and purple lighting accents",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "conference-scene-12.png": {
+      "prompt": "One-on-one conference meeting at standing table, professionals reviewing shared tablet with intelligence data, modern venue, tactical focus",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    }
+  },
+  "networking": {
+    "networking-illustration-01.png": {
+      "prompt": "Modern illustration of professional network graph, interconnected nodes representing prospects in gradient blue to purple to cyan, clean white background, tactical aesthetic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-02.png": {
+      "prompt": "Flat design illustration of business card exchange transforming into digital intelligence data, blue and purple color scheme, modern minimal style",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-03.png": {
+      "prompt": "Isometric illustration of conference intelligence extraction workflow, 3D elements in brand colors, clean professional design",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-04.png": {
+      "prompt": "Abstract illustration of handshake transforming into connected data nodes, gradient blue to purple, symbolizing relationship intelligence",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-05.png": {
+      "prompt": "Modern line art illustration of professionals networking with holographic data overlays, blue and purple accents, clean minimalist style",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-06.png": {
+      "prompt": "Flat design illustration showing conference attendee transforming into enriched prospect profile, tactical data flow, brand color gradients",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-07.png": {
+      "prompt": "Geometric illustration of revenue team surrounding high-value prospects, strategic positioning, blue and purple gradient, modern minimal",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-08.png": {
+      "prompt": "Abstract illustration of conversation bubbles containing intelligence insights, gradient blue to purple to cyan, clean background",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-09.png": {
+      "prompt": "Modern illustration of mobile device extracting conference intelligence, data flowing from event to app, brand colors, sleek design",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-10.png": {
+      "prompt": "Isometric 3D illustration of command center desk with multiple intelligence screens, blue and purple UI elements, tactical aesthetic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-11.png": {
+      "prompt": "Flat design illustration of prospect pipeline from conference to closed deal, progressive stages in brand gradient colors",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "networking-illustration-12.png": {
+      "prompt": "Abstract network visualization showing event intelligence feeding into revenue execution, flowing blue and purple data streams",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    }
+  },
+  "tech_intelligence": {
+    "tech-intelligence-01.png": {
+      "prompt": "3D render of AI neural network analyzing conference data, glowing nodes in blue and purple, clean white background, premium aesthetic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-02.png": {
+      "prompt": "Abstract visualization of intelligence extraction process, flowing data particles forming insights, gradient blue to purple to cyan",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-03.png": {
+      "prompt": "Modern illustration of machine learning model processing GTM data, geometric shapes and data flow, brand colors, tactical aesthetic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-04.png": {
+      "prompt": "Holographic display showing real-time prospect enrichment, floating UI elements in blue and purple, futuristic command center vibe",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-05.png": {
+      "prompt": "Abstract representation of data transformation from raw to actionable intelligence, particle effects in brand gradient colors",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-06.png": {
+      "prompt": "3D geometric illustration of intelligence layers being extracted, stacked transparent planes with blue and purple data, modern minimal",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-07.png": {
+      "prompt": "Visualization of competitive intelligence mapping, network graph with strategic nodes highlighted, tactical blue and purple colors",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-08.png": {
+      "prompt": "Abstract illustration of AI processing conference attendee data into revenue-ready insights, flowing digital streams, brand colors",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-09.png": {
+      "prompt": "Modern tech illustration showing integration of multiple data sources into unified intelligence, converging streams in brand gradients",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-10.png": {
+      "prompt": "3D render of command center interface elements, floating cards and data panels, blue and purple UI, tactical aesthetic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-11.png": {
+      "prompt": "Abstract visualization of predictive revenue intelligence, flowing forward-looking data paths, gradient brand colors, futuristic",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "tech-intelligence-12.png": {
+      "prompt": "Geometric illustration of intelligence extraction funnel, conference data refining into tactical insights, blue to purple gradient",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    }
+  },
+  "gtm_strategy": {
+    "gtm-strategy-01.png": {
+      "prompt": "Modern illustration of GTM strategy dashboard with revenue metrics, blue and purple data visualizations, tactical execution focus, clean professional",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-02.png": {
+      "prompt": "Abstract visualization of ideal customer profile targeting, concentric circles with prospect data, gradient brand colors, strategic aesthetic",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-03.png": {
+      "prompt": "Illustration of sales pipeline acceleration through intelligence extraction, flowing progression, blue to purple gradient, modern style",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-04.png": {
+      "prompt": "Modern chart showing revenue team performance multiplied by intelligence advantage, dramatic upward trajectory, brand colors, tactical",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-05.png": {
+      "prompt": "Abstract illustration of competitive positioning map, strategic territory control, blue and purple zones, command center aesthetic",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-06.png": {
+      "prompt": "Visualization of account-based marketing powered by conference intelligence, targeted approach illustration, brand gradient colors",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-07.png": {
+      "prompt": "Modern illustration of revenue operations workflow optimized by intelligence extraction, process flow in brand colors, tactical efficiency",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-08.png": {
+      "prompt": "Abstract representation of sales velocity increase, accelerating data flow from conference to close, blue and purple motion graphics style",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-09.png": {
+      "prompt": "Illustration of multi-channel GTM orchestration powered by event intelligence, interconnected channels in brand colors, strategic coordination",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-10.png": {
+      "prompt": "Modern visualization of revenue forecasting enhanced by conference intelligence, predictive charts in blue and purple, tactical precision",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-11.png": {
+      "prompt": "Abstract illustration of market penetration strategy using event intelligence, expanding territory map in brand gradients, aggressive growth",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    },
+    "gtm-strategy-12.png": {
+      "prompt": "Visualization of customer journey accelerated by pre-event intelligence, streamlined path in brand colors, execution-focused",
+      "size": "2048x1536",
+      "ratio": "4:3"
+    }
+  },
+  "patterns": {
+    "pattern-neural-network-subtle.png": {
+      "prompt": "Seamless tileable pattern of subtle neural network connections, very light blue (#3b82f6 at 5% opacity), minimal, professional, suitable for backgrounds",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "pattern-geometric-gradient.png": {
+      "prompt": "Seamless tileable geometric pattern with gradient elements, blue to purple to cyan, low opacity, modern minimal, professional background texture",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "pattern-data-flow-light.png": {
+      "prompt": "Seamless tileable pattern of flowing data streams, very subtle blue and purple particles, clean white background, suitable for presentation backgrounds",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "pattern-hexagon-tech.png": {
+      "prompt": "Seamless tileable hexagonal tech pattern, minimal line art in light blue, professional, subtle, modern background texture",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    },
+    "pattern-circuit-board-abstract.png": {
+      "prompt": "Seamless tileable abstract circuit board pattern, minimal lines in blue and purple, very subtle, professional background suitable for text overlay",
+      "size": "2048x2048",
+      "ratio": "1:1"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+/**
+ * KBYG Brand Colors
+ * CSS Custom Properties
+ * 
+ * Usage:
+ *   color: var(--color-gtm-blue);
+ *   background-color: var(--color-success-green);
+ */
+
+:root {
+  /* Primary Brand Colors */
+  --color-gtm-blue: #3b82f6;
+  --color-conference-purple: #8b5cf6;
+  --color-revenue-cyan: #06b6d4;
+  --color-success-green: #10b981;
+  --color-error-red: #ef4444;
+  
+  /* Grayscale */
+  --color-gray-900: #1f2937;
+  --color-gray-800: #374151;
+  --color-gray-600: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-300: #d1d5db;
+  --color-gray-100: #f3f4f6;
+  
+  /* Semantic Aliases */
+  --color-primary: var(--color-gtm-blue);
+  --color-secondary: var(--color-conference-purple);
+  --color-success: var(--color-success-green);
+  --color-error: var(--color-error-red);
+  --color-info: var(--color-revenue-cyan);
+  
+  /* Text Colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-400);
+  
+  /* Background Colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: var(--color-gray-100);
+  --color-bg-tertiary: var(--color-gray-300);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: var(--color-gray-100);
+    --color-text-secondary: var(--color-gray-400);
+    --color-text-tertiary: var(--color-gray-600);
+    --color-bg-primary: var(--color-gray-900);
+    --color-bg-secondary: var(--color-gray-800);
+    --color-bg-tertiary: var(--color-gray-600);
+  }
+}

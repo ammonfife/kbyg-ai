@@ -1,0 +1,50 @@
+{
+  "compatibleVersion": "2.0",
+  "pluginVersion": "2.22",
+  "colors": [
+    "#3b82f6",
+    "#8b5cf6",
+    "#06b6d4",
+    "#111827",
+    "#6b7280",
+    "#f3f4f6",
+    "#ffffff"
+  ],
+  "gradients": [
+    {
+      "name": "Primary Gradient",
+      "gradientType": "linear",
+      "angle": 135,
+      "stops": [
+        {
+          "color": "#3b82f6",
+          "position": 0
+        },
+        {
+          "color": "#8b5cf6",
+          "position": 1
+        }
+      ]
+    },
+    {
+      "name": "Full Gradient",
+      "gradientType": "linear",
+      "angle": 135,
+      "stops": [
+        {
+          "color": "#3b82f6",
+          "position": 0
+        },
+        {
+          "color": "#8b5cf6",
+          "position": 0.5
+        },
+        {
+          "color": "#06b6d4",
+          "position": 1
+        }
+      ]
+    }
+  ],
+  "images": []
+}

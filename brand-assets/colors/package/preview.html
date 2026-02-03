@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBYG Color Palette - Interactive Preview</title>
+    <link rel="stylesheet" href="colors.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+            background: #fafafa;
+            color: var(--color-gray-900);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-gray-900);
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--color-gray-600);
+            margin-bottom: 3rem;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-gray-900);
+            border-bottom: 2px solid var(--color-gray-300);
+            padding-bottom: 0.5rem;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .color-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .color-swatch {
+            height: 150px;
+            position: relative;
+        }
+        
+        .color-info {
+            padding: 1rem;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--color-gray-900);
+        }
+        
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.5rem;
+        }
+        
+        .color-rgb {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--color-gray-400);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-success-green);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .usage-note {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+        
+        .demo-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--color-gtm-blue);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.1);
+        }
+        
+        .btn-success {
+            background: var(--color-success-green);
+            color: white;
+        }
+        
+        .btn-error {
+            background: var(--color-error-red);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--color-conference-purple);
+            color: white;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-success {
+            background: var(--color-success-green);
+            color: white;
+        }
+        
+        .alert-error {
+            background: var(--color-error-red);
+            color: white;
+        }
+        
+        .alert-info {
+            background: var(--color-gtm-blue);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 KBYG Color Palette</h1>
+        <p class="subtitle">Click any color to copy its hex code</p>
+        
+        <div class="section">
+            <h2>Brand Colors</h2>
+            <div class="color-grid">
+                <div class="color-card" onclick="copyColor('#3b82f6', 'GTM Blue')">
+                    <div class="color-swatch" style="background: #3b82f6;"></div>
+                    <div class="color-info">
+                        <div class="color-name">GTM Blue</div>
+                        <div class="color-hex">#3b82f6</div>
+                        <div class="color-rgb">RGB(59, 130, 246)</div>
+                        <div class="usage-note">Primary actions, GTM features</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#8b5cf6', 'Conference Purple')">
+                    <div class="color-swatch" style="background: #8b5cf6;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Conference Purple</div>
+                        <div class="color-hex">#8b5cf6</div>
+                        <div class="color-rgb">RGB(139, 92, 246)</div>
+                        <div class="usage-note">Events, conferences, calendar</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#06b6d4', 'Revenue Cyan')">
+                    <div class="color-swatch" style="background: #06b6d4;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Revenue Cyan</div>
+                        <div class="color-hex">#06b6d4</div>
+                        <div class="color-rgb">RGB(6, 182, 212)</div>
+                        <div class="usage-note">Financial metrics, revenue</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#10b981', 'Success Green')">
+                    <div class="color-swatch" style="background: #10b981;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Success Green</div>
+                        <div class="color-hex">#10b981</div>
+                        <div class="color-rgb">RGB(16, 185, 129)</div>
+                        <div class="usage-note">Success states, positive feedback</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#ef4444', 'Error Red')">
+                    <div class="color-swatch" style="background: #ef4444;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Error Red</div>
+                        <div class="color-hex">#ef4444</div>
+                        <div class="color-rgb">RGB(239, 68, 68)</div>
+                        <div class="usage-note">Errors, destructive actions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Grayscale</h2>
+            <div class="color-grid">
+                <div class="color-card" onclick="copyColor('#1f2937', 'Gray 900')">
+                    <div class="color-swatch" style="background: #1f2937;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 900</div>
+                        <div class="color-hex">#1f2937</div>
+                        <div class="color-rgb">RGB(31, 41, 55)</div>
+                        <div class="usage-note">Primary text, headings</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#374151', 'Gray 800')">
+                    <div class="color-swatch" style="background: #374151;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 800</div>
+                        <div class="color-hex">#374151</div>
+                        <div class="color-rgb">RGB(55, 65, 81)</div>
+                        <div class="usage-note">Secondary text</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#6b7280', 'Gray 600')">
+                    <div class="color-swatch" style="background: #6b7280;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 600</div>
+                        <div class="color-hex">#6b7280</div>
+                        <div class="color-rgb">RGB(107, 114, 128)</div>
+                        <div class="usage-note">Tertiary text, metadata</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#9ca3af', 'Gray 400')">
+                    <div class="color-swatch" style="background: #9ca3af;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 400</div>
+                        <div class="color-hex">#9ca3af</div>
+                        <div class="color-rgb">RGB(156, 163, 175)</div>
+                        <div class="usage-note">Disabled text, placeholders</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#d1d5db', 'Gray 300')">
+                    <div class="color-swatch" style="background: #d1d5db;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 300</div>
+                        <div class="color-hex">#d1d5db</div>
+                        <div class="color-rgb">RGB(209, 213, 219)</div>
+                        <div class="usage-note">Borders, dividers</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#f3f4f6', 'Gray 100')">
+                    <div class="color-swatch" style="background: #f3f4f6; border: 1px solid #e5e7eb;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray 100</div>
+                        <div class="color-hex">#f3f4f6</div>
+                        <div class="color-rgb">RGB(243, 244, 246)</div>
+                        <div class="usage-note">Backgrounds, cards</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Component Examples</h2>
+            
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Buttons</h3>
+            <div class="demo-buttons">
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-success">Success Button</button>
+                <button class="btn btn-error">Delete Button</button>
+            </div>
+            
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Alerts</h3>
+            <div class="alert alert-info">ℹ️ Information: This is an informational message</div>
+            <div class="alert alert-success">✅ Success: Your changes have been saved</div>
+            <div class="alert alert-error">❌ Error: Something went wrong</div>
+        </div>
+    </div>
+    
+    <div class="copy-notification" id="notification">
+        Copied to clipboard!
+    </div>
+    
+    <script>
+        function copyColor(hex, name) {
+            navigator.clipboard.writeText(hex).then(() => {
+                const notification = document.getElementById('notification');
+                notification.textContent = `Copied ${name}: ${hex}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

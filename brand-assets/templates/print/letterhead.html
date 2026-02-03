@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kbyg.ai Letterhead</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: 8.5in 11in;
+            margin: 0;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: white;
+        }
+        
+        .page {
+            width: 8.5in;
+            height: 11in;
+            position: relative;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 20px auto;
+        }
+        
+        /* Header */
+        .header {
+            padding: 0.75in 1in 0.5in 1in;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            border-image-slice: 1;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 200px;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .logo {
+            height: 32px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        
+        .tagline {
+            font-size: 11pt;
+            color: #3b82f6;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .contact-info {
+            text-align: right;
+            font-size: 9pt;
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .contact-info strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .contact-info a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        /* Content Area */
+        .content {
+            padding: 0.5in 1in;
+            min-height: 7.5in;
+        }
+        
+        .date {
+            font-size: 10pt;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+        
+        .recipient {
+            margin-bottom: 24px;
+            font-size: 10pt;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .body-text {
+            font-size: 11pt;
+            color: #1e293b;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        
+        .body-text p {
+            margin-bottom: 16px;
+        }
+        
+        .signature-section {
+            margin-top: 48px;
+        }
+        
+        .signature-line {
+            margin-top: 60px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            width: 250px;
+        }
+        
+        .signature-name {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .signature-title {
+            font-size: 9pt;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.4in 1in;
+            background: linear-gradient(180deg, transparent 0%, #f8fafc 50%);
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8pt;
+            color: #64748b;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .footer-links a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .footer-social::before {
+            content: 'Connect:';
+            margin-right: 4px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">kbyg.ai</div>
+                    <div class="tagline">Intelligence Extraction for Revenue Teams</div>
+                </div>
+                
+                <div class="contact-info">
+                    <div><strong>kbyg.ai Inc.</strong></div>
+                    <div>123 Innovation Drive</div>
+                    <div>Tech City, TC 12345</div>
+                    <div style="margin-top: 8px;">
+                        <a href="https://kbyg.ai">kbyg.ai</a><br>
+                        <a href="mailto:hello@kbyg.ai">hello@kbyg.ai</a><br>
+                        +1 (555) 123-4567
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content">
+            <div class="date">[Date]</div>
+            
+            <div class="recipient">
+                <strong>[Recipient Name]</strong><br>
+                [Company Name]<br>
+                [Address Line 1]<br>
+                [Address Line 2]
+            </div>
+            
+            <div class="body-text">
+                <p><strong>Dear [Recipient],</strong></p>
+                
+                <p>[Your letter content begins here. This letterhead is designed to maintain professional branding while providing ample space for your message. The layout uses the Inter font family for optimal readability and includes brand colors in subtle accents.]</p>
+                
+                <p>[Continue your letter with additional paragraphs as needed. The spacing and typography are optimized for print output at 8.5 x 11 inches.]</p>
+                
+                <p>[Conclude your message here.]</p>
+            </div>
+            
+            <div class="signature-section">
+                <div>Sincerely,</div>
+                <div class="signature-line">
+                    <div class="signature-name">[Your Name]</div>
+                    <div class="signature-title">[Your Title]</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <span>Deep-Tier Intelligence Extraction</span>
+                    <span>•</span>
+                    <span>Weaponized Conversation Openers</span>
+                    <span>•</span>
+                    <span>Revenue-Ready Outreach</span>
+                </div>
+                
+                <div class="footer-social">
+                    𝕏 LinkedIn GitHub
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

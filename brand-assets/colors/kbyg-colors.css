@@ -1,0 +1,57 @@
+/* KBYG.ai Brand Colors - CSS Variables */
+
+:root {
+  /* Primary Brand Colors */
+  --kbyg-blue-gtm: #3b82f6;
+  --kbyg-purple-conference: #8b5cf6;
+  --kbyg-cyan-revenue: #06b6d4;
+  
+  /* RGB Values (for rgba usage) */
+  --kbyg-blue-gtm-rgb: 59, 130, 246;
+  --kbyg-purple-conference-rgb: 139, 92, 246;
+  --kbyg-cyan-revenue-rgb: 6, 182, 212;
+  
+  /* Semantic Naming */
+  --color-primary: var(--kbyg-blue-gtm);
+  --color-secondary: var(--kbyg-purple-conference);
+  --color-accent: var(--kbyg-cyan-revenue);
+  
+  /* Neutrals */
+  --color-dark: #111827;
+  --color-gray: #6b7280;
+  --color-light-gray: #f3f4f6;
+  --color-white: #ffffff;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--kbyg-blue-gtm) 0%, var(--kbyg-purple-conference) 100%);
+  --gradient-full: linear-gradient(135deg, var(--kbyg-blue-gtm) 0%, var(--kbyg-purple-conference) 50%, var(--kbyg-cyan-revenue) 100%);
+  --gradient-command: linear-gradient(180deg, var(--kbyg-blue-gtm) 0%, var(--kbyg-purple-conference) 100%);
+  
+  /* Alpha Variants */
+  --kbyg-blue-10: rgba(var(--kbyg-blue-gtm-rgb), 0.1);
+  --kbyg-blue-20: rgba(var(--kbyg-blue-gtm-rgb), 0.2);
+  --kbyg-blue-50: rgba(var(--kbyg-blue-gtm-rgb), 0.5);
+  
+  --kbyg-purple-10: rgba(var(--kbyg-purple-conference-rgb), 0.1);
+  --kbyg-purple-20: rgba(var(--kbyg-purple-conference-rgb), 0.2);
+  --kbyg-purple-50: rgba(var(--kbyg-purple-conference-rgb), 0.5);
+  
+  --kbyg-cyan-10: rgba(var(--kbyg-cyan-revenue-rgb), 0.1);
+  --kbyg-cyan-20: rgba(var(--kbyg-cyan-revenue-rgb), 0.2);
+  --kbyg-cyan-50: rgba(var(--kbyg-cyan-revenue-rgb), 0.5);
+}
+
+/* Usage Examples */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-gradient {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+}
+
+.bg-brand-overlay {
+  background: var(--kbyg-blue-10);
+}
