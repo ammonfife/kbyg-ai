@@ -17,7 +17,6 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import kbygLogo from "@/assets/kbyg-logo.png";
-import developerModeToggle from "@/assets/developer-mode-toggle.png";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -172,11 +171,10 @@ export default function LandingPage() {
                 </div>
                 <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
                   <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">3</span>
-                  <div className="flex-1">
+                  <div>
                     <p className="font-medium">Turn on Developer Mode</p>
                     <p className="text-sm text-muted-foreground">Flip the switch in the top-right corner.</p>
                   </div>
-                  <img src={developerModeToggle} alt="Developer mode toggle" className="h-10 w-auto self-center" />
                 </div>
                 <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
                   <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">4</span>
