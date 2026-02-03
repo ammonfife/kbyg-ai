@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { listCompanies, type Company, type Employee } from "@/lib/mcp";
+import { listCompanies, getCompany, type Company, type Employee } from "@/lib/mcp";
 import { useToast } from "@/hooks/use-toast";
 
 interface PersonWithCompany extends Employee {
@@ -15,7 +15,7 @@ interface PersonWithCompany extends Employee {
 
 export default function PeoplePage() {
   const { toast } = useToast();
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [allPeople, setAllPeople] = useState<PersonWithCompany[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -28,17 +28,51 @@ export default function PeoplePage() {
     setLoading(true);
     setError(null);
     try {
-      const result = await listCompanies();
-      if (result.success && result.data) {
-        setCompanies(Array.isArray(result.data) ? result.data : []);
-      } else {
-        setError(result.error || "Failed to load data");
+      // First get list of companies
+      const listResult = await listCompanies();
+      if (!listResult.success || !listResult.data) {
+        setError(listResult.error || "Failed to load data");
         toast({ 
           title: "Error", 
-          description: result.error || "Failed to load data", 
+          description: listResult.error || "Failed to load data", 
           variant: "destructive" 
         });
+        setLoading(false);
+        return;
       }
+
+      const companies = Array.isArray(listResult.data) ? listResult.data : [];
+      
+      // Fetch full details for companies that have employees
+      const companiesWithEmployees = companies.filter(c => c.employees && c.employees.length > 0);
+      
+      const peopleList: PersonWithCompany[] = [];
+      
+      // Fetch details in parallel (batch of 5 to avoid overwhelming the server)
+      const batchSize = 5;
+      for (let i = 0; i < companiesWithEmployees.length; i += batchSize) {
+        const batch = companiesWithEmployees.slice(i, i + batchSize);
+        const results = await Promise.all(
+          batch.map(company => getCompany(company.name))
+        );
+        
+        results.forEach((result) => {
+          if (result.success && result.data) {
+            const company = result.data;
+            (company.employees || [])
+              .filter(emp => emp.name) // Only include employees with names
+              .forEach(employee => {
+                peopleList.push({
+                  ...employee,
+                  companyName: company.name,
+                  companyIndustry: company.enriched_data?.industry || company.industry
+                });
+              });
+          }
+        });
+      }
+      
+      setAllPeople(peopleList);
     } catch (err) {
       setError("Unable to connect to server");
       toast({ 
@@ -50,19 +84,6 @@ export default function PeoplePage() {
       setLoading(false);
     }
   };
-
-  // Flatten all contacts from all companies
-  const allPeople = useMemo(() => {
-    return companies.flatMap(company => 
-      (company.employees || [])
-        .filter(emp => emp.name) // Only include employees with names
-        .map(employee => ({
-          ...employee,
-          companyName: company.name,
-          companyIndustry: company.enriched_data?.industry || company.industry
-        }))
-    );
-  }, [companies]);
 
   // Filter people based on search query
   const filteredPeople = useMemo(() => {
