@@ -20,9 +20,13 @@ const queryClient = new QueryClient();
 
 function AppLayout() {
   const location = useLocation();
-  const isLandingPage = location.pathname === "/";
+  const isLandingPage = location.pathname === "/" || location.pathname === "/old-landing";
 
-  if (isLandingPage) {
+  if (isLandingPage && location.pathname === "/") {
+    return <TestLandingPage />;
+  }
+  
+  if (location.pathname === "/old-landing") {
     return <LandingPage />;
   }
 
@@ -53,8 +57,8 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/test" element={<TestLandingPage />} />
+            <Route path="/" element={<TestLandingPage />} />
+            <Route path="/old-landing" element={<LandingPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/*" element={<AppLayout />} />
           </Routes>
