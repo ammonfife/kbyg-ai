@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import kbygLogo from "@/assets/kbyg-logo.png";
-import productFitImg from "@/assets/product-fit.png";
+import productFitImg from "@/assets/product-fit.svg";
 
 export default function LandingPage() {
   const navigate = useNavigate();
