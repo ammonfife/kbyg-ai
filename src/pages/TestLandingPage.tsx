@@ -76,17 +76,17 @@ export default function TestLandingPage() {
 
   const steps = [
     {
-      number: "01",
+      number: "1",
       title: "Install the Extension",
       description: "Add KBYG to Chrome. Takes 60 seconds, changes how you prep forever."
     },
     {
-      number: "02", 
+      number: "2", 
       title: "Extract Intelligence",
       description: "Hit any conference site. We extract speakers, sponsors, and attendee intel automatically."
     },
     {
-      number: "03",
+      number: "3",
       title: "Dominate the Room",
       description: "Walk in knowing exactly who to talk to, what to say, and how to close."
     }
@@ -295,7 +295,7 @@ export default function TestLandingPage() {
                   className="text-8xl font-bold absolute -top-4 -left-2 bg-clip-text text-transparent"
                   style={{
                     backgroundImage: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                    opacity: 0.15
+                    opacity: 0.5
                   }}
                 >
                   {step.number}
