@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Search, Users, Loader2, RefreshCw, Building2, ExternalLink, Mail, Phone } from "lucide-react";
+import { Search, Users, Loader2, RefreshCw, Building2, ExternalLink, Mail, Phone, Target, ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { listCompanies, getCompany, type Company, type Employee } from "@/lib/mcp";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface PersonWithCompany extends Employee {
   companyName: string;
@@ -15,10 +16,12 @@ interface PersonWithCompany extends Employee {
 
 export default function PeoplePage() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [allPeople, setAllPeople] = useState<PersonWithCompany[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [expandedPerson, setExpandedPerson] = useState<string | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -182,67 +185,128 @@ export default function PeoplePage() {
         </div>
       ) : filteredPeople.length > 0 ? (
         <div className="space-y-3">
-          {filteredPeople.map((person, idx) => (
-            <Card key={`${person.name}-${person.companyName}-${idx}`} className="hover:shadow-md transition-shadow hover:border-primary/50">
-              <CardContent className="py-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-lg">{person.name}</p>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        {person.title && <span>{person.title}</span>}
-                        {person.title && person.companyName && <span>•</span>}
-                        <span className="flex items-center gap-1">
-                          <Building2 className="h-3 w-3" />
-                          {person.companyName}
-                        </span>
+          {filteredPeople.map((person, idx) => {
+            const personKey = `${person.name}-${person.companyName}-${idx}`;
+            const isExpanded = expandedPerson === personKey;
+            
+            return (
+              <Card 
+                key={personKey} 
+                className={`cursor-pointer transition-all hover:shadow-md ${isExpanded ? 'ring-2 ring-primary border-primary' : 'hover:border-primary/50'}`}
+                onClick={() => setExpandedPerson(isExpanded ? null : personKey)}
+              >
+                <CardContent className="py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-6 w-6 text-primary" />
                       </div>
-                      {person.companyIndustry && (
-                        <Badge variant="outline" className="mt-1 text-xs">
-                          {person.companyIndustry}
-                        </Badge>
+                      <div>
+                        <p className="font-semibold text-lg">{person.name}</p>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          {person.title && <span>{person.title}</span>}
+                          {person.title && person.companyName && <span>•</span>}
+                          <span className="flex items-center gap-1">
+                            <Building2 className="h-3 w-3" />
+                            {person.companyName}
+                          </span>
+                        </div>
+                        {person.companyIndustry && (
+                          <Badge variant="outline" className="mt-1 text-xs">
+                            {person.companyIndustry}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      {(person.linkedin_url || person.linkedin) && (
+                        <a 
+                          href={person.linkedin_url || person.linkedin} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-sm text-primary hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          LinkedIn
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                      {isExpanded ? (
+                        <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
                       )}
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2">
-                    {person.email && (
-                      <a 
-                        href={`mailto:${person.email}`}
-                        className="flex items-center gap-1 text-sm text-primary hover:underline"
-                      >
-                        <Mail className="h-4 w-4" />
-                        <span className="hidden md:inline">{person.email}</span>
-                      </a>
-                    )}
-                    {person.phone && (
-                      <a 
-                        href={`tel:${person.phone}`}
-                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
-                      >
-                        <Phone className="h-4 w-4" />
-                        <span className="hidden md:inline">{person.phone}</span>
-                      </a>
-                    )}
-                    {(person.linkedin_url || person.linkedin) && (
-                      <a 
-                        href={person.linkedin_url || person.linkedin} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sm text-primary hover:underline"
-                      >
-                        LinkedIn
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  {/* Expanded Actions */}
+                  {isExpanded && (
+                    <div className="mt-4 pt-4 border-t space-y-3">
+                      <div className="flex flex-wrap gap-2">
+                        <Button 
+                          size="sm" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/email?company=${encodeURIComponent(person.companyName)}`);
+                          }}
+                        >
+                          <Mail className="h-4 w-4 mr-1" />
+                          Draft Outreach
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/strategy?company=${encodeURIComponent(person.companyName)}`);
+                          }}
+                        >
+                          <Target className="h-4 w-4 mr-1" />
+                          Deploy GTM Strategy
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/companies`);
+                          }}
+                        >
+                          <Building2 className="h-4 w-4 mr-1" />
+                          View Company
+                        </Button>
+                      </div>
+                      
+                      {/* Contact Details */}
+                      <div className="flex flex-wrap gap-4 text-sm">
+                        {person.email && (
+                          <a 
+                            href={`mailto:${person.email}`}
+                            className="flex items-center gap-1 text-primary hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Mail className="h-4 w-4" />
+                            {person.email}
+                          </a>
+                        )}
+                        {person.phone && (
+                          <a 
+                            href={`tel:${person.phone}`}
+                            className="flex items-center gap-1 text-muted-foreground hover:text-primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Phone className="h-4 w-4" />
+                            {person.phone}
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       ) : (
         <Card>
