@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
+import TestLandingPage from "./pages/TestLandingPage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import CompaniesPage from "./pages/CompaniesPage";
@@ -53,6 +54,7 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/test" element={<TestLandingPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/*" element={<AppLayout />} />
           </Routes>
