@@ -15,6 +15,10 @@ import { useAuth } from "@/hooks/useAuth";
 // Import brand assets
 import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
 import logoCompact from "@/assets/brand/logo-compact.svg";
+import logoFull from "@/assets/brand/logo-full.svg";
+import iconGradient from "@/assets/brand/icon-gradient.svg";
+import iconFilled from "@/assets/brand/icon-filled.svg";
+import productFitImg from "@/assets/product-fit.svg";
 
 export default function TestLandingPage() {
   const navigate = useNavigate();
@@ -113,6 +117,28 @@ export default function TestLandingPage() {
 
       {/* Hero Section - Using brand gradient colors */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+        {/* Floating brand icons as decorative elements */}
+        <img 
+          src={iconGradient} 
+          alt="" 
+          className="absolute top-24 right-[15%] w-16 h-16 opacity-20 animate-pulse"
+          aria-hidden="true"
+        />
+        <img 
+          src={iconFilled} 
+          alt="" 
+          className="absolute bottom-32 left-[10%] w-12 h-12 opacity-15 animate-pulse"
+          style={{ animationDelay: '1s' }}
+          aria-hidden="true"
+        />
+        <img 
+          src={iconGradient} 
+          alt="" 
+          className="absolute top-1/2 left-[5%] w-10 h-10 opacity-10 animate-pulse"
+          style={{ animationDelay: '2s' }}
+          aria-hidden="true"
+        />
+        
         {/* Background gradient orbs using brand colors */}
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[#8b5cf6]/20 rounded-full blur-3xl" />
@@ -173,39 +199,19 @@ export default function TestLandingPage() {
                 Enter Command Center
               </Button>
             </div>
-
-            {/* Installation Instructions */}
-            <div className="mt-16 max-w-2xl mx-auto">
-              <h4 className="text-xl font-semibold text-center mb-6">How to Install</h4>
-              <div className="grid gap-4 text-left">
-                {[
-                  { step: 1, title: "Extract the Folder", desc: 'Click "Get the Extension" above and unzip the folder.' },
-                  { step: 2, title: "Go to Extensions", desc: "Open Chrome and type chrome://extensions in the address bar." },
-                  { step: 3, title: "Turn on Developer Mode", desc: "Flip the switch in the top-right corner." },
-                  { step: 4, title: "Upload", desc: "Click Load unpacked (top-left) and select the folder you just unzipped." }
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
-                    <span 
-                      className="flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center font-bold text-sm text-white"
-                      style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
-                    >
-                      {item.step}
-                    </span>
-                    <div>
-                      <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Operational Impact Section */}
-      <section className="py-20 px-6 border-y border-border bg-muted/30">
-        <div className="max-w-7xl mx-auto">
+      {/* Operational Impact Section with floating icons */}
+      <section className="py-20 px-6 border-y border-border bg-muted/30 relative overflow-hidden">
+        <img 
+          src={iconFilled} 
+          alt="" 
+          className="absolute top-8 right-[8%] w-14 h-14 opacity-10"
+          aria-hidden="true"
+        />
+        <div className="max-w-7xl mx-auto relative">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
               Operational Impact
@@ -214,7 +220,14 @@ export default function TestLandingPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border">
+              <div key={idx} className="text-center p-6 rounded-2xl bg-card/50 border border-border relative group hover:border-[#3b82f6]/30 transition-colors">
+                {/* Subtle icon watermark */}
+                <img 
+                  src={iconGradient} 
+                  alt="" 
+                  className="absolute top-3 right-3 w-8 h-8 opacity-5 group-hover:opacity-10 transition-opacity"
+                  aria-hidden="true"
+                />
                 <div 
                   className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent mb-3"
                   style={{
@@ -233,8 +246,14 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 px-6">
+      {/* Features Section with brand icons */}
+      <section className="py-24 px-6 relative">
+        <img 
+          src={iconGradient} 
+          alt="" 
+          className="absolute bottom-16 right-[12%] w-20 h-20 opacity-10"
+          aria-hidden="true"
+        />
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
@@ -252,21 +271,25 @@ export default function TestLandingPage() {
             {features.map((feature, idx) => (
               <div 
                 key={idx}
-                className="group p-8 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300"
-                style={{
-                  '--hover-shadow': '0 25px 50px -12px rgba(59, 130, 246, 0.15)'
-                } as React.CSSProperties}
+                className="group p-8 rounded-2xl border border-border bg-card hover:border-[#3b82f6]/50 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
               >
+                {/* Brand icon as subtle background */}
+                <img 
+                  src={iconFilled} 
+                  alt="" 
+                  className="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity"
+                  aria-hidden="true"
+                />
                 <div 
-                  className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+                  className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative"
                   style={{
                     background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)'
                   }}
                 >
                   <feature.icon className="h-7 w-7 text-[#3b82f6]" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground text-lg">{feature.description}</p>
+                <h3 className="text-2xl font-semibold mb-3 relative">{feature.title}</h3>
+                <p className="text-muted-foreground text-lg relative">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -274,7 +297,13 @@ export default function TestLandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-6 bg-muted/30">
+      <section className="py-24 px-6 bg-muted/30 relative overflow-hidden">
+        <img 
+          src={iconGradient} 
+          alt="" 
+          className="absolute top-12 left-[6%] w-16 h-16 opacity-10"
+          aria-hidden="true"
+        />
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20">
@@ -313,7 +342,82 @@ export default function TestLandingPage() {
         </div>
       </section>
 
-      {/* CTA Section - Full brand gradient */}
+      {/* How to Install Section */}
+      <section className="py-24 px-6 relative">
+        <img 
+          src={iconFilled} 
+          alt="" 
+          className="absolute bottom-20 left-[8%] w-14 h-14 opacity-10"
+          aria-hidden="true"
+        />
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
+              Get Started
+            </Badge>
+            <h2 className="text-4xl font-bold mb-4">How to Install</h2>
+            <p className="text-xl text-muted-foreground">
+              Up and running in under 60 seconds
+            </p>
+          </div>
+          
+          <div className="grid gap-4">
+            {[
+              { step: 1, title: "Extract the Folder", desc: 'Click "Get the Extension" and unzip the downloaded folder.' },
+              { step: 2, title: "Go to Extensions", desc: "Open Chrome and type chrome://extensions in the address bar." },
+              { step: 3, title: "Turn on Developer Mode", desc: "Flip the switch in the top-right corner." },
+              { step: 4, title: "Upload", desc: "Click Load unpacked (top-left) and select the folder you just unzipped." }
+            ].map((item) => (
+              <div key={item.step} className="flex gap-4 items-start p-5 rounded-xl bg-card border border-border hover:border-[#3b82f6]/30 transition-colors group">
+                <span 
+                  className="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
+                >
+                  {item.step}
+                </span>
+                <div>
+                  <p className="font-semibold text-lg">{item.title}</p>
+                  <p className="text-muted-foreground">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product Fit Timeline Section */}
+      <section className="py-12 px-6 bg-muted/30">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <Badge className="mb-4 bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
+              Full Event Coverage
+            </Badge>
+            <h2 className="text-3xl font-bold">From Planning to Follow-up</h2>
+          </div>
+          <div className="flex justify-center relative">
+            {/* Decorative icons around timeline */}
+            <img 
+              src={iconGradient} 
+              alt="" 
+              className="absolute -top-4 -left-8 w-12 h-12 opacity-20 hidden md:block"
+              aria-hidden="true"
+            />
+            <img 
+              src={iconFilled} 
+              alt="" 
+              className="absolute -bottom-4 -right-8 w-10 h-10 opacity-15 hidden md:block"
+              aria-hidden="true"
+            />
+            <img 
+              src={productFitImg} 
+              alt="KBYG.ai covers the entire event timeline - Planning, Event, and Followup" 
+              className="w-full max-w-2xl h-auto"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Full brand gradient with logo */}
       <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <div 
@@ -326,7 +430,15 @@ export default function TestLandingPage() {
             <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
             <div className="absolute bottom-0 right-0 w-60 h-60 bg-white/10 rounded-full blur-2xl" />
             
-            <div className="relative">
+            {/* Brand logo watermark */}
+            <img 
+              src={logoFull} 
+              alt="" 
+              className="absolute top-6 left-1/2 -translate-x-1/2 h-8 opacity-20"
+              aria-hidden="true"
+            />
+            
+            <div className="relative pt-6">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Your Next Trade Show Shouldn't Be a Gamble
               </h2>
@@ -336,7 +448,7 @@ export default function TestLandingPage() {
               
               <Button 
                 size="lg" 
-                className="text-lg px-8 py-6 bg-white text-[#3b82f6] hover:bg-white/90"
+                className="text-lg px-8 py-6 bg-white text-[#3b82f6] hover:bg-white/90 shadow-xl"
                 asChild
               >
                 <a href="https://github.com/ammonfife/kbyg/archive/refs/heads/main.zip">
@@ -352,7 +464,10 @@ export default function TestLandingPage() {
       {/* Footer - Using brand compact logo */}
       <footer className="py-12 px-6 border-t border-border">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <img src={logoCompact} alt="KBYG.ai" className="h-8" />
+          <div className="flex items-center gap-3">
+            <img src={iconGradient} alt="" className="h-8 w-8" />
+            <img src={logoCompact} alt="KBYG.ai" className="h-8" />
+          </div>
           
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <button onClick={handleCTA} className="hover:text-[#3b82f6] transition-colors">
