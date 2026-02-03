@@ -159,7 +159,7 @@ export default function LandingPage() {
                   <span className="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">1</span>
                   <div>
                     <p className="font-medium">Extract the Folder</p>
-                    <p className="text-sm text-muted-foreground">Right-click the downloaded .zip file and select Extract All.</p>
+                    <p className="text-sm text-muted-foreground">Click "Get the Extension" above and unzip the folder.</p>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start p-4 rounded-lg bg-muted/50 border border-border">
