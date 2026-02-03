@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 // Import brand assets
-import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
+import kbygLogo from "@/assets/kbyg-logo.png";
 import logoCompact from "@/assets/brand/logo-compact.svg";
 import logoFull from "@/assets/brand/logo-full.svg";
 import heroDataViz from "@/assets/brand/hero-data-viz.png";
@@ -101,7 +101,7 @@ export default function TestLandingPage() {
       {/* Navigation - Using brand logo */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img src={logoHorizontal} alt="KBYG.ai" className="h-10" />
+          <img src={kbygLogo} alt="KBYG.ai" className="h-8" />
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={handleCTA}>
               Command Center
