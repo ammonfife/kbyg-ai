@@ -35,47 +35,47 @@ export default function LandingPage() {
   const features = [
     {
       icon: Chrome,
-      title: "One-Click Capture",
-      description: "Instantly capture leads from LinkedIn and conference sites with our Chrome extension."
+      title: "Deep-Tier Intelligence",
+      description: "Our browser extension surfaces speakers, sponsors, and attendees—not floor maps and coffee breaks."
     },
     {
       icon: Sparkles,
-      title: "AI Enrichment",
-      description: "Automatically enrich company data with AI-powered insights, industry analysis, and growth signals."
+      title: "Persona Mapping",
+      description: "Automatically identify the exact buyer personas attending and what makes them tick."
     },
     {
       icon: Target,
-      title: "GTM Strategy",
-      description: "Generate personalized go-to-market strategies tailored to each prospect's profile."
+      title: "Conversation Starters",
+      description: "Get tailored talking points that open doors, not generic icebreakers that close them."
     },
     {
       icon: Mail,
-      title: "Smart Outreach",
-      description: "Craft compelling, personalized emails that resonate with your target audience."
+      title: "Revenue-Ready Outreach",
+      description: "Generate personalized pre-show and post-show emails that convert attendees into pipeline."
     }
   ];
 
   const stats = [
-    { value: "10x", label: "Faster Lead Research" },
-    { value: "85%", label: "Time Saved on Outreach" },
-    { value: "3x", label: "Higher Response Rates" }
+    { value: "10x", label: "More Qualified Meetings" },
+    { value: "85%", label: "Less Time on Logistics" },
+    { value: "$100k+", label: "Avg Deal Size Targeted" }
   ];
 
   const steps = [
     {
       number: "01",
       title: "Install the Extension",
-      description: "Download and add our Chrome extension in under 60 seconds."
+      description: "Add KBYG to Chrome. Takes 60 seconds, changes how you prep forever."
     },
     {
       number: "02", 
-      title: "Capture Leads",
-      description: "Browse LinkedIn or conference sites and capture leads with one click."
+      title: "Scan Any Event",
+      description: "Hit any conference site. We extract speakers, sponsors, and attendee intel automatically."
     },
     {
       number: "03",
-      title: "Enrich & Engage",
-      description: "AI enriches your data and generates personalized outreach strategies."
+      title: "Win the Room",
+      description: "Walk in knowing exactly who to talk to, what to say, and how to close."
     }
   ];
 
@@ -112,19 +112,19 @@ export default function LandingPage() {
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
               <Sparkles className="h-3 w-3 mr-1" />
-              AI-Powered Conference Intelligence
+              Conference Intelligence for Revenue Teams
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Turn Conference Leads Into{" "}
+              Turn Trade Shows Into{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-pulse">
-                Closed Deals
+                Revenue Ops
               </span>
             </h1>
             
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Capture leads from any conference site, enrich them with AI, and generate 
-              personalized outreach strategies—all from your browser.
+              We don't care where the coffee is. We care where your next $100k contract is sitting.
+              Deep-tier intel on speakers, sponsors, and attendees—delivered to your browser.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -137,7 +137,7 @@ export default function LandingPage() {
               >
                 <a href="https://github.com/ammonfife/kbyg/archive/refs/heads/main.zip">
                   <Chrome className={`h-5 w-5 mr-2 transition-transform ${isHovered ? 'rotate-12' : ''}`} />
-                  Download Chrome Extension
+                  Get the Extension
                   <ArrowRight className={`h-5 w-5 ml-2 transition-transform ${isHovered ? 'translate-x-1' : ''}`} />
                 </a>
               </Button>
@@ -181,13 +181,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
-              Features
+              Capabilities
             </Badge>
             <h2 className="text-4xl font-bold mb-4">
-              Everything You Need to Dominate Conferences
+              Replace Generic Logistics With Tactical Intel
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              From lead capture to personalized outreach, we've got you covered.
+              Stop memorizing booth numbers. Start knowing exactly who writes the checks.
             </p>
           </div>
 
@@ -216,10 +216,10 @@ export default function LandingPage() {
               How It Works
             </Badge>
             <h2 className="text-4xl font-bold mb-4">
-              Three Steps to Conference Domination
+              From Event Page to Pipeline in Minutes
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get started in minutes, not hours.
+              No more spreadsheets. No more guesswork. Just revenue.
             </p>
           </div>
 
@@ -252,10 +252,10 @@ export default function LandingPage() {
             
             <div className="relative">
               <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-                Ready to Transform Your Conference ROI?
+                Your Next Trade Show Shouldn't Be a Gamble
               </h2>
               <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-                Join hundreds of sales teams using GTM Hub to turn conference leads into revenue.
+                GTM teams use KBYG to walk into events knowing exactly where the revenue is.
               </p>
               
               <Button 
