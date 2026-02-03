@@ -1,0 +1,57 @@
+name: Sync Chrome Extension to Public Repo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'chrome-extension/**'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          repository: ammonfife/kbyg
+          token: ${{ secrets.KBYG_PAT }}
+          path: kbyg
+          fetch-depth: 0
+      
+      - name: Copy extension files
+        run: |
+          # Remove old chrome-extension folder in target
+          rm -rf kbyg/chrome-extension
+          
+          # Copy new chrome-extension folder
+          cp -r chrome-extension kbyg/
+          
+          # Update README with latest changes
+          cd kbyg
+          
+      - name: Commit and push changes
+        run: |
+          cd kbyg
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          
+          # Check if there are changes
+          if [[ -n $(git status -s) ]]; then
+            git add chrome-extension/
+            git commit -m "Auto-sync: Update extension from easy-event-planner
+            
+            Synced from commit: ${{ github.sha }}
+            Triggered by: ${{ github.actor }}
+            Date: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Extension synced to ammonfife/kbyg"
+          else
+            echo "ℹ️ No changes to sync"
+          fi
