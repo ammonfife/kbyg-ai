@@ -63,14 +63,6 @@ export default function ProductShowcase() {
                 <div 
                   className="relative group rounded-2xl overflow-hidden border border-border bg-card shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
-                  {/* Step number badge */}
-                  <div 
-                    className="absolute top-4 left-4 z-10 h-10 w-10 rounded-full flex items-center justify-center font-bold text-white text-lg shadow-lg"
-                    style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
-                  >
-                    {idx + 1}
-                  </div>
-                  
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/0 via-transparent to-[#8b5cf6]/0 group-hover:from-[#3b82f6]/5 group-hover:to-[#8b5cf6]/5 transition-all duration-300" />
                   
