@@ -59,7 +59,7 @@ export default function ProductShowcase() {
               className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 md:gap-10 items-center`}
             >
               {/* Screenshot */}
-              <div className="flex-1 w-full">
+              <div className={`w-full ${idx >= 2 ? 'flex-[0.7] max-w-[70%]' : 'flex-1'}`}>
                 <div 
                   className="relative group rounded-2xl overflow-hidden border border-border bg-card shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
