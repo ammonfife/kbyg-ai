@@ -1,7 +1,7 @@
 import { ArrowRight, Chrome, Database, Server, Cpu, Globe, Zap, Code2, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import logoHorizontal from "@/assets/brand/logo-horizontal.svg";
+import kbygLogo from "@/assets/brand/kbyg-logo.png";
 
 export default function TechnicalPage() {
   const navigate = useNavigate();
@@ -133,7 +133,7 @@ export default function TechnicalPage() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <button onClick={() => navigate("/")} className="hover:opacity-80 transition-opacity">
-            <img src={logoHorizontal} alt="KBYG.ai" className="h-10" />
+            <img src={kbygLogo} alt="KBYG.ai" className="h-8" />
           </button>
           <Badge className="bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20">
             <Code2 className="h-3 w-3 mr-1" />
