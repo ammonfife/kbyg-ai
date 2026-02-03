@@ -6,8 +6,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { listCompanies, getCompany, testMCPConnection, type Company } from "@/lib/mcp";
 import { BrandIcon } from "@/components/BrandIcon";
+import { EmptyStateOnboarding } from "@/components/EmptyStateOnboarding";
 
 type ExpandedStat = "targets" | "contacts" | "enriched" | "pending" | null;
+
+const ONBOARDING_DISMISSED_KEY = 'kbyg_onboarding_dismissed';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -18,6 +21,9 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedStat, setExpandedStat] = useState<ExpandedStat>(null);
+  const [onboardingDismissed, setOnboardingDismissed] = useState(() => {
+    return localStorage.getItem(ONBOARDING_DISMISSED_KEY) === 'true';
+  });
 
   useEffect(() => {
     checkConnection();
@@ -169,6 +175,22 @@ export default function DashboardPage() {
   }, [companies]);
 
   const recentContacts = allContacts.slice(0, 5);
+
+  // Show onboarding splash for new users with no data
+  const showOnboarding = !loading && companies.length === 0 && !onboardingDismissed;
+
+  const handleDismissOnboarding = () => {
+    localStorage.setItem(ONBOARDING_DISMISSED_KEY, 'true');
+    setOnboardingDismissed(true);
+  };
+
+  if (showOnboarding) {
+    return (
+      <div className="p-6">
+        <EmptyStateOnboarding onDismiss={handleDismissOnboarding} />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6">
