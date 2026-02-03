@@ -139,6 +139,23 @@ export async function draftEmail(params: {
   return callMCP<DraftedEmail>('gtm_draft_email', params);
 }
 
+// Auth operations
+export async function createUser(params: {
+  id: string;
+  email: string;
+  full_name?: string;
+}): Promise<MCPResponse<{ created: boolean }>> {
+  return callMCP<{ created: boolean }>('auth_create_user', params);
+}
+
+export async function createOrganization(params: {
+  name: string;
+  slug: string;
+  owner_id: string;
+}): Promise<MCPResponse<{ id: number }>> {
+  return callMCP<{ id: number }>('auth_create_organization', params);
+}
+
 // Utility function to test MCP connection
 export async function testMCPConnection(): Promise<MCPResponse<{ connected: boolean; tools: string[] }>> {
   try {

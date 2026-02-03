@@ -7,6 +7,8 @@ import { lovable } from "@/integrations/lovable";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import kbygLogo from "@/assets/kbyg-logo.png";
+import { Zap } from "lucide-react";
+import { createUser, createOrganization } from "@/lib/mcp";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -35,40 +37,24 @@ export default function AuthPage() {
   const handleFirstTimeUser = async (userId: string, email: string) => {
     try {
       // Create user profile in Turso via MCP
-      const createUserResponse = await fetch('/api/mcp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tool: 'auth_create_user',
-          params: {
-            id: userId,
-            email: email,
-            full_name: email.split('@')[0] // Use email prefix as default name
-          }
-        })
+      await createUser({
+        id: userId,
+        email: email,
+        full_name: email.split('@')[0] // Use email prefix as default name
       });
 
       // Create first organization
       const orgName = email.split('@')[0].replace(/[^a-zA-Z0-9]/g, ' ').trim() + "'s Org";
       const orgSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-');
 
-      const createOrgResponse = await fetch('/api/mcp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tool: 'auth_create_organization',
-          params: {
-            name: orgName,
-            slug: orgSlug,
-            owner_id: userId
-          }
-        })
+      const orgResult = await createOrganization({
+        name: orgName,
+        slug: orgSlug,
+        owner_id: userId
       });
-
-      const orgResult = await createOrgResponse.json();
       
       // Store active org in localStorage
-      if (orgResult.data?.id) {
+      if (orgResult.success && orgResult.data?.id) {
         localStorage.setItem('active_org_id', orgResult.data.id.toString());
       }
     } catch (error) {
