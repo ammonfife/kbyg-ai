@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Building2, Users, Sparkles, ExternalLink, Loader2, RefreshCw } from "lucide-react";
+import { X, Building2, Users, Sparkles, ExternalLink, Loader2, RefreshCw, Mail, Target } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { type Company, getCompany, enrichCompany } from "@/lib/mcp";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyDetailProps {
   companyName: string | null;
@@ -28,6 +29,7 @@ export function CompanyDetail({
   const [loading, setLoading] = useState(false);
   const [enriching, setEnriching] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (open && companyName) {
@@ -159,28 +161,53 @@ export function CompanyDetail({
                     {company.employees.map((employee, idx) => (
                       <div 
                         key={idx} 
-                        className="flex items-start justify-between p-3 rounded-lg bg-muted/50"
+                        className="flex items-start justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer group"
+                        onClick={() => {
+                          onClose();
+                          navigate(`/people?search=${encodeURIComponent(employee.name || '')}`);
+                        }}
                       >
-                        <div>
-                          <p className="font-medium">{employee.name}</p>
-                          {employee.title && (
-                            <p className="text-sm text-muted-foreground">{employee.title}</p>
-                          )}
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                            <Users className="h-4 w-4 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-medium group-hover:text-primary transition-colors">{employee.name}</p>
+                            {employee.title && (
+                              <p className="text-sm text-muted-foreground">{employee.title}</p>
+                            )}
+                            {employee.email && (
+                              <p className="text-sm text-primary">{employee.email}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
                           {employee.email && (
-                            <p className="text-sm text-primary">{employee.email}</p>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.location.href = `mailto:${employee.email}`;
+                              }}
+                            >
+                              <Mail className="h-4 w-4" />
+                            </Button>
+                          )}
+                          {(employee.linkedin_url || employee.linkedin) && (
+                            <a 
+                              href={employee.linkedin_url || employee.linkedin} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline text-sm flex items-center gap-1"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              LinkedIn
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
                           )}
                         </div>
-                        {(employee.linkedin_url || employee.linkedin) && (
-                          <a 
-                            href={employee.linkedin_url || employee.linkedin} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline text-sm flex items-center gap-1"
-                          >
-                            LinkedIn
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        )}
                       </div>
                     ))}
                   </div>
