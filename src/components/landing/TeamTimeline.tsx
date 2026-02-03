@@ -144,11 +144,11 @@ export function TeamTimeline() {
                   </div>
 
                   {/* Image side */}
-                  <div className={`w-[calc(50%-2rem)] ${isLeft ? 'text-left' : 'text-right'}`}>
+                  <div className={`w-[calc(50%-2rem)] ${isLeft ? 'text-left pl-4' : 'text-right pr-4'}`}>
                     {event.image && (
-                      <div className={`inline-block ${isLeft ? '' : ''}`}>
+                      <div className={`inline-block ${isLeft ? 'ml-2' : 'mr-2'}`}>
                         {event.isTeamPhoto ? (
-                          <div className="relative">
+                          <div className={`relative ${isLeft ? 'ml-4' : 'mr-4'}`}>
                             <img 
                               src={event.image} 
                               alt="Team working together" 
