@@ -205,7 +205,7 @@ export default function TestLandingPage() {
             <Badge className="mb-4 bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20">
               Get Started
             </Badge>
-            <h2 className="text-4xl font-bold mb-4">How to Install</h2>
+            <h2 className="text-4xl font-bold mb-4">How to Install the KBYG Extension</h2>
             <p className="text-xl text-muted-foreground">
               Up and running in under 60 seconds
             </p>
