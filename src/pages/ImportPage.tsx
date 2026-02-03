@@ -3,18 +3,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { BrandIcon } from "@/components/BrandIcon";
 
 export default function ImportPage() {
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Download className="h-8 w-8 text-primary" />
-          Import Data
-        </h1>
-        <p className="text-muted-foreground">
-          Import company and contact data into GTM Intelligence Hub
-        </p>
+      <div className="flex items-center gap-3">
+        <BrandIcon variant="filled" size="lg" />
+        <div>
+          <h1 className="text-3xl font-bold">Capture Analysis</h1>
+          <p className="text-muted-foreground">
+            Import company and contact data into KBYG Intelligence Hub
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

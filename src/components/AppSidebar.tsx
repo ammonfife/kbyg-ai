@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { BrandIcon, BrandLogo } from "@/components/BrandIcon";
 
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Command Center" },
@@ -43,13 +44,12 @@ export function AppSidebar() {
       )}
     >
       <div className="flex items-center justify-between p-4 border-b">
-        {!collapsed && (
+        {!collapsed ? (
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <Crosshair className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-lg">KBYG</span>
+            <BrandLogo variant="compact" className="h-8" />
           </div>
+        ) : (
+          <BrandIcon variant="filled" size="md" className="mx-auto" />
         )}
         <Button
           variant="ghost"
@@ -124,9 +124,12 @@ export function AppSidebar() {
           </>
         )}
         {!collapsed && (
-          <p className="text-xs text-muted-foreground text-center pt-2">
-            KBYG Intelligence Engine v1.0
-          </p>
+          <div className="flex items-center justify-center gap-1.5 pt-2">
+            <BrandIcon variant="gradient" size="sm" />
+            <p className="text-xs text-muted-foreground">
+              Intelligence Engine v1.0
+            </p>
+          </div>
         )}
       </div>
     </aside>

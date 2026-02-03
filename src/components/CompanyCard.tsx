@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Building2, Users, Sparkles, Target, Mail, Trash2, Loader2, Crosshair } from "lucide-react";
+import { Building2, Users, Sparkles, Target, Mail, Trash2, Loader2 } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -87,7 +87,7 @@ export function CompanyCard({
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
-            <Crosshair className="h-5 w-5 text-primary" />
+            <Building2 className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg">{company.name}</CardTitle>
           </div>
           <Badge variant={isEnriched ? "default" : "secondary"} className={isEnriched ? "bg-success" : ""}>

@@ -9,6 +9,7 @@ import { CompanyDetail } from "@/components/CompanyDetail";
 import { listCompanies, searchCompanies, type Company } from "@/lib/mcp";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { BrandIcon } from "@/components/BrandIcon";
 
 export default function CompaniesPage() {
   const navigate = useNavigate();
@@ -89,14 +90,16 @@ export default function CompaniesPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Building2 className="h-8 w-8 text-primary" />
-            Companies
-          </h1>
-          <p className="text-muted-foreground">
-            Manage and enrich your company database
-          </p>
+        <div className="flex items-center gap-3">
+          <BrandIcon variant="filled" size="lg" />
+          <div>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              Target Database
+            </h1>
+            <p className="text-muted-foreground">
+              Manage and enrich your company database
+            </p>
+          </div>
         </div>
         <Button variant="outline" onClick={fetchCompanies} disabled={loading}>
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
