@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 // Import brand assets
-import kbygLogo from "@/assets/kbyg-logo.png";
+import kbygLogo from "@/assets/brand/logo-primary.png";
 import logoCompact from "@/assets/brand/logo-compact.svg";
 import logoFull from "@/assets/brand/logo-full.svg";
 import heroDataViz from "@/assets/brand/hero-data-viz.png";

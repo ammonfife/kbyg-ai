@@ -1,7 +1,7 @@
 import iconGradient from "@/assets/brand/icon-gradient.svg";
 import iconFilled from "@/assets/brand/icon-filled.svg";
 import logoCompact from "@/assets/brand/logo-compact.svg";
-import logoPng from "@/assets/kbyg-logo.png";
+import logoPng from "@/assets/brand/logo-primary.png";
 
 interface BrandIconProps {
   variant?: "gradient" | "filled";
