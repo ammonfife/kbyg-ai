@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Target, Loader2, Sparkles } from "lucide-react";
+import { Target, Loader2, Sparkles, Wand2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 import { StrategyDisplay } from "@/components/StrategyDisplay";
-import { listCompanies, generateStrategy, type Company, type Strategy } from "@/lib/mcp";
+import { listCompanies, getCompany, generateStrategy, type Company, type Strategy } from "@/lib/mcp";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,7 +18,9 @@ export default function StrategyPage() {
   const { toast } = useToast();
   
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [selectedCompanyData, setSelectedCompanyData] = useState<Company | null>(null);
   const [loadingCompanies, setLoadingCompanies] = useState(true);
+  const [loadingCompanyDetails, setLoadingCompanyDetails] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [strategy, setStrategy] = useState<Strategy | null>(null);
 
@@ -32,6 +35,12 @@ export default function StrategyPage() {
     fetchCompanies();
   }, []);
 
+  useEffect(() => {
+    if (selectedCompany) {
+      fetchCompanyDetails(selectedCompany);
+    }
+  }, [selectedCompany]);
+
   const fetchCompanies = async () => {
     setLoadingCompanies(true);
     try {
@@ -43,6 +52,35 @@ export default function StrategyPage() {
       console.error("Failed to load companies:", err);
     } finally {
       setLoadingCompanies(false);
+    }
+  };
+
+  const fetchCompanyDetails = async (companyName: string) => {
+    setLoadingCompanyDetails(true);
+    try {
+      const result = await getCompany(companyName);
+      if (result.success && result.data) {
+        setSelectedCompanyData(result.data);
+        
+        // Auto-populate personas from employees
+        if (result.data.employees && result.data.employees.length > 0) {
+          const personas = result.data.employees
+            .map(emp => emp.title)
+            .filter(Boolean)
+            .join(", ");
+          setTargetPersonas(personas);
+        }
+        
+        // Auto-populate industry
+        const industry = result.data.enriched_data?.industry || result.data.industry;
+        if (industry) {
+          setTargetIndustries(industry);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load company details:", err);
+    } finally {
+      setLoadingCompanyDetails(false);
     }
   };
 
@@ -174,7 +212,21 @@ export default function StrategyPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="personas">Target Personas (optional)</Label>
+              <Label htmlFor="personas">
+                Target Personas (optional)
+                {loadingCompanyDetails && (
+                  <span className="text-xs text-muted-foreground ml-2">Loading...</span>
+                )}
+              </Label>
+              {selectedCompanyData?.employees && selectedCompanyData.employees.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  {selectedCompanyData.employees.map((emp, idx) => (
+                    <Badge key={idx} variant="secondary" className="text-xs">
+                      {emp.name} {emp.title ? `• ${emp.title}` : ''}
+                    </Badge>
+                  ))}
+                </div>
+              )}
               <Input
                 id="personas"
                 placeholder="e.g., CTO, VP of Engineering, Product Manager"
@@ -273,7 +325,11 @@ export default function StrategyPage() {
 
       {/* Strategy Result */}
       {strategy && (
-        <StrategyDisplay strategy={strategy} companyName={selectedCompany} />
+        <StrategyDisplay 
+          strategy={strategy} 
+          companyName={selectedCompany}
+          onUpdate={(updatedStrategy) => setStrategy(updatedStrategy)}
+        />
       )}
     </div>
   );

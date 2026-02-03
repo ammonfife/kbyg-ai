@@ -32,6 +32,7 @@ serve(async (req) => {
 
     // Try multiple endpoint patterns for MCP HTTP transport
     const endpoints = [
+      `${MCP_SERVER_URL}/tools/call`,  // ✅ Correct endpoint
       `${MCP_SERVER_URL}/mcp`,
       `${MCP_SERVER_URL}/call`,
       `${MCP_SERVER_URL}/tools/${tool}`,
