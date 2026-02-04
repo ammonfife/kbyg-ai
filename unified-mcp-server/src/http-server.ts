@@ -7,6 +7,7 @@ import { ALL_TOOLS } from './tools.js';
 import { handleToolCall } from './tool-handler.js';
 import { EventDatabase } from './event-db.js';
 import { createEventRouter } from './event-api.js';
+import { GeminiProxy } from './gemini-proxy.js';
 
 // Load environment variables
 config();
@@ -27,6 +28,13 @@ if (!TURSO_URL || !TURSO_TOKEN) {
 const eventDb = new EventDatabase(TURSO_URL, TURSO_TOKEN);
 await eventDb.initialize();
 console.log('✅ Event database initialized');
+
+// Initialize Gemini Proxy
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+if (!GEMINI_API_KEY) {
+  console.warn('⚠️  Warning: GEMINI_API_KEY not set. Gemini proxy endpoints will fail.');
+}
+const geminiProxy = GEMINI_API_KEY ? new GeminiProxy(GEMINI_API_KEY) : null;
 
 // Middleware
 app.use(cors());
@@ -54,6 +62,84 @@ const authMiddleware = (req: express.Request, res: express.Response, next: expre
 // Mount Event API routes
 app.use('/api', createEventRouter(eventDb));
 
+// Gemini API Proxy Routes
+// POST /api/gemini/generate - Generic text generation
+app.post('/api/gemini/generate', authMiddleware, async (req, res) => {
+  if (!geminiProxy) {
+    return res.status(503).json({ error: 'Gemini API not configured' });
+  }
+
+  try {
+    const { prompt, systemInstruction, model, temperature, maxTokens } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({ error: 'prompt is required' });
+    }
+
+    const result = await geminiProxy.generate({
+      prompt,
+      systemInstruction,
+      model,
+      temperature,
+      maxTokens,
+    });
+
+    res.json(result);
+  } catch (error: any) {
+    console.error('Gemini generate error:', error);
+    res.status(500).json({ error: error.message || 'Failed to generate response' });
+  }
+});
+
+// POST /api/gemini/analyze - Analyze conference event
+app.post('/api/gemini/analyze', authMiddleware, async (req, res) => {
+  if (!geminiProxy) {
+    return res.status(503).json({ error: 'Gemini API not configured' });
+  }
+
+  try {
+    const { eventName, eventUrl, pageContent, specificQuery } = req.body;
+
+    if (!eventName || !pageContent) {
+      return res.status(400).json({ error: 'eventName and pageContent are required' });
+    }
+
+    const analysis = await geminiProxy.analyzeConferenceEvent({
+      eventName,
+      eventUrl: eventUrl || '',
+      pageContent,
+      specificQuery,
+    });
+
+    res.json({ analysis });
+  } catch (error: any) {
+    console.error('Gemini analyze error:', error);
+    res.status(500).json({ error: error.message || 'Failed to analyze event' });
+  }
+});
+
+// POST /api/gemini/extract - Extract company profiles
+app.post('/api/gemini/extract', authMiddleware, async (req, res) => {
+  if (!geminiProxy) {
+    return res.status(503).json({ error: 'Gemini API not configured' });
+  }
+
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'text is required' });
+    }
+
+    const profiles = await geminiProxy.extractCompanyProfiles(text);
+
+    res.json({ profiles });
+  } catch (error: any) {
+    console.error('Gemini extract error:', error);
+    res.status(500).json({ error: error.message || 'Failed to extract profiles' });
+  }
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
@@ -62,6 +148,7 @@ app.get('/health', (req, res) => {
     version: '1.0.0',
     tools: ALL_TOOLS.length,
     eventApi: 'enabled',
+    geminiProxy: geminiProxy ? 'enabled' : 'disabled',
   });
 });
 
@@ -163,6 +250,12 @@ app.listen(PORT, () => {
   console.log(`   GET    /api/profile               - Get user profile`);
   console.log(`   GET    /api/people/search?q=...   - Search people`);
   console.log(`   GET    /api/analytics/summary     - Get analytics summary`);
+  if (geminiProxy) {
+    console.log(`\n🤖 Gemini API Endpoints:`);
+    console.log(`   POST   /api/gemini/generate      - Generic text generation`);
+    console.log(`   POST   /api/gemini/analyze       - Analyze conference event`);
+    console.log(`   POST   /api/gemini/extract       - Extract company profiles`);
+  }
   if (BEARER_TOKEN) {
     console.log(`\n🔒 Authentication: Bearer token required`);
   } else {
