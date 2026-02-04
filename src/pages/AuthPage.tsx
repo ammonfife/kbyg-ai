@@ -67,7 +67,7 @@ export default function AuthPage() {
     setIsGoogleLoading(true);
     try {
       const { error } = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: "https://kbyg.ai/import",
       });
       if (error) {
         console.error("Google sign-in error:", error);
