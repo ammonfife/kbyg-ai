@@ -107,7 +107,7 @@ export default function LandingPage() {
               className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
               asChild
             >
-              <a href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip">
+              <a href="https://github.com/ammonfife/kbyg/raw/main/kbyg.zip">
                 <Download className="h-4 w-4 mr-2" />
                 Get Extension
               </a>
@@ -149,11 +149,11 @@ export default function LandingPage() {
                 onMouseLeave={() => setIsHovered(false)}
                 asChild
               >
-                <a href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip">
-                  <Chrome className={`h-5 w-5 mr-2 transition-transform ${isHovered ? 'rotate-12' : ''}`} />
-                  Get the Extension
-                  <ArrowRight className={`h-5 w-5 ml-2 transition-transform ${isHovered ? 'translate-x-1' : ''}`} />
-                </a>
+              <a href="https://github.com/ammonfife/kbyg/raw/main/kbyg.zip">
+                <Chrome className={`h-5 w-5 mr-2 transition-transform ${isHovered ? 'rotate-12' : ''}`} />
+                Get the Extension
+                <ArrowRight className={`h-5 w-5 ml-2 transition-transform ${isHovered ? 'translate-x-1' : ''}`} />
+              </a>
               </Button>
               
               <Button 
@@ -334,10 +334,10 @@ export default function LandingPage() {
                 className="text-lg px-8 py-6 bg-background text-foreground hover:bg-background/90"
                 asChild
               >
-                <a href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip">
-                  <Download className="h-5 w-5 mr-2" />
-                  Download Free Extension
-                </a>
+              <a href="https://github.com/ammonfife/kbyg/raw/main/kbyg.zip">
+                <Download className="h-5 w-5 mr-2" />
+                Download Free Extension
+              </a>
               </Button>
             </div>
           </div>
