@@ -10,7 +10,7 @@ interface EmptyStateOnboardingProps {
 export function EmptyStateOnboarding({ onDismiss }: EmptyStateOnboardingProps) {
   const handleDownload = () => {
     // Direct download of the extension ZIP
-    window.open('/kbyg-chrome-extension.zip', '_blank');
+    window.open('https://github.com/ammonfife/kbyg/raw/main/kbyg.zip', '_blank');
   };
 
   const steps = [
