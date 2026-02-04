@@ -185,15 +185,6 @@ export default function TestLandingPage() {
                   <ArrowRight className={`h-5 w-5 ml-2 transition-transform ${isHovered ? 'translate-x-1' : ''}`} />
                 </a>
               </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-6 border-[#3b82f6]/30 hover:border-[#3b82f6] hover:bg-[#3b82f6]/5"
-                onClick={handleCTA}
-              >
-                Enter Command Center
-              </Button>
             </div>
           </div>
         </div>
