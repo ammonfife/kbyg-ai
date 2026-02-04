@@ -43,7 +43,7 @@ For each company:
 ### 1. Start Unified MCP Server
 
 ```bash
-cd /Users/benfife/clawd/kbyg-ai/unified-mcp-server
+cd /Users/benfife/clawd/gtm-hackathon/unified-mcp-server
 npm install
 npm run build
 npm run start:http

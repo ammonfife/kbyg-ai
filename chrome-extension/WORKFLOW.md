@@ -355,4 +355,4 @@ railway variables set GEMINI_API_KEY=...
 
 **Status:** ✅ Integrated and functional  
 **Last Updated:** 2026-02-02  
-**Repo:** `altonalexander/kbyg-ai` (private)
+**Repo:** `altonalexander/gtm-hackathon` (private)

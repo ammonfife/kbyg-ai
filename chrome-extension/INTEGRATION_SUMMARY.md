@@ -3,7 +3,7 @@
 ## ✅ Completed Tasks
 
 ### 1. **Migrated Chrome Extension**
-- Copied full extension from `kbyg-ai` repo
+- Copied full extension from `gtm-hackathon` repo
 - Location: `easy-event-planner/chrome-extension/`
 - All files preserved (manifest, sidepanel, background, content scripts)
 
@@ -43,7 +43,7 @@
   - Testing procedures
   - Deployment guide
 
-#### In `kbyg-ai` repo:
+#### In `gtm-hackathon` repo:
 - **`EXTENSION_API_GUIDE.md`**
   - Complete API reference
   - All tools documented with examples
@@ -236,7 +236,7 @@ easy-event-planner/
 - GitHub Issues: https://github.com/altonalexander/easy-event-planner/issues
 
 **API Reference:**
-- `kbyg-ai/EXTENSION_API_GUIDE.md` - Complete API docs
+- `gtm-hackathon/EXTENSION_API_GUIDE.md` - Complete API docs
 - Railway Server: https://unified-mcp-server-production.up.railway.app/health
 
 **Web App Help:**
@@ -265,4 +265,4 @@ easy-event-planner/
 
 **Commits:**
 - `2366580` - Extension + dual-mode API
-- `f57d996` - API guide (kbyg-ai repo)
+- `f57d996` - API guide (gtm-hackathon repo)
