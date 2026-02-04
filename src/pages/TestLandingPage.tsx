@@ -102,20 +102,15 @@ export default function TestLandingPage() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <img src={kbygLogo} alt="KBYG.ai" className="h-8" />
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={handleCTA}>
-              Command Center
-            </Button>
-            <Button 
-              className="bg-[#3b82f6] hover:bg-[#2563eb] transition-colors"
-              asChild
-            >
-              <a href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip">
-                <Download className="h-4 w-4 mr-2" />
-                Get Extension
-              </a>
-            </Button>
-          </div>
+          <Button 
+            className="bg-[#3b82f6] hover:bg-[#2563eb] transition-colors"
+            asChild
+          >
+            <a href="https://github.com/ammonfife/kbyg-ai/archive/refs/heads/main.zip">
+              <Download className="h-4 w-4 mr-2" />
+              Get Extension
+            </a>
+          </Button>
         </div>
       </nav>
 
