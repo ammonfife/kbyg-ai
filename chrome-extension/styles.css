@@ -1,3 +1,18 @@
+/* kbyg.ai Brand Colors */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --brand-primary: #3b82f6;
+  --brand-primary-light: #60a5fa;
+  --brand-primary-dark: #2563eb;
+  --brand-secondary: #8b5cf6;
+  --brand-accent: #06b6d4;
+  --brand-gray-900: #111827;
+  --brand-gray-50: #f9fafb;
+  --brand-gradient-neural: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  --brand-gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,11 +20,11 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  color: #1a1a2e;
-  background: #f8f9fa;
+  color: var(--brand-gray-900);
+  background: var(--brand-gray-50);
 }
 
 .container {
@@ -20,7 +35,7 @@ body {
 }
 
 header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--brand-gradient-dark);
   color: white;
   padding: 20px;
   text-align: center;
@@ -74,7 +89,7 @@ input[type="text"] {
 
 input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--brand-primary);
 }
 
 .btn {
@@ -88,13 +103,13 @@ input:focus {
 }
 
 .btn.primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--brand-gradient-neural);
   color: white;
 }
 
 .btn.primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .btn.secondary {
@@ -136,7 +151,7 @@ input:focus {
 }
 
 .hint a {
-  color: #667eea;
+  color: var(--brand-primary);
   text-decoration: none;
 }
 
@@ -154,7 +169,7 @@ input:focus {
   width: 40px;
   height: 40px;
   border: 3px solid #e9ecef;
-  border-top-color: #667eea;
+  border-top-color: var(--brand-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 16px;
@@ -176,7 +191,7 @@ input:focus {
 .card h3 {
   font-size: 1rem;
   margin-bottom: 12px;
-  color: #1a1a2e;
+  color: var(--brand-gray-900);
 }
 
 .card.highlight {
@@ -223,7 +238,7 @@ input:focus {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--brand-gradient-neural);
   color: white;
   display: flex;
   align-items: center;
@@ -239,7 +254,7 @@ input:focus {
 
 .person-name {
   font-weight: 600;
-  color: #1a1a2e;
+  color: var(--brand-gray-900);
 }
 
 .person-title {
@@ -249,7 +264,7 @@ input:focus {
 
 .person-company {
   font-size: 0.8rem;
-  color: #667eea;
+  color: var(--brand-primary);
   font-weight: 500;
 }
 

@@ -1,214 +1,73 @@
-# Conference Intel Chrome Extension
+# Welcome to your Lovable project
 
-AI-powered conference event analysis for GTM teams integrated with GTM Intelligence Hub.
+## Project info
 
-## 🎯 Features
+**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
-- **One-Click Capture:** Extract company and contact data from conference websites
-- **AI Analysis:** Gemini-powered event analysis and lead insights
-- **Auto-Sync:** Automatically saves to GTM Hub (web dashboard)
-- **Dual-Mode API:** Works with both Railway MCP server and Supabase proxy
-- **Offline Support:** Local storage backup when offline
+## How can I edit this code?
 
-## 🚀 Installation
+There are several ways of editing your application.
 
-### Method 1: Load Unpacked (Development)
+**Use Lovable**
 
-1. Clone this repo:
-   ```bash
-   git clone https://github.com/altonalexander/easy-event-planner.git
-   cd easy-event-planner/chrome-extension
-   ```
+Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
 
-2. Open Chrome → Extensions → Enable Developer Mode
+Changes made via Lovable will be committed automatically to this repo.
 
-3. Click "Load unpacked" and select the `chrome-extension` folder
+**Use your preferred IDE**
 
-4. Pin the extension to your toolbar
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-### Method 2: Chrome Web Store (Coming Soon)
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Extension will be published to Chrome Web Store after Utah Tech Week demo.
+Follow these steps:
 
-## ⚙️ Configuration
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-### First Time Setup
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-1. Click the extension icon to open side panel
+# Step 3: Install the necessary dependencies.
+npm i
 
-2. Complete onboarding:
-   - **API Key:** Add your Gemini API key (get from [Google AI Studio](https://aistudio.google.com/app/apikey))
-   - **Company Info:** Your company name, product, value prop
-   - **Goals:** Target personas, industries, event goals
-
-3. Start analyzing events!
-
-### API Connection
-
-The extension automatically connects to the best available API:
-
-**Priority:**
-1. ✅ Railway MCP Server (production)
-2. ✅ Localhost MCP Server (development)
-3. ✅ Supabase Edge Function (web app proxy)
-
-**No manual configuration needed!**
-
-## 📖 Usage
-
-### Analyze Conference Page
-
-1. Visit a conference website (e.g., Utah Tech Week, LinkedIn event)
-
-2. Open extension side panel
-
-3. Click **"Analyze Event"**
-
-4. View results:
-   - Event summary
-   - Key speakers & companies
-   - Sponsorship opportunities
-   - Target recommendations
-   - ROI analysis
-
-5. Data automatically saves to:
-   - Local storage (offline backup)
-   - GTM Hub web dashboard (if online)
-
-### View Saved Data
-
-**In Extension:**
-- Click "View Targets" to see all analyzed events
-- Filter by priority, ROI, or date
-
-**In Web Dashboard:**
-- Visit https://easy-event-planner.lovable.app
-- Login with your account
-- See all companies synced from extension
-
-## 🔗 API Integration
-
-### Endpoints Used
-
-Extension communicates with:
-
-**Railway MCP Server:**
-```
-https://unified-mcp-server-production.up.railway.app
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
 ```
 
-**Supabase Proxy:**
-```
-https://etscbyzexyptgnppwyzv.supabase.co/functions/v1/mcp-proxy
-```
+**Edit a file directly in GitHub**
 
-### Tools Called
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-- `gtm_add_company` - Save captured companies
-- `gtm_enrich_company` - Enrich with AI insights
-- `gtm_generate_strategy` - Generate GTM strategy
-- `gtm_draft_email` - Draft outreach email
-- `gtm_list_companies` - List saved companies
+**Use GitHub Codespaces**
 
-See [API Documentation](https://github.com/altonalexander/gtm-hackathon/blob/main/EXTENSION_API_GUIDE.md) for full reference.
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## 🛠️ Development
+## What technologies are used for this project?
 
-### Local Testing
+This project is built with:
 
-1. **Start MCP Server (optional):**
-   ```bash
-   cd ../unified-mcp-server
-   npm install
-   npm start
-   # Server runs on http://localhost:3000
-   ```
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-2. **Load Extension:**
-   - Chrome → Extensions → Developer Mode → Load unpacked
-   - Select `chrome-extension` folder
+## How can I deploy this project?
 
-3. **Test:**
-   - Visit any conference website
-   - Open extension side panel
-   - Run analysis
+Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
-### Debug Mode
+## Can I connect a custom domain to my Lovable project?
 
-Open Chrome DevTools while side panel is open:
+Yes, you can!
 
-```javascript
-// Check connection status
-const info = await getConnectionInfo();
-console.log('Mode:', info.mode); // 'direct' or 'supabase'
-console.log('URL:', info.url);
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-// Test API call
-const health = await checkMCPServerHealth();
-console.log('Health:', health);
-```
-
-## 📁 Files
-
-```
-chrome-extension/
-├── manifest.json           # Extension configuration
-├── mcp-integration.js      # Dual-mode API client (updated)
-├── sidepanel.js            # Main UI logic
-├── sidepanel.html          # UI markup
-├── sidepanel.css           # Styles
-├── background.js           # Service worker (Gemini API)
-├── content.js              # Page content extraction
-├── popup.html              # Quick action popup
-├── popup.js                # Popup logic
-└── icons/                  # Extension icons
-```
-
-## 🔐 Privacy & Security
-
-- **API Keys:** Stored locally in Chrome storage (never sent to server)
-- **Data:** Synced to Turso database (encrypted at rest)
-- **Auth:** Anonymous mode for extension, optional login for web dashboard
-- **Permissions:** Required for page analysis and storage
-
-## 🐛 Troubleshooting
-
-### Extension won't load
-- Check Chrome version (requires v88+)
-- Disable other GTM extensions (conflicts)
-- Reload extension: Chrome → Extensions → Reload
-
-### API connection failed
-- Extension auto-fallbacks to Supabase proxy
-- Check browser console for errors
-- Verify Railway server is running: https://unified-mcp-server-production.up.railway.app/health
-
-### Data not syncing to web dashboard
-- Both use same Turso database (should sync automatically)
-- Check web dashboard login (may need to authenticate)
-- Verify API mode: `getConnectionInfo()`
-
-### Analysis returns empty results
-- Page may not be a conference website
-- Try different page on same site
-- Check Gemini API key in settings
-
-## 🎬 Demo Video
-
-*Coming soon after Utah Tech Week 2025*
-
-## 📞 Support
-
-- **Issues:** [GitHub Issues](https://github.com/altonalexander/easy-event-planner/issues)
-- **Docs:** [API Guide](https://github.com/altonalexander/gtm-hackathon/blob/main/EXTENSION_API_GUIDE.md)
-- **Web App:** https://easy-event-planner.lovable.app
-
-## 📄 License
-
-MIT License - see [LICENSE](../LICENSE)
-
----
-
-**Built for Utah Tech Week 2025** 🚀
-
-**Integrated with:** [GTM Intelligence Hub](https://easy-event-planner.lovable.app)
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)

@@ -1,162 +1,10 @@
 /**
- * MCP Integration Layer - Dual Mode Support
+ * MCP Integration Layer
  * 
- * Connects Chrome Extension to GTM MCP Server via:
- * 1. Direct MCP Server (localhost:3000 or Railway)
- * 2. Supabase Edge Function Proxy (production web app)
+ * Connects Chrome Extension to GTM MCP Server for persistent storage and enrichment
  */
 
-// Configuration - Auto-detect or use environment
-const MCP_CONFIG = {
-  // Mode: 'direct' or 'supabase'
-  mode: 'auto', // Will auto-detect best available endpoint
-  
-  // Direct MCP Server (Railway deployment or localhost)
-  directUrl: 'https://unified-mcp-server-production.up.railway.app',
-  directFallback: 'http://localhost:3000',
-  
-  // Supabase Edge Function (Web App API)
-  supabaseUrl: 'https://etscbyzexyptgnppwyzv.supabase.co/functions/v1/mcp-proxy',
-  
-  // Auth (for Supabase mode)
-  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0c2NieXpleHlwdGducHB3eXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNzIyOTUsImV4cCI6MjA4NTY0ODI5NX0.sqGFlsQbMvqKmq2lyM2azCP16ns22hnrjTeqBBZngEE'
-};
-
-let activeMode = null;
-let activeUrl = null;
-
-/**
- * Initialize and detect best available endpoint
- */
-async function initializeMCP() {
-  if (activeMode) return { mode: activeMode, url: activeUrl };
-  
-  // Try direct MCP server first (Railway)
-  const directHealth = await checkEndpointHealth(MCP_CONFIG.directUrl);
-  if (directHealth.available) {
-    activeMode = 'direct';
-    activeUrl = MCP_CONFIG.directUrl;
-    console.log('✅ MCP: Using direct Railway server');
-    return { mode: activeMode, url: activeUrl };
-  }
-  
-  // Try localhost fallback
-  const localHealth = await checkEndpointHealth(MCP_CONFIG.directFallback);
-  if (localHealth.available) {
-    activeMode = 'direct';
-    activeUrl = MCP_CONFIG.directFallback;
-    console.log('✅ MCP: Using localhost server');
-    return { mode: activeMode, url: activeUrl };
-  }
-  
-  // Fallback to Supabase proxy
-  activeMode = 'supabase';
-  activeUrl = MCP_CONFIG.supabaseUrl;
-  console.log('✅ MCP: Using Supabase Edge Function proxy');
-  return { mode: activeMode, url: activeUrl };
-}
-
-/**
- * Check if endpoint is healthy
- */
-async function checkEndpointHealth(url) {
-  try {
-    const response = await fetch(`${url}/health`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    if (!response.ok) {
-      return { available: false, error: 'Server returned error' };
-    }
-    
-    const data = await response.json();
-    return { available: true, server: data };
-  } catch (error) {
-    return { available: false, error: error.message };
-  }
-}
-
-/**
- * Call MCP server tool (dual mode support)
- */
-async function callMCPTool(toolName, args, authToken = null) {
-  await initializeMCP();
-  
-  if (activeMode === 'direct') {
-    return callMCPDirect(toolName, args);
-  } else {
-    return callMCPViaSupabase(toolName, args, authToken);
-  }
-}
-
-/**
- * Call MCP server directly (Railway or localhost)
- */
-async function callMCPDirect(toolName, args) {
-  const response = await fetch(`${activeUrl}/tools/call`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      jsonrpc: '2.0',
-      id: Date.now(),
-      params: {
-        name: toolName,
-        arguments: args
-      }
-    })
-  });
-  
-  if (!response.ok) {
-    throw new Error(`MCP server error: ${response.statusText}`);
-  }
-  
-  const data = await response.json();
-  
-  if (data.error) {
-    throw new Error(data.error.message || 'MCP tool call failed');
-  }
-  
-  return data.result;
-}
-
-/**
- * Call MCP via Supabase Edge Function
- */
-async function callMCPViaSupabase(toolName, args, authToken = null) {
-  const headers = {
-    'Content-Type': 'application/json',
-    'apikey': MCP_CONFIG.supabaseAnonKey,
-  };
-  
-  // Add auth token if provided (for authenticated users)
-  if (authToken) {
-    headers['Authorization'] = `Bearer ${authToken}`;
-  }
-  
-  const response = await fetch(activeUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      tool: toolName,
-      params: args
-    })
-  });
-  
-  if (!response.ok) {
-    throw new Error(`Supabase proxy error: ${response.statusText}`);
-  }
-  
-  const data = await response.json();
-  
-  if (!data.success) {
-    throw new Error(data.error || 'MCP tool call failed');
-  }
-  
-  return data.data;
-}
+const MCP_SERVER_URL = 'https://unified-mcp-server-production.up.railway.app'; // Railway production deployment
 
 /**
  * Save analyzed companies to MCP server (Turso database)
@@ -243,6 +91,38 @@ function extractCompaniesFromAnalysis(analysisData) {
 }
 
 /**
+ * Call MCP server tool
+ */
+async function callMCPTool(toolName, args) {
+  const response = await fetch(`${MCP_SERVER_URL}/tools/call`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: Date.now(),
+      params: {
+        name: toolName,
+        arguments: args
+      }
+    })
+  });
+  
+  if (!response.ok) {
+    throw new Error(`MCP server error: ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  
+  if (data.error) {
+    throw new Error(data.error.message || 'MCP tool call failed');
+  }
+  
+  return data.result;
+}
+
+/**
  * Enrich company with AI-generated insights
  */
 async function enrichCompany(companyName) {
@@ -297,12 +177,21 @@ async function getCompany(companyName) {
  * Check if MCP server is available
  */
 async function checkMCPServerHealth() {
-  const init = await initializeMCP();
-  return {
-    available: true,
-    mode: init.mode,
-    url: init.url
-  };
+  try {
+    const response = await fetch(`${MCP_SERVER_URL}/health`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    if (!response.ok) {
+      return { available: false, error: 'Server returned error' };
+    }
+    
+    const data = await response.json();
+    return { available: true, server: data };
+  } catch (error) {
+    return { available: false, error: error.message };
+  }
 }
 
 /**
@@ -330,8 +219,7 @@ async function autoSaveAnalysis(analysisData, userProfile) {
   return {
     saved: true,
     companies: results,
-    localBackup: true,
-    mode: health.mode
+    localBackup: true
   };
 }
 
@@ -367,18 +255,6 @@ async function getAnalysisHistory() {
   });
 }
 
-/**
- * Get connection info for debugging
- */
-async function getConnectionInfo() {
-  await initializeMCP();
-  return {
-    mode: activeMode,
-    url: activeUrl,
-    config: MCP_CONFIG
-  };
-}
-
 // Export functions for use in sidepanel.js
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
@@ -391,8 +267,6 @@ if (typeof module !== 'undefined' && module.exports) {
     getCompany,
     checkMCPServerHealth,
     autoSaveAnalysis,
-    getAnalysisHistory,
-    getConnectionInfo,
-    initializeMCP
+    getAnalysisHistory
   };
 }
